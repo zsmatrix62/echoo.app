@@ -12,15 +12,19 @@
 
 Client version of `Echoo` provides full `offline` features, download them from the release page.
 
+----
+
+![](document/json-1.png)
+
 -----
 
-## Missing Features
+## Features
+
+Click link to check screenshots
 
 ### Formatters
 
-- [x] JSON Formatter Validator
-  ![./document/1.png](./document/json-1.png)
-  ![./document/2.png](./document/json-2.png)
+- [x] [JSON Formatter Validator](document/json-formatter.md)
 - [ ] Base64/Base64 Image encoder and decoder
 - [ ] URL encoder and decoder
 - [ ] URL Parser
