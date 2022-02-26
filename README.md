@@ -1,4 +1,6 @@
 # Echoo
+![](https://img.shields.io/github/release/echoo-app/echoo-app-be.svg?style=flat-square)
+![](https://img.shields.io/github/downloads/echoo-app/echoo-app-be/total.svg?style=flat-square)
 
 `Echoo` is another collection of tools for developers.
 
