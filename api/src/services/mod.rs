@@ -26,8 +26,8 @@ pub fn service_port() -> u16 {
     let addr = format!("0.0.0.0:{}", listen_port);
     println!("serving grpc web at: {}", addr);
     let listener = TcpListener::bind(addr).unwrap();
-    let port = listener.local_addr().unwrap().port();
-    port
+
+    listener.local_addr().unwrap().port()
 }
 
 pub async fn spawn_services(port: u16) -> anyhow::Result<()> {
