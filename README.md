@@ -1,12 +1,10 @@
 # Echoo
 
-`Echoo` is another collection of tools for developers. 
+`Echoo` is another collection of tools for developers.
 
 ## Web
 
-`Echoo` provides online version of the same tools: 
-
-[https://echoo.app](https://echoo.app)
+`Echoo` provides online version of the same tools: [https://echoo.app](https://echoo.app)
 
 ## Client
 
@@ -27,7 +25,7 @@ Client version of `Echoo` provides full `offline` features, download them from t
 - [ ] SQL Formatter
 - [ ] Cron Job Parser
 
-### Generators 
+### Generators
 
 - [ ] UUID/ULID Generator/Decoder
 - [ ] Hash Generator
