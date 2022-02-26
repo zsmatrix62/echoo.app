@@ -3,18 +3,6 @@
 version = 3
 
 [[package]]
-name = "Echoo"
-version = "0.1.0"
-dependencies = [
- "echoo-app-api",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-window-state",
-]
-
-[[package]]
 name = "adler"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -885,8 +873,8 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0444a1bba051be9becd18b5c1b66945c95fb84fe72048e43dcd5ac9366443990"
 dependencies = [
  "darling 0.10.2",
- "quote",
- "syn",
+    "quote",
+    "syn",
 ]
 
 [[package]]
@@ -896,14 +884,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6907e25393cdcc1f4f3f513d9aac1e840eb1cc341a0fccb01171f7d14d10b946"
 
 [[package]]
+name = "echoo"
+version = "0.1.0"
+dependencies = [
+    "echoo-app-api",
+    "serde",
+    "serde_json",
+    "tauri",
+    "tauri-build",
+    "tauri-plugin-window-state",
+]
+
+[[package]]
 name = "echoo-app-api"
 version = "0.1.0"
 dependencies = [
- "anyhow",
- "bytes",
- "chrono",
- "fake",
- "http",
+    "anyhow",
+    "bytes",
+    "chrono",
+    "fake",
+    "http",
  "http-body",
  "hyper",
  "jsonprima",

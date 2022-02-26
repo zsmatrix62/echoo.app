@@ -1,11 +1,11 @@
 [package]
-name = "Echoo"
+name = "echoo"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Tools for developers"
+authors = ["zs.matrix62@gmail.com"]
 license = ""
 repository = ""
-default-run = "Echoo"
+default-run = "echoo"
 edition = "2021"
 rust-version = "1.57"
 

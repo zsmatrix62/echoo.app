@@ -1,10 +1,11 @@
 use tauri::{
-    plugin::{Plugin, Result as PluginResult},
-    AppHandle, PageLoadPayload, Runtime, Window,
+    AppHandle,
+    PageLoadPayload, plugin::{Plugin, Result as PluginResult}, Runtime, Window,
 };
 
 use crate::{service_port, spawn_services};
 
+#[derive(Default)]
 pub struct LocalAPIPlugin {
     local_api_port: u16,
 }
