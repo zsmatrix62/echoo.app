@@ -157,9 +157,12 @@ export const JsonFormatterBlock = () => {
             }
         })
         sharedSubs.toolContentWidthChanged$.subscribe((w) => {
-            (findDOMNode(jsonFormatterRef.current) as HTMLElement)!.style.width = `${w}px`;
-            (findDOMNode(leftRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
-            (findDOMNode(rightRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
+            let formatterNode = findDOMNode(jsonFormatterRef.current) as HTMLElement;
+            if (formatterNode) {
+                formatterNode!.style.width = `${w}px`;
+                (findDOMNode(leftRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
+                (findDOMNode(rightRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
+            }
         })
     })
 

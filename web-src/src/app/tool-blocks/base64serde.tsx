@@ -32,8 +32,8 @@ export const Base64Serde = () => {
 
     useMount(() => {
         let tabIndex = searchParams.get("tab")
-        if (tabIndex !== undefined) {
-            setDefaultTabIdx(tabIndex as string);
+        if (tabIndex) {
+            setDefaultTabIdx(tabIndex);
         }
     })
 
