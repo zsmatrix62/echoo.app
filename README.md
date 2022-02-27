@@ -1,4 +1,5 @@
 # Echoo
+
 ![](https://img.shields.io/github/release/echoo-app/echoo-app-be.svg?style=flat-square)
 ![](https://img.shields.io/github/downloads/echoo-app/echoo-app-be/total.svg?style=flat-square)
 
@@ -8,9 +9,10 @@
 
 `Echoo` provides online version of the same tools: [https://echoo.app](https://echoo.app)
 
-## Client
+## Offline Client
 
-Client version of `Echoo` provides full `offline` features, download them from the release page.
+Client version of `Echoo` provides full `offline` features, download them from
+the [release page](https://github.com/echoo-app/echoo-app/releases).
 
 ----
 
@@ -62,8 +64,20 @@ gRPC API for both client and [https://echoo.app](https://echoo.app)
 
 ## Build bundle
 
+- MacOS / Linux
+
 ```shell
+git clone git@github.com:echoo-app/echoo-app.git
+cd echoo-app
 make build-bundle
+```
+
+- Windows
+
+```bash
+git clone https://github.com/echoo-app/echoo-app.git 
+cd echoo-app 
+yarn install && cd web-src && yarn build && cd .. && yarn tauri build
 ```
 
 Check bundle file in `target/release` directory

@@ -8,7 +8,7 @@ dev-web:
 	cd web-src && make dev
 
 build-bundle: c
-	yarn install && yarn tauri build
+	yarn install && cd web-src && make build && cd .. && yarn tauri build
 
 build-api-image: c
 	docker build -t echoo-app-api ./api
