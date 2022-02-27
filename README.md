@@ -2,11 +2,13 @@
 
 ![](https://img.shields.io/github/release/echoo-app/echoo-app.svg?style=flat-square)
 
-`Echoo` is another collection of tools for developers.
+![](src-tauri/icons/128x128.png)
+
+`Echoo` is another collection of tools for developers providing offline client and web service.
 
 ## Web
 
-`Echoo` provides online version of the same tools: [https://echoo.app](https://echoo.app)
+`Echoo` provides online version of the same tools **[echoo.app](https://echoo.app)**
 
 ## Offline Client
 
@@ -66,16 +68,16 @@ gRPC API for both client and [https://echoo.app](https://echoo.app)
 - MacOS / Linux
 
 ```shell
-git clone git@github.com:echoo-app/echoo-app.git
-cd echoo-app
+git clone git@github.com:echoo-app/echoo-app.git && \
+cd echoo-app && \
 make build-bundle
 ```
 
 - Windows
 
 ```bash
-git clone https://github.com/echoo-app/echoo-app.git 
-cd echoo-app 
+git clone https://github.com/echoo-app/echoo-app.git  && \
+cd echoo-app  && \
 yarn install && cd web-src && yarn build && cd .. && yarn tauri build
 ```
 
