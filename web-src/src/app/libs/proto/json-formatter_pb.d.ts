@@ -4,11 +4,6 @@
 import * as jspb from "google-protobuf";
 
 export class OutGetRandomJson extends jspb.Message {
-  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
-  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
-
-  static toObject(includeInstance: boolean, msg: OutGetRandomJson): OutGetRandomJson.AsObject;
-
   getInputsample(): string;
 
   setInputsample(value: string): void;
@@ -16,6 +11,11 @@ export class OutGetRandomJson extends jspb.Message {
   serializeBinary(): Uint8Array;
 
   toObject(includeInstance?: boolean): OutGetRandomJson.AsObject;
+
+  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
+
+  static toObject(includeInstance: boolean, msg: OutGetRandomJson): OutGetRandomJson.AsObject;
 
   static serializeBinaryToWriter(message: OutGetRandomJson, writer: jspb.BinaryWriter): void;
 
@@ -31,11 +31,6 @@ export namespace OutGetRandomJson {
 }
 
 export class InValidateJson extends jspb.Message {
-  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
-  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
-
-  static toObject(includeInstance: boolean, msg: InValidateJson): InValidateJson.AsObject;
-
   getInput(): string;
 
   setInput(value: string): void;
@@ -43,6 +38,11 @@ export class InValidateJson extends jspb.Message {
   serializeBinary(): Uint8Array;
 
   toObject(includeInstance?: boolean): InValidateJson.AsObject;
+
+  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
+
+  static toObject(includeInstance: boolean, msg: InValidateJson): InValidateJson.AsObject;
 
   static serializeBinaryToWriter(message: InValidateJson, writer: jspb.BinaryWriter): void;
 

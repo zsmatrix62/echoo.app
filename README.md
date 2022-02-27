@@ -28,7 +28,7 @@ Click link to check screenshots
 ### Formatters
 
 - [x] [JSON Formatter Validator](docs/json-formatter.md)
-- [ ] Base64/Base64 Image encoder and decoder
+- [x] Base64/Base64 Image encoder and decoder
 - [ ] URL encoder and decoder
 - [ ] URL Parser
 - [ ] JWT Debugger
