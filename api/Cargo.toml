@@ -1,8 +1,7 @@
 [package]
-name = "echoo-app-api"
+name = "echoo_app_api"
 version = "0.1.0"
 edition = "2021"
-
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -18,7 +17,7 @@ anyhow = "1.0.55"
 tonic = "0.6.1"
 tonic-web = "0.2.0"
 prost = { version = "0.9.0", features = ["prost-derive"] }
-tokio = { version = "1.13.0", features = ["default"] }
+tokio = { version = "1.13.0", features = ["full"] }
 bytes = "1"
 prost-wkt = "0.2.1"
 prost-wkt-types = "0.2.1"
@@ -28,11 +27,6 @@ fake = { version = "2.4", features = ['derive', 'chrono', 'http', 'uuid'] }
 rand = "0.8"
 
 jsonprima = "0.3.0" # json lint
-
-[dependencies.tauri]
-version = "1.0.0-rc.3"
-optional = true
-default-features = false
 
 [dependencies.http]
 version = "0.2"
@@ -48,7 +42,3 @@ optional = true
 [build-dependencies]
 tonic-build = { version = "0.6.2" }
 prost-wkt-build = "0.2.1"
-
-[features]
-default = ["tokio/rt-multi-thread"]
-with-tauri = ['tauri/api-all']

@@ -14,7 +14,7 @@ Client version of `Echoo` provides full `offline` features, download them from t
 
 ----
 
-![](document/json-1.png)
+![](docs/json-1.png)
 
 -----
 
@@ -24,7 +24,7 @@ Click link to check screenshots
 
 ### Formatters
 
-- [x] [JSON Formatter Validator](document/json-formatter.md)
+- [x] [JSON Formatter Validator](docs/json-formatter.md)
 - [ ] Base64/Base64 Image encoder and decoder
 - [ ] URL encoder and decoder
 - [ ] URL Parser
@@ -43,3 +43,27 @@ Click link to check screenshots
 - [ ] Number Base Converter
 - [ ] Unix Time Converter
 - [ ] JSON <- -> YAML
+
+# Development
+
+## Architecture / Workspace
+
+### /api
+
+gRPC API for both client and [https://echoo.app](https://echoo.app)
+
+### /src-tauri
+
+`tauri` source directory for offline clients
+
+### /web-src
+
+`React` + `Typescript` source for frontend UI
+
+## Build bundle
+
+```shell
+make build-bundle
+```
+
+Check bundle file in `target/release` directory

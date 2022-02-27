@@ -4,10 +4,10 @@
     "version": "0.1.1"
   },
   "build": {
-    "distDir": "../../echoo-app-fe/build",
+    "distDir": "../web-src/build",
     "devPath": "http://localhost:3001",
-    "beforeDevCommand": "cd ../echoo-app-fe && yarn start",
-    "beforeBuildCommand": "cd ../echoo-app-fe && yarn build",
+    "beforeDevCommand": "cd web-src && yarn start",
+    "beforeBuildCommand": "cd web-src && yarn build",
     "withGlobalTauri": true
   },
   "tauri": {

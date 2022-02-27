@@ -7,7 +7,6 @@
     "@types/google-protobuf": "^3.15.5"
   },
   "scripts": {
-    "tauri-dev": "RUST_DEBUT=1 tauri",
     "tauri": "tauri"
   },
   "eslintConfig": {

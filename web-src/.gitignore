@@ -10,7 +10,7 @@
 
 # production
 /build/*
-/target
+!build/.gitkeep
 
 # misc
 .DS_Store
@@ -23,5 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+**/*.css.map
+**/*.css
 **/yarn.lock
-**/Cargo.lock
+**/package.lock

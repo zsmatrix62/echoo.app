@@ -23,7 +23,7 @@ git = "https://github.com/tauri-apps/tauri-plugin-window-state"
 branch = "dev"
 
 [dependencies]
-echoo-app-api = { path = "../api", features = ["with-tauri"] }
+echoo_app_api = { path = "../api" }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 

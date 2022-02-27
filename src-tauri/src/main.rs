@@ -1,9 +1,9 @@
 #![cfg_attr(all(not(debug_assertions), target_os = "windows"), windows_subsystem = "windows")]
 
-use tauri::{Manager};
+use tauri::Manager;
 use tauri_plugin_window_state::WindowState;
 
-use crate::ui::menu::main_menu_builder;
+use crate::libs::plugins::api_server::EchooAPIServerPlugin;
 
 mod libs;
 mod ui;
@@ -11,9 +11,9 @@ mod ui;
 fn main() {
     let builder = tauri::Builder::default();
     builder
-        .menu(main_menu_builder())
+        .menu(ui::menu::main_menu_builder())
         .plugin(WindowState::default())
-        .plugin(echoo_app_api::plugin::LocalAPIPlugin::new())
+        .plugin(EchooAPIServerPlugin::default())
         .setup(|app| {
             app.get_window("main").and_then(|win| {
                 let pkg_info = app.package_info();

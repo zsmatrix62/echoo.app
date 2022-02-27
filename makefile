@@ -1,14 +1,17 @@
+dev-tauri:
+	yarn install &&	RUST_DEBUT=1  yarn tauri dev
+
 dev-api:
 	cd api && cargo run main.rs
 
-build-tauri: c
-	yarn install && yarn tauri build
+dev-web:
+	cd web-src && make dev
 
-dev-tauri:
-	yarn install &&	yarn tauri-dev dev
+build-bundle: c
+	yarn install && yarn tauri build
 
 build-api-image: c
 	docker build -t echoo-app-api ./api
 
 c:
-	cargo clippy --fix --allow-dirty
+	cargo clippy --fix --allow-dirty --allow-staged

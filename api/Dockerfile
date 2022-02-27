@@ -7,5 +7,5 @@ RUN cargo install --path .
 
 FROM debian:buster-slim
 WORKDIR app
-COPY --from=builder /app/target/release/echoo-app-api /usr/local/bin
+COPY --from=builder /app/target/release/echoo_app_api /usr/local/bin
 ENTRYPOINT ["echoo-app-api"]

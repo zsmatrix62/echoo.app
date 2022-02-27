@@ -1,31 +1,31 @@
 use tauri::{
-    AppHandle,
-    PageLoadPayload, plugin::{Plugin, Result as PluginResult}, Runtime, Window,
+    async_runtime,
+    plugin::{Plugin, Result as PluginResult},
+    AppHandle, PageLoadPayload, Runtime, Window,
 };
 
-use crate::{service_port, spawn_services};
+use echoo_app_api::services::{service_port, spawn_services};
 
-#[derive(Default)]
-pub struct LocalAPIPlugin {
+pub struct EchooAPIServerPlugin {
     local_api_port: u16,
 }
 
-impl LocalAPIPlugin {
-    pub fn new() -> Self {
-        LocalAPIPlugin {
+impl Default for EchooAPIServerPlugin {
+    fn default() -> Self {
+        EchooAPIServerPlugin {
             local_api_port: service_port(),
         }
     }
 }
 
-impl<R: Runtime> Plugin<R> for LocalAPIPlugin {
+impl<R: Runtime> Plugin<R> for EchooAPIServerPlugin {
     fn name(&self) -> &'static str {
-        "devutils-local-api"
+        "echoo-api"
     }
 
     fn initialize(&mut self, _: &AppHandle<R>, _config: serde_json::Value) -> PluginResult<()> {
         let port = self.local_api_port;
-        tauri::async_runtime::spawn(async move { spawn_services(port).await });
+        async_runtime::spawn(async move { spawn_services(port).await });
         Ok(())
     }
 

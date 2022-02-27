@@ -1,0 +1,15 @@
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  color: var(--semi-color-text-2);
+  background-color: var(--semi-color-bg-1);
+  border-top: var(--semi-color-border-1) 1px solid;
+}
+
+.center-container-inner {
+}
+
+.content-container {
+  overflow-y: scroll;
+}
