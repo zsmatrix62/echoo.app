@@ -121,6 +121,7 @@ if (goog.DEBUG && !COMPILED) {
 }
 
 
+
 if (jspb.Message.GENERATE_TO_OBJECT) {
     /**
      * Creates an object representation of this proto.
@@ -375,12 +376,14 @@ proto.devutils.json_formatter.InValidateJson.prototype.setInput = function (valu
 };
 
 
+
 /**
  * List of repeated fields within this message type.
  * @private {!Array<number>}
  * @const
  */
 proto.devutils.json_formatter.OutValidateJson.repeatedFields_ = [1];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {

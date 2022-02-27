@@ -48,6 +48,7 @@ export const MainPage = () => {
                 const height = ih - (headerNodeHeight) - (footerNodeHeight)
                 console.debug(`setting center container height: ${height}`)
                 node.style.height = `${height}px`;
+                sharedSubs.toolContentHeightChanged$.next(height)
             }
         })
     })

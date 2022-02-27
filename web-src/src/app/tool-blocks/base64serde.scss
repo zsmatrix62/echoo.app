@@ -1,0 +1,28 @@
+.outer-container {
+  padding: 10px;
+  overflow-y: hidden;
+  height: 100%;
+  width: 100%;
+  background-color: var(--semi-color-bg-1);
+}
+
+.section-container {
+  flex-direction: column;
+
+  .section {
+    .section-header {
+      margin: 10px 0;
+
+      .section-header-inner {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-right: 20px;
+      }
+    }
+
+    .section-content {
+
+    }
+  }
+}
