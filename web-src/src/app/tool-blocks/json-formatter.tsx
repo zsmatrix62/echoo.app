@@ -187,7 +187,6 @@ export const JsonFormatterBlock = () => {
         })
     }
 
-
     function onCompressClicked() {
         onIndentSelectionChanged(0)
     }
@@ -215,10 +214,9 @@ export const JsonFormatterBlock = () => {
                 <JsonPathGuide/>
             </SideSheet>
 
-
-            <Content style={{display: "flex"}}>
+            <Content>
                 <Space className='section-container mod-section-container-row'>
-                    <Layout className='section' ref={leftRef}>
+                    <Layout className='section json-formatter-section' ref={leftRef}>
                         <Header className="section-header">
                             <Space className='section-header-inner'>
                                 <Space>
@@ -226,22 +224,19 @@ export const JsonFormatterBlock = () => {
                                     <Button onClick={onClearClicked}>Clear</Button>
                                 </Space>
                             </Space>
-                            {/*<ToolBlockActionsPopoverWrapper child={<Button icon={<IconSetting/>}/>} tooltip="Config"/>*/}
                         </Header>
-                        <Content className='content'>
-                            <Space vertical className='outputGroup' align={"start"}>
-                                <AutoFitTextAreaWithRef
-                                    value={inputValue}
-                                    onChange={onInputChanged}
-                                    forwardedRef={inputRef}
-                                    isOnError={validationErrors}
-                                    placeholder={inputPlaceholder}
-                                    isLoading={isAPILoading}
-                                />
-                            </Space>
+                        <Content className='content section-content'>
+                            <AutoFitTextAreaWithRef
+                                value={inputValue}
+                                onChange={onInputChanged}
+                                forwardedRef={inputRef}
+                                isOnError={validationErrors}
+                                placeholder={inputPlaceholder}
+                                isLoading={isAPILoading}
+                            />
                         </Content>
                     </Layout>
-                    <Layout className='section' ref={rightRef}>
+                    <Layout className='section json-formatter-section' ref={rightRef}>
                         <Header className="section-header">
                             <Space className='section-header-inner'>
                                 <Space>
@@ -262,8 +257,7 @@ export const JsonFormatterBlock = () => {
                                         onClick={onCopy} icon={<IconCopy/>}>Copy</Button>
                             </Space>
                         </Header>
-                        <Content className='content'>
-
+                        <Content className='content section-content'>
                             {
                                 validationErrors.length > 0 ?
                                     <Banner
@@ -277,17 +271,17 @@ export const JsonFormatterBlock = () => {
                                             input={inputValue} errors={validationErrors}/>}
                                     />
                                     :
-                                    <Space vertical className='outputGroup'>
+                                    <Space vertical className='editor-group'>
                                         <CodeMirror
+                                            className={'json-editor'}
                                             value={outputValue}
-                                            className='json-editor'
                                             ref={outputRef}
                                             lang="json"
                                             extensions={[json()]}
                                             theme={editorTheme! as 'light' | 'dark' | Extension}
                                             editable={false}
                                         />
-                                        <Space style={{width: "100%"}}>
+                                        <Space className='json-path-input-group'>
                                             <Input type='text'
                                                    disabled={!validationErrors || !outputValue}
                                                    placeholder={"JSON Path"}
@@ -297,7 +291,7 @@ export const JsonFormatterBlock = () => {
                                                        setJsonPathValue(val)
                                                        if (val) {
                                                            let res = JSONPath({
-                                                                   path: val,
+                                                               path: val,
                                                                    json: JSON.parse(inputValue!)
                                                                }
                                                            )
@@ -317,7 +311,6 @@ export const JsonFormatterBlock = () => {
                     </Layout>
                 </Space>
             </Content>
-            <Footer/>
         </Layout>
     );
 };

@@ -1,5 +1,5 @@
 # JSON Formatter Validator
 
-![./1.png](json-1.png)
-![./2.png](json-2.png)
+![./1.png](img/json-1.png)
+![./2.png](img/json-2.png)
 

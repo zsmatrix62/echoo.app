@@ -1,26 +1,44 @@
-.content {
-  margin: 10px 0;
-  width: inherit;
+
+.cm-editor, .cm-scroller, .cm-content {
+  overflow-wrap: break-word;
   height: 100%;
+}
 
-  .outputGroup {
-    width: 100%;
-    height: 100%;
+.cm-theme-light, .cm-theme-dark {
+  height: 100%;
+}
 
-    .validation-error {
-      width: 96%;
-    }
+.validation-error {
+  width: 96%;
+}
 
-    .json-editor {
-      overflow-y: scroll;
-      height: inherit;
-      width: inherit;
+.json-formatter-section {
+  flex-basis: 50%;
+  flex-grow: 1;
 
-      .cm-editor, .cm-scroller, .cm-content {
-        height: 100%;
-        overflow-wrap: break-word;
-        border: var(--semi-color-border) 1px solid;
-      }
-    }
+  &:first-of-type {
+    padding: 10px 0;
   }
+
+  &:nth-of-type(2) {
+    padding: 10px 0;
+  }
+}
+
+.editor-group {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.json-path-input-group {
+  width: 100%;
+}
+
+.content {
+  margin-top: 10px;
+}
+
+.json-editor {
+  width: 100%;
 }

@@ -22,7 +22,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
     "base64-serde": {
         navItemProps: {
             itemKey: "base64-serde",
-            text: "Base64 Encode/Decode",
+            text: "Base64/Image Encode/Decode",
             icon: <Icon svg={<PayCode theme="outline"/>}/>
         },
         node: <Base64Serde/>

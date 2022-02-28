@@ -14,3 +14,37 @@
     }
   }
 }
+
+.mod-fix-45vw {
+  width: 45vw;
+  max-width: 45vw;
+  min-width: 45vw;
+}
+
+._section_header {
+  padding-bottom: 10px;
+
+  &:first-of-type {
+    margin-right: 20px;
+  }
+
+  &:nth-of-type(1) {
+    padding-top: 10px;
+  }
+}
+
+
+#created-img-resized {
+  height: 100%;
+  width: 100%;
+  object-fit: scale-down;
+}
+
+.img-container {
+  border: var(--semi-color-border-1) 1px solid;
+  border-radius: var(--semi-border-radius-small);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

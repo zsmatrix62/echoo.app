@@ -2,6 +2,14 @@
   flex-direction: row !important;
 }
 
+.mod-padding-horizontal {
+  padding: 0 10px;
+}
+
+.mod-padding-vertical {
+  padding: 10px 0;
+}
+
 .outer-container {
   padding: 0 10px;
   background-color: var(--semi-color-bg-1);
@@ -11,6 +19,7 @@
   .section-container {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
     width: 100%;
 
@@ -18,18 +27,11 @@
       height: 100%;
 
       .section-header {
-        margin: 10px 0;
-
         .section-header-inner {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
-          margin-right: 20px;
         }
-      }
-
-      .section-content {
-
       }
     }
   }
