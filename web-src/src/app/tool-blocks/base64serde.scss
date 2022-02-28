@@ -1,28 +1,16 @@
-.outer-container {
-  padding: 10px;
-  overflow-y: hidden;
+.semi-tabs {
   height: 100%;
-  width: 100%;
-  background-color: var(--semi-color-bg-1);
-}
 
-.section-container {
-  flex-direction: column;
+  .semi-tabs-content {
+    // 54px is tab height, 10px is vertical paddings
+    height: calc(100% - 54px - 15px);
 
-  .section {
-    .section-header {
-      margin: 10px 0;
+    .semi-tabs-pane {
+      height: 100%;
 
-      .section-header-inner {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-right: 20px;
+      .semi-tabs-pane-motion-overlay {
+        height: inherit;
       }
-    }
-
-    .section-content {
-
     }
   }
 }

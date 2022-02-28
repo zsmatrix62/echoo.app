@@ -7,8 +7,9 @@ class SharedSubjects {
     public activeToolNode$ = new ReplaySubject<ReactNode>(1);
     public toolsNavSearch$ = new ReplaySubject<string>(1)
     public windowSizeChange$ = new ReplaySubject<[number, number]>(1)
-    public toolContentWidthChanged$ = new ReplaySubject<number>(1)
-    public toolContentHeightChanged$ = new ReplaySubject<number>(1)
+    // public toolMainContentSizeChanged$ = new ReplaySubject<[number, number]>(1)
+    // public toolContentWidthChanged$ = new ReplaySubject<number>(1)
+    // public toolContentHeightChanged$ = new ReplaySubject<number>(1)
     public apiServiceAddr = new ReplaySubject<string>(1)
     public tauri$: ReplaySubject<typeof tauri>
 

@@ -13,10 +13,7 @@ import {IconMoon, IconSidebar, IconSun} from "@douyinfe/semi-icons";
 import {findDOMNode} from "react-dom";
 import {Pref} from "../context/pref";
 
-type Props = {
-    onWidthChanged: (w: number) => void
-}
-export const ToolsSider = (props: Props) => {
+export const ToolsSider = () => {
     const sharedSubsCtx = useContext(SharedSubjectContext);
     const navRef = useRef<Nav>(null)
     const [selectedItems, setSelectedItems] = useObservableState<Array<string>>(obs => {
@@ -34,19 +31,10 @@ export const ToolsSider = (props: Props) => {
     const [sidebarCollapsed, setSideBarCollapsed] = useObservableState<boolean>(obs => {
         obs.subscribe(collapsed => {
             Pref.getInstance().toolsSiderCollapsed.value = collapsed as boolean
-            readWidth(collapsed)
             hideSearchBar(collapsed)
         })
         return obs
     }, Pref.getInstance().toolsSiderCollapsed.value);
-
-    const readWidth = (collapsed: Boolean) => {
-        if (collapsed) {
-            props.onWidthChanged(60)
-        } else {
-            props.onWidthChanged(240)
-        }
-    }
 
     const hideSearchBar = (hide: Boolean) => {
         // if collapsed remove header blank from nav header which is
@@ -78,7 +66,6 @@ export const ToolsSider = (props: Props) => {
 
     // hooks
     useMount(() => {
-        readWidth(sidebarCollapsed)
         hideSearchBar(sidebarCollapsed)
     })
 

@@ -10,8 +10,6 @@ import {useMount} from "react-use";
 import CodeMirror, {ReactCodeMirrorRef} from '@uiw/react-codemirror';
 import {Extension} from "@codemirror/state";
 import {json} from "@codemirror/lang-json";
-import {SharedSubjectContext} from "../context/shared-subjects";
-import {findDOMNode} from "react-dom";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
 import {InValidateJson, OutValidateJson} from "../libs/proto/json-formatter_pb";
 import {debounceTime} from "rxjs";
@@ -21,6 +19,7 @@ import {JSONPath} from "jsonpath-plus";
 import {JsonPathGuide} from "../wigetds/json-path-guide";
 import {Pref} from "../context/pref";
 import {Record} from "@icon-park/react";
+import "./tool-content-layout.scss"
 
 const ErrorDisplay = ({input, errors, onFirstErrorRange}: {
     input?: string,
@@ -94,7 +93,6 @@ export const JsonFormatterBlock = () => {
     const [jsonPathValue, setJsonPathValue] = useState<string>('')
     const [showJsonPathGuide, setShowJsonPathGuide] = useState<boolean>(false)
     const api = useContext(APIServiceContext)
-    const sharedSubs = useContext(SharedSubjectContext)
     const jsonFormatterRef = useRef<Layout>(null)
     const leftRef = useRef<Layout>(null)
     const rightRef = useRef<Layout>(null)
@@ -156,14 +154,6 @@ export const JsonFormatterBlock = () => {
                 setEditorTheme(enabled ? "dark" : "light")
             }
         })
-        sharedSubs.toolContentWidthChanged$.subscribe((w) => {
-            let formatterNode = findDOMNode(jsonFormatterRef.current) as HTMLElement;
-            if (formatterNode) {
-                formatterNode!.style.width = `${w}px`;
-                (findDOMNode(leftRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
-                (findDOMNode(rightRef.current) as HTMLElement)!.style.width = `${w / 2 - 15}px`;
-            }
-        })
     })
 
     const setOutputJson = (val?: string, indent?: number) => {
@@ -215,7 +205,7 @@ export const JsonFormatterBlock = () => {
 
     // noinspection RequiredAttributes
     return (
-        <Layout className='json-formatter' ref={jsonFormatterRef}>
+        <Layout className='outer-container' ref={jsonFormatterRef}>
 
             <SideSheet
                 size={'large'}
@@ -227,12 +217,14 @@ export const JsonFormatterBlock = () => {
 
 
             <Content style={{display: "flex"}}>
-                <Space className='text-area-container'>
-                    <Layout className='block' ref={leftRef}>
-                        <Header className="header">
-                            <Space>
-                                <Button onClick={setRandomJson}>Sample</Button>
-                                <Button onClick={onClearClicked}>Clear</Button>
+                <Space className='section-container mod-section-container-row'>
+                    <Layout className='section' ref={leftRef}>
+                        <Header className="section-header">
+                            <Space className='section-header-inner'>
+                                <Space>
+                                    <Button onClick={setRandomJson}>Sample</Button>
+                                    <Button onClick={onClearClicked}>Clear</Button>
+                                </Space>
                             </Space>
                             {/*<ToolBlockActionsPopoverWrapper child={<Button icon={<IconSetting/>}/>} tooltip="Config"/>*/}
                         </Header>
@@ -249,21 +241,23 @@ export const JsonFormatterBlock = () => {
                             </Space>
                         </Content>
                     </Layout>
-                    <Layout className='block' ref={rightRef}>
-                        <Header className="header mod-affix-right">
-                            <Space>
-                                <Button disabled={!outputValue}
-                                        onClick={onCompressClicked} icon={<IconLayers/>}>Compress</Button>
-                                <Select
-                                    disabled={!outputValue}
-                                    value={jsonIndentState}
-                                    defaultValue={jsonIndentState}
-                                    style={{width: 120}}
-                                    onChange={onIndentSelectionChanged}>
-                                    <Select.Option value={2}>2 spaces</Select.Option>
-                                    <Select.Option value={4}>4 spaces</Select.Option>
-                                    <Select.Option value={0}>minified</Select.Option>
-                                </Select>
+                    <Layout className='section' ref={rightRef}>
+                        <Header className="section-header">
+                            <Space className='section-header-inner'>
+                                <Space>
+                                    <Button disabled={!outputValue}
+                                            onClick={onCompressClicked} icon={<IconLayers/>}>Compress</Button>
+                                    <Select
+                                        disabled={!outputValue}
+                                        value={jsonIndentState}
+                                        defaultValue={jsonIndentState}
+                                        style={{width: 120}}
+                                        onChange={onIndentSelectionChanged}>
+                                        <Select.Option value={2}>2 spaces</Select.Option>
+                                        <Select.Option value={4}>4 spaces</Select.Option>
+                                        <Select.Option value={0}>minified</Select.Option>
+                                    </Select>
+                                </Space>
                                 <Button disabled={!outputValue}
                                         onClick={onCopy} icon={<IconCopy/>}>Copy</Button>
                             </Space>

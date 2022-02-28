@@ -1,13 +1,11 @@
 import * as React from 'react';
-import {useContext, useRef, useState} from 'react';
-import {Button, Layout, Radio, RadioGroup, Row, Space, TabPane, Tabs, Toast} from "@douyinfe/semi-ui";
+import {useRef, useState} from 'react';
+import {Button, Layout, Radio, RadioGroup, Space, TabPane, Tabs, Toast} from "@douyinfe/semi-ui";
 import "./base64serde.scss"
+import "./tool-content-layout.scss"
 import {IconArrowUp, IconCopy, IconFile} from "@douyinfe/semi-icons";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
-import {SharedSubjectContext} from "../context/shared-subjects";
 import {useMount} from "react-use";
-import {findDOMNode} from "react-dom";
-import {zip} from "rxjs";
 import {useSearchParams} from "react-router-dom";
 import {useObservableState} from "observable-hooks";
 import useClipboard from "use-clipboard-hook";
@@ -15,8 +13,6 @@ import {base64decode, base64encode} from "../libs/helpers";
 import {randSentence} from "@ngneat/falso"
 
 export const Base64Serde = () => {
-    const sharedSubs = useContext(SharedSubjectContext)
-    const containerRef = useRef<Layout>(null)
     const [defaultTabIdx, setDefaultTabIdx] = useObservableState<string>(
         obs => {
             obs.subscribe(idx => {
@@ -37,19 +33,8 @@ export const Base64Serde = () => {
         }
     })
 
-    useMount(() => {
-        zip(
-            sharedSubs.toolContentWidthChanged$,
-            sharedSubs.toolContentHeightChanged$,
-        ).subscribe(([iw, ih]) => {
-            let node = findDOMNode(containerRef.current) as HTMLElement
-            node!.style!.height = `${ih}px`
-            node!.style!.width = `${iw}px`
-        })
-    })
-
     return (
-        <Layout className="outer-container" ref={containerRef}>
+        <Layout className="outer-container">
             <Layout.Header> </Layout.Header>
             <Layout.Content>
                 <Tabs defaultActiveKey={defaultTabIdx}
@@ -69,30 +54,21 @@ export const Base64Serde = () => {
     );
 };
 
-type Base64SerdeStringBlockProps = {};
-export const Base64SerdeStringBlockBlock = (props: Base64SerdeStringBlockProps) => {
-        const sectionRef1 = useRef<Row>(null)
-        const sharedSubs = useContext(SharedSubjectContext)
-        const [codingType, setCodingType] = useState<number>(0)
-        const [inValue, setInValue] = useObservableState<String>(obs => {
-                return obs
-            }, ''
-        )
-        const [outValue, setOutValue] = useObservableState<String>(obs => {
+export const Base64SerdeStringBlockBlock = () => {
+    const sectionRef1 = useRef<HTMLDivElement>(null)
+    const [codingType, setCodingType] = useState<number>(0)
+    const [inValue, setInValue] = useObservableState<String>(obs => {
             return obs
-        }, '')
-        const {copy} = useClipboard({
-            onSuccess: _ => {
+        }, ''
+    )
+    const [outValue, setOutValue] = useObservableState<String>(obs => {
+        return obs
+    }, '')
+    const {copy} = useClipboard({
+        onSuccess: _ => {
                 Toast.success(`${codingType === 0 ? 'encoded' : 'decoded'} content copied`,)
             }
         });
-
-        useMount(() => {
-            sharedSubs.toolContentHeightChanged$.subscribe(ih => {
-                let tabPanHeight = 54 + 20;
-                (findDOMNode(sectionRef1.current) as HTMLElement)!.style.height = `${ih - tabPanHeight}px`;
-            })
-        })
 
         const setInputForm = (value: string) => {
             setInValue(value)
@@ -117,7 +93,7 @@ export const Base64SerdeStringBlockBlock = (props: Base64SerdeStringBlockProps) 
         }
 
         return (
-            <Row type='flex' className='section-container' ref={sectionRef1}>
+            <div className='section-container' ref={sectionRef1}>
                 <Layout className='section'>
                     <Layout.Header className='section-header'>
                         <div className='section-header-inner'>
@@ -160,13 +136,12 @@ export const Base64SerdeStringBlockBlock = (props: Base64SerdeStringBlockProps) 
                     <Layout.Content className='section-content'>
                         <AutoFitTextAreaWithRef value={outValue.valueOf()}/> </Layout.Content>
                 </Layout>
-            </Row>
+            </div>
         );
     }
 ;
 
-type Base64SerdeImageBlockProps = {};
-export const Base64SerdeImageBlockBlock = (props: Base64SerdeImageBlockProps) => {
+export const Base64SerdeImageBlockBlock = () => {
     return (
         <Layout className='inner-block'>
 
