@@ -13,32 +13,26 @@
 }
 
 .json-formatter-section {
-  flex-basis: 50%;
-  flex-grow: 1;
-
-  &:first-of-type {
-    padding: 10px 0;
-  }
-
-  &:nth-of-type(2) {
-    padding: 10px 0;
-  }
+  padding: 10px 0;
 }
 
 .editor-group {
   display: flex;
   justify-content: space-between;
   height: 100%;
+  width: 100%;
+
+  .json-editor {
+    width: inherit;
+  }
+
+  .json-path-input-group {
+    width: inherit;
+  }
 }
 
-.json-path-input-group {
-  width: 100%;
-}
 
 .content {
   margin-top: 10px;
 }
 
-.json-editor {
-  width: 100%;
-}

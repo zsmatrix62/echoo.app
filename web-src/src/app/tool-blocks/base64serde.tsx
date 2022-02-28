@@ -208,10 +208,6 @@ export const Base64SerdeImageBlockBlock = () => {
         onInValueChanged("")
     }
 
-    useMount(() => {
-        onGenSampleClicked()
-    })
-
     const extractBase64 = (inData: string) => {
         if (!inData) {
             return ""
