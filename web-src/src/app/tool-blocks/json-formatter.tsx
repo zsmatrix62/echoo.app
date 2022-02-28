@@ -216,7 +216,7 @@ export const JsonFormatterBlock = () => {
 
             <Content>
                 <Space className='section-container mod-section-container-row'>
-                    <Layout className='section json-formatter-section mod-fix-45vw' ref={leftRef}>
+                    <Layout className='section json-formatter-section' ref={leftRef}>
                         <Header className="section-header">
                             <Space className='section-header-inner'>
                                 <Space>
@@ -236,7 +236,7 @@ export const JsonFormatterBlock = () => {
                             />
                         </Content>
                     </Layout>
-                    <Layout className='section json-formatter-section' ref={rightRef}>
+                    <Layout className='section json-formatter-section mod-fix-55vw' ref={rightRef}>
                         <Header className="section-header">
                             <Space className='section-header-inner'>
                                 <Space>
