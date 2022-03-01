@@ -1,4 +1,4 @@
-import {Banner, Button, Col, Input, Layout, Row, Select, SideSheet, Space, Toast} from "@douyinfe/semi-ui";
+import {Banner, Button, Col, Input, Row, Select, SideSheet, Space, Toast} from "@douyinfe/semi-ui";
 import "./json-formatter.scss"
 import {IconArrowUp, IconCopy, IconHelpCircle, IconLayers} from "@douyinfe/semi-icons";
 import * as React from "react";
@@ -91,7 +91,6 @@ export const JsonFormatterBlock = () => {
     const [jsonPathValue, setJsonPathValue] = useState<string>('')
     const [showJsonPathGuide, setShowJsonPathGuide] = useState<boolean>(false)
     const api = useContext(APIServiceContext)
-    const jsonFormatterRef = useRef<Layout>(null)
     const inputRef = useRef<HTMLTextAreaElement>(null)
     const jsonPathRef = useRef<HTMLInputElement>(null)
     const [isAPILoading, setIsAPILoading] = useObservableState<boolean>(obs => {
@@ -201,6 +200,16 @@ export const JsonFormatterBlock = () => {
 
     const isSidebarCollapsed = useObservableState(Pref.getInstance().toolsSiderCollapsed.$)
 
+    // const cmRef = useRef<ReactCodeMirrorRef>(null);
+
+    // useEffect(() => {
+    //     if (ref?.current?.view) {
+    //         console.log("reconfigure");
+    //         ref.current.view.dispatch({
+    //             filter: true
+    //         });
+    //     }
+    // });
 
     // noinspection RequiredAttributes
     return (
@@ -272,6 +281,7 @@ export const JsonFormatterBlock = () => {
                                         `} type={"flex"} gutter={10}>
                                             <Row>
                                                 <ReactCodeMirror
+                                                    // ref={cmRef}
                                                     value={outputValue}
                                                     lang="json"
                                                     extensions={[json()]}
