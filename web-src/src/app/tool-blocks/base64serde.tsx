@@ -138,21 +138,20 @@ export const Base64SerdeStringBlockBlock = () => {
 ;
 
 export const Base64SerdeImageBlockBlock = () => {
-    const regImgTagSrcBase64 = `<img.*?src=('|")data:image\\/([a-zA-Z]*);base64,([^\\('|")]*) `
 
     const createImage = (data: string) => {
         let src = "data:image/jpeg;base64,";
         src += data
         let newImage = document.createElement("img");
         newImage.src = src
-        newImage.onerror = function (s) {
+        newImage.onerror = function (_) {
             newImage.src = ""
         }
         return newImage
     }
 
     const [base64SourceType, setBase64SourceType] = useObservableState<number>((obs) => {
-        obs.subscribe(t => {
+        obs.subscribe(_ => {
             onInValueChanged("")
         })
         return obs

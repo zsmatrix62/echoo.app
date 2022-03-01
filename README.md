@@ -17,7 +17,7 @@ the [release page](https://github.com/echoo-app/echoo-app/releases).
 
 ----
 
-![](docs/json-1.png)
+![](docs/img/json-1.png)
 
 -----
 
