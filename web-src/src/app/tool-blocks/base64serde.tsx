@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {useRef, useState} from 'react';
-import {Button, Layout, Radio, RadioGroup, Space, TabPane, Tabs, Toast, Tooltip} from "@douyinfe/semi-ui";
+import {Button, Layout, Radio, RadioGroup, Row, Space, TabPane, Tabs, Toast, Tooltip} from "@douyinfe/semi-ui";
 import "./base64serde.scss"
-import "./tool-content-layout.scss"
 import {IconArrowUp, IconCopy, IconDownload, IconFile, IconImage} from "@douyinfe/semi-icons";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
 import {useMount} from "react-use";
@@ -36,28 +35,24 @@ export const Base64Serde = () => {
     })
 
     return (
-        <Layout className="outer-container">
-            <Layout.Header> </Layout.Header>
-            <Layout.Content>
-                <Tabs defaultActiveKey={defaultTabIdx}
-                      activeKey={defaultTabIdx}
-                      onChange={(key) => {
-                          setDefaultTabIdx(key)
-                      }}>
-                    <TabPane tab={<span> <IconFile/> String </span>} itemKey="1">
-                        <Base64SerdeStringBlockBlock/>
-                    </TabPane>
-                    <TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">
-                        <Base64SerdeImageBlockBlock/>
-                    </TabPane>
-                </Tabs>
-            </Layout.Content>
-        </Layout>
+        <Tabs defaultActiveKey={defaultTabIdx}
+              activeKey={defaultTabIdx}
+              onChange={(key) => {
+                  setDefaultTabIdx(key)
+              }}
+              className='base64serde-tab-container'
+        >
+            <TabPane tab={<span> <IconFile/> String </span>} itemKey="1">
+                <Base64SerdeStringBlockBlock/>
+            </TabPane>
+            <TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">
+                <Base64SerdeImageBlockBlock/>
+            </TabPane>
+        </Tabs>
     );
 };
 
 export const Base64SerdeStringBlockBlock = () => {
-    const sectionRef1 = useRef<HTMLDivElement>(null)
     const [codingType, setCodingType] = useState<number>(0)
     const [inValue, setInValue] = useObservableState<String>(obs => {
             return obs
@@ -86,59 +81,58 @@ export const Base64SerdeStringBlockBlock = () => {
     }
 
     const onCopy = () => {
-            copy(outValue.valueOf())
-        }
+        copy(outValue.valueOf())
+    }
 
-        const onUseAsInputClicked = () => {
-            setOutValue("");
-            setInValue(outValue)
-        }
+    const onUseAsInputClicked = () => {
+        setOutValue("");
+        setInValue(outValue)
+    }
 
         return (
-            <div className='section-container' ref={sectionRef1}>
-                <Layout className='section'>
-                    <Layout.Header className='section-header _section_header'>
-                        <div className='section-header-inner'>
-                            <Space>
-                                <Button onClick={onGenSampleClicked}>Sample</Button>
-                                <Button onClick={onClearClicked}>Clear</Button>
-                            </Space>
-                            <RadioGroup defaultValue={codingType} value={codingType} onChange={(v) => {
-                                setCodingType(v.target.value as number)
-                                if (inValue !== '') {
-                                    try {
-                                        setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
-                                    } catch (e) {
-                                        setOutValue("")
-                                    } finally {
-                                    }
+            <Row>
+                <Row>
+                    <Row type='flex' style={{padding: "10px 0", justifyContent: "space-between", alignItems: "center"}}>
+                        <Space>
+                            <Button onClick={onGenSampleClicked}>Sample</Button>
+                            <Button onClick={onClearClicked}>Clear</Button>
+                        </Space>
+                        <RadioGroup
+                            style={{paddingRight: 5}}
+                            defaultValue={codingType} value={codingType} onChange={(v) => {
+                            setCodingType(v.target.value as number)
+                            if (inValue !== '') {
+                                try {
+                                    setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
+                                } catch (e) {
+                                    setOutValue("")
+                                } finally {
                                 }
-                            }}>
-                                <Radio value={0}>Encode</Radio>
-                                <Radio value={1}>Decode</Radio>
-                            </RadioGroup>
-                        </div>
-                    </Layout.Header>
-                    <Layout.Content className='section-content'>
+                            }
+                        }}>
+                            <Radio value={0}>Encode</Radio>
+                            <Radio value={1}>Decode</Radio>
+                        </RadioGroup>
+                    </Row>
+                    <Row style={{}}>
                         <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
                             setInputForm(value)
                         }}/>
-                    </Layout.Content>
-                </Layout>
-                <Layout className='section'>
-                    <Layout.Header className='section-header _section_header'>
-                        <div className='section-header-inner'>
-                            <Space>
-                                <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
-                                <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
-                                    as input</Button>
-                            </Space>
-                        </div>
-                    </Layout.Header>
-                    <Layout.Content className='section-content'>
-                        <AutoFitTextAreaWithRef value={outValue.valueOf()}/> </Layout.Content>
-                </Layout>
-            </div>
+                    </Row>
+                </Row>
+                <Row>
+                    <Row style={{padding: "10px 0"}}>
+                        <Space>
+                            <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
+                            <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
+                                as input</Button>
+                        </Space>
+                    </Row>
+                    <Row style={{}}>
+                        <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
+                    </Row>
+                </Row>
+            </Row>
         );
     }
 ;
@@ -282,7 +276,7 @@ export const Base64SerdeImageBlockBlock = () => {
 
     return (
         <div className='section-container mod-section-container-row' style={{flexBasis: 50}}>
-            <Layout className='section mod-fix-45vw' style={{paddingTop: 10, paddingRight: 5}}>
+            <Layout className='section mod-50vw' style={{paddingTop: 10, paddingRight: 5}}>
                 <Layout.Header className="section-header">
                     <Space className="section-header-inner" style={{justifyContent: "space-between"}}>
                         <Space>

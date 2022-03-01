@@ -16,6 +16,18 @@ export function base64decode(str: string) {
     return decodeURIComponent(decode)
 }
 
+export function findNodesByClassName<T extends HTMLElement>(parent: HTMLElement, className: string): Array<T> {
+    let nodes = parent.getElementsByClassName(className)
+    let returnVals: Array<T> = []
+    for (let nodesKey in nodes) {
+        let node = nodes[nodesKey];
+        if (node instanceof HTMLElement) {
+            returnVals.push(node as T)
+        }
+    }
+    return returnVals
+}
+
 export function formatNumber(n: number, fractionDigits: number = 0) {
     let ns = n.toFixed(fractionDigits) + '';
     let x = ns.split('.');

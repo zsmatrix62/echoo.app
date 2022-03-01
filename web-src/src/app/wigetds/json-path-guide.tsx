@@ -5,7 +5,7 @@ import {Space} from "@douyinfe/semi-ui";
 
 export const JsonPathGuide = () => {
     return (
-        <Space style={{height: '100%', overflowY: "scroll", display: 'flex', flexDirection: "column"}}>
+        <Space style={{overflowY: "scroll", display: 'flex', flexDirection: "column"}}>
             <>
                 <h2>Operators</h2>
                 <table>

@@ -6,14 +6,13 @@ import {SharedSubjectContext} from "../context/shared-subjects";
 import {MainFooter} from "../shared/main-footer";
 import {MainNav} from "../shared/main-nav";
 import {ToolsSider} from "../shared/tools-sider";
-import "./main-page.scss"
 import {isTauriAppContext} from "../../App";
+import "./main-page.scss"
 
 
 export const MainPage = () => {
     const {Header, Footer, Content} = Layout;
     const sharedSubs = useContext(SharedSubjectContext);
-    const isTauri = useContext(isTauriAppContext)
     const [activeToolNode, setActiveToolNode] =
         useObservableState<ReactNode>((obs) => {
             obs.subscribe((node) => {
@@ -30,18 +29,6 @@ export const MainPage = () => {
         });
     }, [setActiveToolNode, sharedSubs]);
 
-    // useMount(() => {
-    //     sharedSubs.windowSizeChange$.subscribe(([iw, ih]) => {
-    //         let sectionContainerNodes = document.getElementsByClassName("section-container");
-    //         for (let sectionContainerNodesKey in sectionContainerNodes) {
-    //             const node = sectionContainerNodes[sectionContainerNodesKey];
-    //             if (node instanceof HTMLElement) {
-    //                 node.style.height = isTauri ? "100vh" : "calc(100vh - 120px);"
-    //             }
-    //         }
-    //     })
-    // })
-
     // listen resize window event and adjust content height
     const centerContainerRef = useRef<Layout>(null)
 
@@ -49,17 +36,15 @@ export const MainPage = () => {
         <isTauriAppContext.Consumer>
             {
                 (isTauriApp) => (
-                    <Layout style={{height: "100vh"}}>
-                        <Header style={{display: isTauriApp ? 'none' : 'block'}}>
-                            <MainNav/>
-                        </Header>
-                        <Layout className='center-container-inner'>
-                            <Sider children={<ToolsSider/>} className='sider-container'/>
-                            <Content children={activeToolNode} className='content-container' ref={centerContainerRef}/>
+
+                    <Layout className="main-layout">
+                        {!isTauriApp && <Header> <MainNav/> </Header>}
+                        <Layout className="central-layout">
+                            <Sider children={<ToolsSider/>}/>
+                            <Content children={activeToolNode} ref={centerContainerRef}/>
                         </Layout>
-                        <Footer style={{display: isTauriApp ? 'none' : 'block'}} className='footer-container'>
-                            <MainFooter/>
-                        </Footer>
+                        {!isTauriApp &&
+                            <Layout.Footer className='main-footer-container'> <MainFooter/> </Layout.Footer>}
                     </Layout>
                 )
             }

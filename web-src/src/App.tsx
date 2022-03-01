@@ -17,6 +17,7 @@ function App() {
         return obs
     }, false)
 
+
     // hooks
     // listen window resize events
     useMount(() => {
@@ -28,6 +29,7 @@ function App() {
         })
         sendEvent()
     })
+
     // check is in tauri client or not
     useMount(() => {
         sharedSubsCtx.tauri$.subscribe(t => {

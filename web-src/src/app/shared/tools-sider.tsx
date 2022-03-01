@@ -147,7 +147,7 @@ export const ToolsSider = () => {
             ref={navRef}
             selectedKeys={selectedItems}
             multiple={false}
-            style={{height: "100%"}}
+            style={{}}
             mode="vertical"
             items={tools}
             isCollapsed={sidebarCollapsed as boolean}

@@ -1,6 +1,6 @@
 import {IconGithubLogo} from "@douyinfe/semi-icons";
-import {Button, Nav, Space} from "@douyinfe/semi-ui";
-import {DownloadThree} from "@icon-park/react";
+import {Button, Nav, Space, Tooltip, Typography} from "@douyinfe/semi-ui";
+import {DownloadOne} from "@icon-park/react";
 import "./main-nav.scss"
 
 import {LogoComponent} from "../wigetds/logo";
@@ -19,14 +19,19 @@ export const MainNav = () => {
     const headerNode = <Nav.Header>
         <LogoComponent/>
     </Nav.Header>
+
     const navFooter = <Nav.Footer>
         <Space>
-            <Button size={"large"} onClick={onDownloadClicked}
-                    icon={<DownloadThree theme="outline" size="21" fill="var(--semi-color-primary)"/>}/>
-            {/*<Button size={"large"}*/}
-            {/*        icon={<Dollar theme="outline" size="21" fill="var(--semi-color-primary)"/>}/>*/}
-            <Button size={"large"} icon={<IconGithubLogo size={"extra-large"} onClick={onHomePageClicked}
-            />}/>
+            <Tooltip content={<Typography.Text>Download Offline Client</Typography.Text>}
+                     position='bottomLeft'>
+                <Button size={"large"} onClick={onDownloadClicked}
+                        icon={<DownloadOne theme="outline" size="21" fill="var(--semi-color-primary)"/>}/>
+            </Tooltip>
+            <Tooltip content={<Typography.Text>Github Repository</Typography.Text>}
+                     position='bottomLeft'>
+                <Button size={"large"} icon={<IconGithubLogo size={"extra-large"} onClick={onHomePageClicked}
+                />}/>
+            </Tooltip>
         </Space>
     </Nav.Footer>
 

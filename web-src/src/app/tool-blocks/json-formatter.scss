@@ -1,38 +1,72 @@
 
-.cm-editor, .cm-scroller, .cm-content {
-  overflow-wrap: break-word;
-  height: 100%;
-}
-
-.cm-theme-light, .cm-theme-dark {
-  height: 100%;
-}
-
 .validation-error {
   width: 96%;
 }
 
-.json-formatter-section {
-  padding: 10px 0;
-}
-
-.editor-group {
-  display: flex;
-  justify-content: space-between;
+.json-formatter-container {
   height: 100%;
-  width: 100%;
+  padding: 0 10px;
+  min-height: 0;
 
-  .json-editor {
-    width: inherit;
-  }
+  .json-formatter-container-child {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-  .json-path-input-group {
-    width: inherit;
+    .input-block {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 10px;
+
+      .text-area {
+        height: 100%;
+
+        textarea {
+          height: 100%;
+        }
+      }
+
+      .cm-block {
+        height: 100%;
+
+        .cm-theme-light, .cm-theme-dark, .cm-editor {
+          overflow-y: scroll;
+        }
+
+        .mod-cm-sider-collapsed {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            width: calc((100vw - 80px) / 2);
+          }
+        }
+
+        .mod-cm-sider-expanded {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            width: calc((100vw - 260px) / 2);
+          }
+        }
+
+        .mod-cm-in-tauri {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            height: calc(100vh - 105px);
+          }
+        }
+
+        .mod-cm-in-browser {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            height: calc(100vh - 105px - 100px);
+          }
+        }
+
+        .cm-block-group {
+          width: 100%;
+          height: 100%;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: space-between;
+        }
+      }
+    }
   }
 }
-
-
-.content {
-  margin-top: 10px;
-}
-

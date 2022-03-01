@@ -1,4 +1,4 @@
-import {Banner, Button, Input, Layout, Select, SideSheet, Space, Toast} from "@douyinfe/semi-ui";
+import {Banner, Button, Col, Input, Layout, Row, Select, SideSheet, Space, Toast} from "@douyinfe/semi-ui";
 import "./json-formatter.scss"
 import {IconArrowUp, IconCopy, IconHelpCircle, IconLayers} from "@douyinfe/semi-icons";
 import * as React from "react";
@@ -7,9 +7,6 @@ import {APIServiceContext} from "../context/api";
 import {Empty} from "google-protobuf/google/protobuf/empty_pb";
 import {useObservableState} from "observable-hooks";
 import {useMount} from "react-use";
-import CodeMirror, {ReactCodeMirrorRef} from '@uiw/react-codemirror';
-import {Extension} from "@codemirror/state";
-import {json} from "@codemirror/lang-json";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
 import {InValidateJson, OutValidateJson} from "../libs/proto/json-formatter_pb";
 import {debounceTime} from "rxjs";
@@ -19,7 +16,9 @@ import {JSONPath} from "jsonpath-plus";
 import {JsonPathGuide} from "../wigetds/json-path-guide";
 import {Pref} from "../context/pref";
 import {Record} from "@icon-park/react";
-import "./tool-content-layout.scss"
+import {json} from "@codemirror/lang-json";
+import ReactCodeMirror, {Extension} from "@uiw/react-codemirror";
+import {isTauriAppContext} from "../../App";
 
 const ErrorDisplay = ({input, errors, onFirstErrorRange}: {
     input?: string,
@@ -87,17 +86,13 @@ const ErrorDisplay = ({input, errors, onFirstErrorRange}: {
 
 
 export const JsonFormatterBlock = () => {
-    const {Header, Content, Footer} = Layout;
     let inputPlaceholder = "Enter your text, Drag/drop files, Right click to load file";
     const jsonIndentState = useObservableState<number>(Pref.getInstance().jsonFormatterDefaultIndentSpace.$)
     const [jsonPathValue, setJsonPathValue] = useState<string>('')
     const [showJsonPathGuide, setShowJsonPathGuide] = useState<boolean>(false)
     const api = useContext(APIServiceContext)
     const jsonFormatterRef = useRef<Layout>(null)
-    const leftRef = useRef<Layout>(null)
-    const rightRef = useRef<Layout>(null)
     const inputRef = useRef<HTMLTextAreaElement>(null)
-    const outputRef = useRef<ReactCodeMirrorRef>(null)
     const jsonPathRef = useRef<HTMLInputElement>(null)
     const [isAPILoading, setIsAPILoading] = useObservableState<boolean>(obs => {
         return obs
@@ -154,6 +149,8 @@ export const JsonFormatterBlock = () => {
                 setEditorTheme(enabled ? "dark" : "light")
             }
         })
+
+        setInputValue(`[{"category":"porro","sold":true,"author":"Mr. Clotilde Rohan","title":"eos magni sint corporis itaque eos.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"eddie_inventore@yahoo.com"},{"category":"voluptas","sold":false,"author":"Miss Jaleel Green","title":"suscipit labore ea ducimus harum.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"dariana_tenetur@gmail.com"},{"category":"est","sold":false,"author":"Miss Zane Hintz","title":"quia sit et velit pariatur et repudiandae.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"kiera_ea@yahoo.com"},{"category":"dolor","sold":false,"author":"Mr. Domenico Hayes","title":"modi voluptas enim aut sunt voluptatibus velit non.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"autumn_quis@yahoo.com"}]`)
     })
 
     const setOutputJson = (val?: string, indent?: number) => {
@@ -202,43 +199,42 @@ export const JsonFormatterBlock = () => {
         Pref.getInstance().jsonFormatterDefaultIndentSpace.value = indent
     }
 
+    const isSidebarCollapsed = useObservableState(Pref.getInstance().toolsSiderCollapsed.$)
+
+
     // noinspection RequiredAttributes
     return (
-        <Layout className='outer-container' ref={jsonFormatterRef}>
+        <isTauriAppContext.Consumer>
+            {(isTauri) => (
+                <Row className='json-formatter-container'>
 
-            <SideSheet
-                size={'large'}
-                visible={showJsonPathGuide} onCancel={() => {
-                setShowJsonPathGuide(false)
-            }}>
-                <JsonPathGuide/>
-            </SideSheet>
+                    <SideSheet
+                        size={'large'}
+                        visible={showJsonPathGuide} onCancel={() => {
+                        setShowJsonPathGuide(false)
+                    }}>
+                        <JsonPathGuide/>
+                    </SideSheet>
 
-            <Content>
-                <Space className='section-container mod-section-container-row'>
-                    <Layout className='section json-formatter-section' ref={leftRef}>
-                        <Header className="section-header">
-                            <Space className='section-header-inner'>
-                                <Space>
-                                    <Button onClick={setRandomJson}>Sample</Button>
-                                    <Button onClick={onClearClicked}>Clear</Button>
-                                </Space>
-                            </Space>
-                        </Header>
-                        <Content className='content section-content'>
-                            <AutoFitTextAreaWithRef
-                                value={inputValue}
-                                onChange={onInputChanged}
-                                forwardedRef={inputRef}
-                                isOnError={validationErrors}
-                                placeholder={inputPlaceholder}
-                                isLoading={isAPILoading}
-                            />
-                        </Content>
-                    </Layout>
-                    <Layout className='section json-formatter-section mod-fix-55vw' ref={rightRef}>
-                        <Header className="section-header">
-                            <Space className='section-header-inner'>
+                    <Row className='json-formatter-container-child' gutter={10}>
+                        <Col span={12} className='input-block'>
+                            <Row style={{padding: "10px 0"}}>
+                                <Space> <Button onClick={setRandomJson}>Sample</Button> <Button
+                                    onClick={onClearClicked}>Clear</Button> </Space>
+                            </Row>
+                            <Row style={{height: "100%"}}>
+                                <AutoFitTextAreaWithRef
+                                    value={inputValue}
+                                    onChange={onInputChanged}
+                                    forwardedRef={inputRef}
+                                    isOnError={validationErrors}
+                                    placeholder={inputPlaceholder}
+                                    isLoading={isAPILoading}
+                                />
+                            </Row>
+                        </Col>
+                        <Col span={12} className='input-block'>
+                            <Row style={{padding: "10px 0", flexDirection: "row-reverse"}} type={"flex"}>
                                 <Space>
                                     <Button disabled={!outputValue}
                                             onClick={onCompressClicked} icon={<IconLayers/>}>Compress</Button>
@@ -252,65 +248,74 @@ export const JsonFormatterBlock = () => {
                                         <Select.Option value={4}>4 spaces</Select.Option>
                                         <Select.Option value={0}>minified</Select.Option>
                                     </Select>
+                                    <Button disabled={!outputValue}
+                                            onClick={onCopy} icon={<IconCopy/>}>Copy</Button>
                                 </Space>
-                                <Button disabled={!outputValue}
-                                        onClick={onCopy} icon={<IconCopy/>}>Copy</Button>
-                            </Space>
-                        </Header>
-                        <Content className='content section-content'>
-                            {
-                                validationErrors.length > 0 ?
-                                    <Banner
-                                        className='validation-error'
-                                        fullMode={false} type="danger" bordered icon={null} closeIcon={null}
-                                        description={<ErrorDisplay
-                                            onFirstErrorRange={(start, end) => {
-                                                inputRef?.current?.setSelectionRange(start, end)
-                                            }
-                                            }
-                                            input={inputValue} errors={validationErrors}/>}
-                                    />
-                                    :
-                                    <Space vertical className='editor-group'>
-                                        <CodeMirror
-                                            className={'json-editor'}
-                                            value={outputValue}
-                                            ref={outputRef}
-                                            lang="json"
-                                            extensions={[json()]}
-                                            theme={editorTheme! as 'light' | 'dark' | Extension}
-                                            editable={false}
+                            </Row>
+                            <Row className='cm-block'>
+                                {
+                                    validationErrors.length > 0 ?
+                                        <Banner
+                                            className='validation-error'
+                                            fullMode={false} type="danger" bordered icon={null} closeIcon={null}
+                                            description={<ErrorDisplay
+                                                onFirstErrorRange={(start, end) => {
+                                                    inputRef?.current?.setSelectionRange(start, end)
+                                                }
+                                                }
+                                                input={inputValue} errors={validationErrors}/>}
                                         />
-                                        <Space className='json-path-input-group'>
-                                            <Input type='text'
-                                                   disabled={!validationErrors || !outputValue}
-                                                   placeholder={"JSON Path"}
-                                                   ref={jsonPathRef}
-                                                   value={jsonPathValue}
-                                                   onChange={(val) => {
-                                                       setJsonPathValue(val)
-                                                       if (val) {
-                                                           let res = JSONPath({
-                                                               path: val,
-                                                                   json: JSON.parse(inputValue!)
+                                        :
+                                        <Row className={`cm-block-group 
+                                        ${isTauri ? 'mod-cm-in-tauri' : 'mod-cm-in-browser'}
+                                        ${isSidebarCollapsed ? 'mod-cm-sider-collapsed' : 'mod-cm-sider-expanded'}
+                                        `} type={"flex"} gutter={10}>
+                                            <Row>
+                                                <ReactCodeMirror
+                                                    value={outputValue}
+                                                    lang="json"
+                                                    extensions={[json()]}
+                                                    theme={editorTheme! as 'light' | 'dark' | Extension}
+                                                />
+                                            </Row>
+                                            <Row>
+                                                <Space style={{width: "100%"}}>
+                                                    <Input type='text'
+                                                           disabled={!validationErrors || !outputValue}
+                                                           placeholder={"JSON Path"}
+                                                           ref={jsonPathRef}
+                                                           value={jsonPathValue}
+                                                           onChange={(val) => {
+                                                               setJsonPathValue(val)
+                                                               if (val) {
+                                                                   let res = JSONPath({
+                                                                           path: val,
+                                                                           json: JSON.parse(inputValue!)
+                                                                       }
+                                                                   )
+                                                                   setOutputJson(JSON.stringify(res), jsonIndentState)
+                                                               } else {
+                                                                   setInputValue(inputValue)
                                                                }
-                                                           )
-                                                           setOutputJson(JSON.stringify(res), jsonIndentState)
-                                                       } else {
-                                                           setInputValue(inputValue)
-                                                       }
-                                                   }}/>
-                                            <Button icon={<IconHelpCircle/>} onClick={() => {
-                                                setShowJsonPathGuide(true)
-                                            }
-                                            }/>
-                                        </Space>
-                                    </Space>
-                            }
-                        </Content>
-                    </Layout>
-                </Space>
-            </Content>
-        </Layout>
+                                                           }}/>
+                                                    <Button
+                                                        icon={<IconHelpCircle/>}
+                                                        onClick={() => {
+                                                            setShowJsonPathGuide(true)
+                                                        }
+                                                        }/>
+                                                </Space>
+                                            </Row>
+                                        </Row>
+                                }
+                            </Row>
+                        </Col>
+                    </Row>
+                </Row>
+            )}
+
+        </isTauriAppContext.Consumer>
+
+
     );
 };
