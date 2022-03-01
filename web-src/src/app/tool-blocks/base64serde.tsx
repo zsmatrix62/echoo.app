@@ -2,7 +2,7 @@ import * as React from 'react';
 import {useRef, useState} from 'react';
 import {Button, Layout, Radio, RadioGroup, Row, Space, TabPane, Tabs, Toast, Tooltip} from "@douyinfe/semi-ui";
 import "./base64serde.scss"
-import {IconArrowUp, IconCopy, IconDownload, IconFile, IconImage} from "@douyinfe/semi-icons";
+import {IconArrowUp, IconCopy, IconDownload, IconFile} from "@douyinfe/semi-icons";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
 import {useMount} from "react-use";
 import {useSearchParams} from "react-router-dom";
@@ -12,6 +12,7 @@ import {base64decode, base64encode, formatNumber} from "../libs/helpers";
 import {randSentence} from "@ngneat/falso"
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
 import sampleData from "../../assets/base64-img-sample.json"
+import {isTauriAppContext} from '../../App';
 
 export const Base64Serde = () => {
     const [defaultTabIdx, setDefaultTabIdx] = useObservableState<string>(
@@ -35,20 +36,27 @@ export const Base64Serde = () => {
     })
 
     return (
-        <Tabs defaultActiveKey={defaultTabIdx}
-              activeKey={defaultTabIdx}
-              onChange={(key) => {
-                  setDefaultTabIdx(key)
-              }}
-              className='base64serde-tab-container'
-        >
-            <TabPane tab={<span> <IconFile/> String </span>} itemKey="1">
-                <Base64SerdeStringBlockBlock/>
-            </TabPane>
-            <TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">
-                <Base64SerdeImageBlockBlock/>
-            </TabPane>
-        </Tabs>
+
+        <isTauriAppContext.Consumer>
+            {
+                (isTauri) => (
+                    <Tabs defaultActiveKey={defaultTabIdx}
+                          activeKey={defaultTabIdx}
+                          onChange={(key) => {
+                              setDefaultTabIdx(key)
+                          }}
+                          className={`base64serde-tabs ${isTauri ? 'mod-is-tauri' : ''}`}
+                    >
+                        <TabPane tab={<span> <IconFile/> String </span>} itemKey="1">
+                            <Base64SerdeStringBlockBlock/>
+                        </TabPane>
+                        {/*<TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">*/}
+                        {/*    <Base64SerdeImageBlockBlock/>*/}
+                        {/*</TabPane>*/}
+                    </Tabs>
+                )
+            }
+        </isTauriAppContext.Consumer>
     );
 };
 
@@ -89,48 +97,48 @@ export const Base64SerdeStringBlockBlock = () => {
         setInValue(outValue)
     }
 
-        return (
-            <Row>
-                <Row>
-                    <Row type='flex' style={{padding: "10px 0", justifyContent: "space-between", alignItems: "center"}}>
-                        <Space>
-                            <Button onClick={onGenSampleClicked}>Sample</Button>
-                            <Button onClick={onClearClicked}>Clear</Button>
-                        </Space>
-                        <RadioGroup
-                            style={{paddingRight: 5}}
-                            defaultValue={codingType} value={codingType} onChange={(v) => {
-                            setCodingType(v.target.value as number)
-                            if (inValue !== '') {
+    return (
+        <Row className='string-section-container' type={"flex"}>
+            <Row className={'string-section-child'}>
+                <Row type='flex' style={{padding: "10px 0", justifyContent: "space-between", alignItems: "center"}}>
+                    <Space>
+                        <Button onClick={onGenSampleClicked}>Sample</Button>
+                        <Button onClick={onClearClicked}>Clear</Button>
+                    </Space>
+                    <RadioGroup
+                        style={{paddingRight: 5}}
+                        defaultValue={codingType} value={codingType} onChange={(v) => {
+                        setCodingType(v.target.value as number)
+                        if (inValue !== '') {
                                 try {
                                     setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
                                 } catch (e) {
                                     setOutValue("")
                                 } finally {
                                 }
-                            }
-                        }}>
-                            <Radio value={0}>Encode</Radio>
-                            <Radio value={1}>Decode</Radio>
-                        </RadioGroup>
-                    </Row>
-                    <Row style={{}}>
-                        <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
-                            setInputForm(value)
-                        }}/>
-                    </Row>
+                        }
+                    }}>
+                        <Radio value={0}>Encode</Radio>
+                        <Radio value={1}>Decode</Radio>
+                    </RadioGroup>
                 </Row>
-                <Row>
-                    <Row style={{padding: "10px 0"}}>
-                        <Space>
-                            <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
-                            <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
-                                as input</Button>
-                        </Space>
-                    </Row>
-                    <Row style={{}}>
-                        <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
-                    </Row>
+                <Row className={'text-area-container'}>
+                    <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
+                        setInputForm(value)
+                    }}/>
+                </Row>
+            </Row>
+            <Row className={'string-section-child'}>
+                <Row style={{padding: "10px 0"}}>
+                    <Space>
+                        <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
+                        <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
+                            as input</Button>
+                    </Space>
+                </Row>
+                <Row className={'text-area-container'}>
+                    <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
+                </Row>
                 </Row>
             </Row>
         );

@@ -1,34 +1,35 @@
-# Echoo
+# { Echoo.app }
 
 ![](https://img.shields.io/github/release/echoo-app/echoo-app.svg?style=flat-square)
 
 ![](src-tauri/icons/128x128.png)
 
-`Echoo` is another collection of tools for developers providing offline client and web service.
+[Echoo.app](https://echoo.app) is another collection of tools for developers providing offline client and web service.
 
-## Web
+## 🌏 Online Web
 
-`Echoo` provides online version of the same tools **[echoo.app](https://echoo.app)**
+[Echoo.app](https://echoo.app) provides online version of the same tools **[echoo.app](https://echoo.app)**
 
-## Offline Client
+## 💻 Offline Client
 
-Client version of `Echoo` provides full `offline` features, download them from
+Client version of [Echoo.app](https://echoo.app) provides full `offline` features, download them from
 the [release page](https://github.com/echoo-app/echoo-app/releases).
 
 ----
 
+![](docs/img/json-2.png)
 ![](docs/img/json-1.png)
 
 -----
 
-## Features
+## 🎉 Features / Todos
 
 Click link to check screenshots
 
 ### Formatters
 
 - [x] [JSON Formatter Validator](docs/json-formatter.md)
-- [x] Base64/Base64 Image encoder and decoder
+- [x] [Base64 (Image) encoder and decoder](docs/base64-ende.md)
 - [ ] URL encoder and decoder
 - [ ] URL Parser
 - [ ] JWT Debugger
@@ -47,7 +48,7 @@ Click link to check screenshots
 - [ ] Unix Time Converter
 - [ ] JSON <- -> YAML
 
-# Development
+# 🧑‍💻 Development
 
 ## Architecture / Workspace
 
