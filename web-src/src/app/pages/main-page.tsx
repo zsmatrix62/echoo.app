@@ -1,7 +1,7 @@
 import {Layout} from "@douyinfe/semi-ui";
 import Sider from "@douyinfe/semi-ui/lib/es/layout/Sider";
 import {useObservableState} from "observable-hooks";
-import React, {ReactNode, useContext, useEffect, useRef} from "react";
+import React, {ReactNode, useContext, useEffect} from "react";
 import {SharedSubjectContext} from "../context/shared-subjects";
 import {MainFooter} from "../shared/main-footer";
 import {MainNav} from "../shared/main-nav";
@@ -11,7 +11,7 @@ import "./main-page.scss"
 
 
 export const MainPage = () => {
-    const {Header, Footer, Content} = Layout;
+    const {Header, Content} = Layout;
     const sharedSubs = useContext(SharedSubjectContext);
     const [activeToolNode, setActiveToolNode] =
         useObservableState<ReactNode>((obs) => {
@@ -29,9 +29,6 @@ export const MainPage = () => {
         });
     }, [setActiveToolNode, sharedSubs]);
 
-    // listen resize window event and adjust content height
-    const centerContainerRef = useRef<Layout>(null)
-
     return (
         <isTauriAppContext.Consumer>
             {
@@ -41,7 +38,7 @@ export const MainPage = () => {
                         {!isTauriApp && <Header> <MainNav/> </Header>}
                         <Layout className="central-layout">
                             <Sider children={<ToolsSider/>}/>
-                            <Content children={activeToolNode} ref={centerContainerRef}/>
+                            <Content children={activeToolNode}/>
                         </Layout>
                         {!isTauriApp &&
                             <Layout.Footer className='main-footer-container'> <MainFooter/> </Layout.Footer>}

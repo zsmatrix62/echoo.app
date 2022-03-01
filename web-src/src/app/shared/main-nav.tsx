@@ -1,5 +1,5 @@
 import {IconGithubLogo} from "@douyinfe/semi-icons";
-import {Button, Nav, Space, Tooltip, Typography} from "@douyinfe/semi-ui";
+import {Button, Nav, Space, Tooltip} from "@douyinfe/semi-ui";
 import {DownloadOne} from "@icon-park/react";
 import "./main-nav.scss"
 
@@ -22,12 +22,12 @@ export const MainNav = () => {
 
     const navFooter = <Nav.Footer>
         <Space>
-            <Tooltip content={<Typography.Text>Download Offline Client</Typography.Text>}
+            <Tooltip content='Download Offline Client'
                      position='bottomLeft'>
                 <Button size={"large"} onClick={onDownloadClicked}
                         icon={<DownloadOne theme="outline" size="21" fill="var(--semi-color-primary)"/>}/>
             </Tooltip>
-            <Tooltip content={<Typography.Text>Github Repository</Typography.Text>}
+            <Tooltip content='Github Repository'
                      position='bottomLeft'>
                 <Button size={"large"} icon={<IconGithubLogo size={"extra-large"} onClick={onHomePageClicked}
                 />}/>

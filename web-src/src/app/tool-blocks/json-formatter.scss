@@ -15,8 +15,13 @@
     flex-direction: row;
     flex-wrap: wrap;
 
+    .mod-input-block-is-tauri {
+      height: 100vh !important;
+    }
+
     .input-block {
-      height: 100%;
+      height: calc(100vh - 109px);
+
       display: flex;
       flex-direction: column;
       padding-bottom: 10px;
@@ -26,6 +31,7 @@
 
         textarea {
           height: 100%;
+          overflow-y: hidden;
         }
       }
 
