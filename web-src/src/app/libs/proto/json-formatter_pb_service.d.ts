@@ -62,22 +62,22 @@ export class JsonFormatterServiceClient {
 
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   getRandomJson(
-      requestMessage: google_protobuf_empty_pb.Empty,
-      metadata: grpc.Metadata,
-      callback: (error: ServiceError | null, responseMessage: json_formatter_pb.OutGetRandomJson | null) => void
+    requestMessage: google_protobuf_empty_pb.Empty,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: json_formatter_pb.OutGetRandomJson|null) => void
   ): UnaryResponse;
   getRandomJson(
-      requestMessage: google_protobuf_empty_pb.Empty,
-      callback: (error: ServiceError | null, responseMessage: json_formatter_pb.OutGetRandomJson | null) => void
+    requestMessage: google_protobuf_empty_pb.Empty,
+    callback: (error: ServiceError|null, responseMessage: json_formatter_pb.OutGetRandomJson|null) => void
   ): UnaryResponse;
   validateJson(
-      requestMessage: json_formatter_pb.InValidateJson,
-      metadata: grpc.Metadata,
-      callback: (error: ServiceError | null, responseMessage: json_formatter_pb.OutValidateJson | null) => void
+    requestMessage: json_formatter_pb.InValidateJson,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: json_formatter_pb.OutValidateJson|null) => void
   ): UnaryResponse;
   validateJson(
-      requestMessage: json_formatter_pb.InValidateJson,
-      callback: (error: ServiceError | null, responseMessage: json_formatter_pb.OutValidateJson | null) => void
+    requestMessage: json_formatter_pb.InValidateJson,
+    callback: (error: ServiceError|null, responseMessage: json_formatter_pb.OutValidateJson|null) => void
   ): UnaryResponse;
 }
 

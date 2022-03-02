@@ -1,4 +1,14 @@
-.semi-navigation-vertical .semi-navigation-header {
-  padding-top: 20px;
+.semi-navigation-vertical {
+  padding-top: 10px;
   padding-bottom: 0;
+}
+
+.semi-navigation-header {
+  padding: 0 !important;
+}
+
+.semi-navigation-header-list-outer-collapsed {
+  .semi-navigation-list-wrapper {
+    padding-top: 0;
+  }
 }
