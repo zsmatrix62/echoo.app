@@ -60,6 +60,9 @@
       "last 1 safari version"
     ]
   },
+  "bin": {
+    "react-app-rewired": "./node_modules/.bin/react-app-rewired"
+  },
   "devDependencies": {
     "@douyinfe/semi-webpack-plugin": "^2.4.1",
     "@types/google-protobuf": "^3.15.5",
