@@ -1,8 +1,10 @@
 name: "publish"
 on:
+  check_run:
+      types: [rerequested, completed]
   push:
     branches:
-      - release
+      - main
 
 jobs:
   publish-tauri:
