@@ -8,19 +8,17 @@
 
 <div align="center">
 
-[//]: # ([![Download Counts]&#40;https://img.shields.io/github/downloads/naaive/orange/total?style=flat&#41;]&#40;https://github.com/naaive/orange/releases&#41;)
+[![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases)
+[![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
+[![Issues Count](https://img.shields.io/github/issues/zsmatrix62/echoo-app.svg?style=flat)](https://github.com/zsmatrix62/echoo-app/issues)
 
-[//]: # ([![Stars Count]&#40;https://img.shields.io/github/stars/naaive/orange?style=flat&#41;]&#40;https://github.com/naaive/orange/stargazers&#41; [![Forks Count]&#40;https://img.shields.io/github/forks/naaive/orange.svg?style=flat&#41;]&#40;https://github.com/naaive/orange/network/members&#41;)
-
-[//]: # ([![Issues Count]&#40;https://img.shields.io/github/issues/naaive/orange.svg?style=flat&#41;]&#40;https://github.com/naaive/orange/issues&#41;)
-
-[//]: # ([![LICENSE]&#40;https://img.shields.io/badge/license-gpl-green?style=flat&#41;]&#40;https://github.com/naaive/orange/blob/master/LICENSE&#41;)
-
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/github/release/echoo-app/echoo-app.svg?style=flat-square)](https://github.com/zsmatrix62/echoo-app/releases)
 
 [![Windows Support](https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
 [![macOS Support](https://img.shields.io/badge/MACOS-adb8c5?style=flat&logo=macos&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
 [![Linux Support](https://img.shields.io/badge/linux-1793D1?style=flat&logo=linux&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
+
 </div>
 
 ## 🌏 Online Web
@@ -100,3 +98,9 @@ yarn install && cd web-src && yarn build && cd .. && yarn tauri build
 ```
 
 Check bundle file in `target/release` directory
+
+----
+<img src="https://avatars.githubusercontent.com/u/54536011?s=200&v=4" width="40" alt=""/>
+<img src="https://avatars.githubusercontent.com/u/5430905?s=200&v=4" width="40"/>
+<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width="40"/>
+
