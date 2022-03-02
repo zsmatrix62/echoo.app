@@ -3,12 +3,8 @@ import * as React from 'react';
 import {Space, Tooltip, Typography} from "@douyinfe/semi-ui";
 import "./log.scss"
 import logo from "../../icon.png";
-import {useObservableState} from "observable-hooks";
-import {Pref} from "../context/pref";
 
 export const LogoComponent = () => {
-    const darkMode = useObservableState<boolean>(Pref.getInstance().darkModeEnabled.$)
-
     return (
         <Tooltip content={"Utilities for developers"}>
             <a href="/" style={{textDecoration: 'none'}}>

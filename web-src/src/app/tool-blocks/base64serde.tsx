@@ -145,6 +145,7 @@ export const Base64SerdeStringBlockBlock = () => {
     }
 ;
 
+// noinspection JSUnusedGlobalSymbols
 export const Base64SerdeImageBlockBlock = () => {
 
     const createImage = (data: string) => {
@@ -166,7 +167,7 @@ export const Base64SerdeImageBlockBlock = () => {
     }, 0)
 
     const [imgSize, setImageSize] = useState<[number, number]>([0, 0])
-    const [imgTag, setImgTag] = useObservableState<HTMLImageElement | null>(obs => {
+    const [, setImgTag] = useObservableState<HTMLImageElement | null>(obs => {
         // calculate input base64 size
         obs.subscribe(async tag => {
             let blobSize = 0
@@ -213,7 +214,7 @@ export const Base64SerdeImageBlockBlock = () => {
         if (!inData) {
             return ""
         }
-        if (base64SourceType == 0) {
+        if (base64SourceType === 0) {
             return inData
         }
         // source in image tag
