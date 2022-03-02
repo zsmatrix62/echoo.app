@@ -30,7 +30,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y webkit2gtk-4.0
     - name: install app dependencies and build it
-      run: yarn install && cd web-src && yarn build && cd .. && yarn tauri build
+      run: |
+        yarn install && \
+        cd web-src && \
+        node_modules/.bin/react-app-rewired build && \
+        cd .. && yarn tauri build
     - uses: tauri-apps/tauri-action@v0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
