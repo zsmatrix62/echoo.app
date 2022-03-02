@@ -1,6 +1,6 @@
 [package]
 name = "echoo"
-version = "0.1.0"
+version = "0.21.1"
 description = "Tools for developers"
 authors = ["zs.matrix62@gmail.com"]
 license = ""
@@ -8,8 +8,6 @@ repository = ""
 default-run = "echoo"
 edition = "2021"
 rust-version = "1.57"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
 tauri-build = { version = "1.0.0-rc.3", features = [] }

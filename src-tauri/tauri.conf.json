@@ -28,7 +28,7 @@
       ],
       "resources": [],
       "externalBin": [],
-      "copyright": "",
+      "copyright": "AGPLv3",
       "category": "DeveloperTool",
       "shortDescription": "",
       "longDescription": "",
@@ -50,9 +50,6 @@
         "digestAlgorithm": "sha256",
         "timestampUrl": ""
       }
-    },
-    "updater": {
-      "active": false
     },
     "allowlist": {
       "all": true

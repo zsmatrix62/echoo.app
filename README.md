@@ -99,8 +99,6 @@ yarn install && cd web-src && yarn build && cd .. && yarn tauri build
 
 Check bundle file in `target/release` directory
 
-----
-<img src="https://avatars.githubusercontent.com/u/54536011?s=200&v=4" width="40" alt=""/>
-<img src="https://avatars.githubusercontent.com/u/5430905?s=200&v=4" width="40"/>
-<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" width="40"/>
+## LICENSE
 
+[AGPL-3.0](https://github.com/zsmatrix62/echoo-app/blob/main/LICENSE)
