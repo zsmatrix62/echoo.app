@@ -14,6 +14,8 @@ jobs:
         platform: [ macos-latest, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.platform }}
+    env:
+      CI: false
     steps:
       - uses: actions/checkout@v2
       - name: setup node
@@ -28,7 +30,7 @@ jobs:
         if: matrix.platform == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y webkit2gtk-4.0
+          sudo apt-get install -y webkit2gtk-4.0 libappindicator3-dev
       - name: install app dependencies and build it
         run: |
           yarn install && cd web-src && yarn add react-app-rewired &&  yarn build && cd .. && yarn tauri build
@@ -36,8 +38,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-          releaseName: "App v__VERSION__"
+          tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
+          releaseName: "Echoo_v__VERSION__"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: true
           prerelease: false

@@ -13,7 +13,7 @@ impl SystemTrayBuilder {
         let icon_bytes = include_bytes!("../../icons/icon.ico").to_vec();
         let tray_icon = Icon::Raw(icon_bytes);
 
-        Self::build_menu(SystemTray::new().with_icon(tray_icon).with_icon_as_template(true))
+        Self::build_menu(SystemTray::new().with_icon(tray_icon))
     }
 
     fn build_menu(tray: SystemTray) -> SystemTray {
