@@ -1,7 +1,5 @@
 name: "publish"
 on:
-  check_run:
-    types: [ rerequested, completed ]
   push:
     branches:
       - main
