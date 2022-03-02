@@ -16,7 +16,7 @@ tauri-build = { version = "1.0.0-rc.3", features = [] }
 
 [dependencies.tauri]
 version = "1.0.0-rc.3"
-features = ["api-all"]
+features = ["api-all", "system-tray"]
 
 [dependencies.tauri-plugin-window-state]
 git = "https://github.com/tauri-apps/tauri-plugin-window-state"
