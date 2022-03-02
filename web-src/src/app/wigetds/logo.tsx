@@ -1,10 +1,8 @@
 // @flow
 import * as React from 'react';
-import {Space} from "@douyinfe/semi-ui";
+import {Space, Tooltip, Typography} from "@douyinfe/semi-ui";
 import "./log.scss"
-import {Image} from "@douyinfe/semi-ui/lib/es/skeleton/item";
-import logoDark from "../../logo-dark.png"
-import logoLight from "../../logo-light.png"
+import logo from "../../icon.png";
 import {useObservableState} from "observable-hooks";
 import {Pref} from "../context/pref";
 
@@ -12,17 +10,18 @@ export const LogoComponent = () => {
     const darkMode = useObservableState<boolean>(Pref.getInstance().darkModeEnabled.$)
 
     return (
-        <a href="/">
-            <Space spacing={1} align={"center"}>
-                <Image style={{backgroundColor: "transparent"}}>
-                    {
-                        darkMode ?
-                            <img src={logoDark} alt='Making tools for developers'/>
-                            :
-                            <img src={logoLight} alt='Making tools for developers'/>
-                    }
-                </Image>
-            </Space>
-        </a>
+        <Tooltip content={"Utilities for developers"}>
+            <a href="/" style={{textDecoration: 'none'}}>
+                <Space spacing={10} align={"center"}>
+                    <img src={logo} alt='Utilities for developers'/>
+                    <Space spacing={5} align={"baseline"}>
+                        <Space spacing={3} align={"baseline"}>
+                            <Typography.Title heading={2} type={"primary"}>Echoo</Typography.Title>
+                            <Typography.Title heading={6} type={"tertiary"}>.app</Typography.Title>
+                        </Space>
+                    </Space>
+                </Space>
+            </a>
+        </Tooltip>
     );
 };
