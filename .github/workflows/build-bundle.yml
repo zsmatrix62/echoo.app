@@ -33,7 +33,7 @@ jobs:
       run: |
         yarn install && \
         cd web-src && \
-        ./node_modules/.bin/react-app-rewired build && \
+        yarn add react-app-rewired && yarn build && \
         cd .. && yarn tauri build
     - uses: tauri-apps/tauri-action@v0
       env:
