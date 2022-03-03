@@ -5,6 +5,7 @@ use tauri_plugin_window_state::WindowState;
 
 use crate::libs::plugins::api_server::EchooAPIServerPlugin;
 
+mod commands;
 mod libs;
 mod ui;
 
@@ -22,6 +23,10 @@ fn main() {
             });
             Ok(())
         })
+        .invoke_handler(tauri::generate_handler![
+            commands::fs::read_binary_file,
+            commands::fs::write_binary_file
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

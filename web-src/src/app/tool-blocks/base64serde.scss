@@ -1,6 +1,5 @@
 
 #created-img-resized {
-
   width: 100%;
   object-fit: scale-down;
 }
@@ -11,35 +10,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 
-}
-
-.base64serde-tabs {
-  &.mod-is-tauri {
-    height: 100vh !important;
-
-    .string-section-child {
-      height: calc((100vh - 72.5px) / 2) !important;
-
-      textarea {
-        height: calc((100vh - 72.5px - 54px - 53px) / 2) !important;
-      }
-    }
-  }
-
-  height: calc(100vh - 109px);
-  padding: 0 10px;
-
-  .string-section-container {
-    flex-direction: column;
-    flex-basis: 50%;
-
-    .string-section-child {
-      height: calc((100vh - 109px - 72.5px) / 2);
-
-      textarea {
-        height: calc((100vh - 109px - 72.5px - 54px - 53px) / 2);
-      }
-    }
+  img {
+    height: inherit;
   }
 }

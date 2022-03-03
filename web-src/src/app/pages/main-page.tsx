@@ -1,4 +1,4 @@
-import {Layout} from "@douyinfe/semi-ui";
+import {Layout, Notification} from "@douyinfe/semi-ui";
 import Sider from "@douyinfe/semi-ui/lib/es/layout/Sider";
 import {useObservableState} from "observable-hooks";
 import React, {ReactNode, useContext, useEffect} from "react";
@@ -13,6 +13,7 @@ import "./main-page.scss"
 export const MainPage = () => {
     const {Header, Content} = Layout;
     const sharedSubs = useContext(SharedSubjectContext);
+    const isTauri = useContext(isTauriAppContext)
     const [activeToolNode, setActiveToolNode] =
         useObservableState<ReactNode>((obs) => {
             obs.subscribe((node) => {
@@ -28,6 +29,26 @@ export const MainPage = () => {
             setActiveToolNode(node);
         });
     }, [setActiveToolNode, sharedSubs]);
+
+    useEffect(() => {
+        if (isTauri) {
+            // @ts-ignore
+            let tauri = window.__TAURI__
+            tauri.event.listen("be-error", (event: object) => {
+                // @ts-ignore
+                Notification.error({content: event["payload"] as string, position: "topRight", showClose: false})
+            })
+
+            tauri.event.listen("be-success", (event: object) => {
+                Notification.success({
+                    // @ts-ignore
+                    content: event["payload"] as string,
+                    position: "topRight",
+                    showClose: false
+                })
+            })
+        }
+    }, [isTauri])
 
     return (
         <isTauriAppContext.Consumer>

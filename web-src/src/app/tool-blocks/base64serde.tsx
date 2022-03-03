@@ -1,14 +1,15 @@
 import * as React from 'react';
-import {useRef, useState} from 'react';
-import {Button, Layout, Radio, RadioGroup, Row, Space, TabPane, Tabs, Toast, Tooltip} from "@douyinfe/semi-ui";
+import {useContext, useRef, useState} from 'react';
+import {Button, Radio, RadioGroup, Row, Space, TabPane, Tabs, Toast, Tooltip} from "@douyinfe/semi-ui";
 import "./base64serde.scss"
-import {IconArrowUp, IconCopy, IconDownload, IconFile} from "@douyinfe/semi-icons";
+import "../shared/styles/h-layout.scss"
+import {IconArrowUp, IconCopy, IconDownload, IconFile, IconImage} from "@douyinfe/semi-icons";
 import {AutoFitTextAreaWithRef} from "../wigetds/autofit-textarea";
 import {useMount} from "react-use";
 import {useSearchParams} from "react-router-dom";
 import {useObservableState} from "observable-hooks";
 import useClipboard from "use-clipboard-hook";
-import {base64decode, base64encode, formatNumber} from "../libs/helpers";
+import {arrayBufferToBase64, base64decode, base64encode, formatNumber, saveBase64AsFile} from "../libs/helpers";
 import {randSentence} from "@ngneat/falso"
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
 import sampleData from "../../assets/base64-img-sample.json"
@@ -45,14 +46,14 @@ export const Base64Serde = () => {
                           onChange={(key) => {
                               setDefaultTabIdx(key)
                           }}
-                          className={`base64serde-tabs ${isTauri ? 'mod-is-tauri' : ''}`}
+                          className={`h-layout-container ${isTauri ? 'mod-is-tauri' : ''}`}
                     >
                         <TabPane tab={<span> <IconFile/> String </span>} itemKey="1">
                             <Base64SerdeStringBlockBlock/>
                         </TabPane>
-                        {/*<TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">*/}
-                        {/*    <Base64SerdeImageBlockBlock/>*/}
-                        {/*</TabPane>*/}
+                        <TabPane tab={<span> <IconImage/> Image </span>} itemKey="2">
+                            <Base64SerdeImageBlockBlock/>
+                        </TabPane>
                     </Tabs>
                 )
             }
@@ -70,8 +71,10 @@ export const Base64SerdeStringBlockBlock = () => {
         return obs
     }, '')
     const {copy} = useClipboard({
-        onSuccess: _ => {
-            Toast.success(`${codingType === 0 ? 'encoded' : 'decoded'} content copied`,)
+        onSuccess: (_) => {
+            Toast.success({
+                content: `${codingType === 0 ? 'encoded' : 'decoded'} content copied`,
+            },)
         }
     });
 
@@ -98,58 +101,58 @@ export const Base64SerdeStringBlockBlock = () => {
     }
 
     return (
-        <Row className='string-section-container' type={"flex"}>
-            <Row className={'string-section-child'}>
-                <Row type='flex' style={{padding: "10px 0", justifyContent: "space-between", alignItems: "center"}}>
+        <Row className='h-layout-child-container' type={"flex"}>
+            <Row className={'h-layout-child'}>
+                <Row type='flex' className='header' style={{justifyContent: "space-between", alignItems: "center"}}>
                     <Space>
                         <Button onClick={onGenSampleClicked}>Sample</Button>
-                        <Button onClick={onClearClicked}>Clear</Button>
+                        <Button onClick={onClearClicked} disabled={!inValue}>Clear</Button>
                     </Space>
                     <RadioGroup
                         style={{paddingRight: 5}}
                         defaultValue={codingType} value={codingType} onChange={(v) => {
                         setCodingType(v.target.value as number)
                         if (inValue !== '') {
-                                try {
-                                    setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
-                                } catch (e) {
-                                    setOutValue("")
-                                } finally {
-                                }
+                            try {
+                                setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
+                            } catch (e) {
+                                setOutValue("")
+                            } finally {
+                            }
                         }
                     }}>
                         <Radio value={0}>Encode</Radio>
                         <Radio value={1}>Decode</Radio>
                     </RadioGroup>
                 </Row>
-                <Row className={'text-area-container'}>
+                <Row className={'mod-section-content mod-no-footer'}>
                     <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
                         setInputForm(value)
                     }}/>
                 </Row>
             </Row>
-            <Row className={'string-section-child'}>
-                <Row style={{padding: "10px 0"}}>
+            <Row className={'h-layout-child'}>
+                <Row className='header'>
                     <Space>
                         <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
                         <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
                             as input</Button>
                     </Space>
                 </Row>
-                <Row className={'text-area-container'}>
+                <Row className={'mod-section-content mod-no-footer'}>
                     <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
                 </Row>
-                </Row>
             </Row>
+        </Row>
         );
     }
 ;
 
 // noinspection JSUnusedGlobalSymbols
 export const Base64SerdeImageBlockBlock = () => {
-
-    const createImage = (data: string) => {
-        let src = "data:image/jpeg;base64,";
+    const isTauri = useContext(isTauriAppContext)
+    const createImage = (data: string, fileType = "image/jpeg") => {
+        let src = `data:${fileType};base64,`;
         src += data
         let newImage = document.createElement("img");
         newImage.src = src
@@ -160,14 +163,17 @@ export const Base64SerdeImageBlockBlock = () => {
     }
 
     const [base64SourceType, setBase64SourceType] = useObservableState<number>((obs) => {
-        obs.subscribe(_ => {
+        obs.subscribe(t => {
             onInValueChanged("")
         })
         return obs
     }, 0)
 
     const [imgSize, setImageSize] = useState<[number, number]>([0, 0])
-    const [, setImgTag] = useObservableState<HTMLImageElement | null>(obs => {
+    const [_, setImgSrc] = useObservableState<string>(obs => {
+        return obs
+    }, '')
+    const [imgTag, setImgTag] = useObservableState<HTMLImageElement | null>(obs => {
         // calculate input base64 size
         obs.subscribe(async tag => {
             let blobSize = 0
@@ -178,7 +184,9 @@ export const Base64SerdeImageBlockBlock = () => {
                 } catch (e) {
                 }
                 try {
-                    const base64Response = await fetch(src ?? "");
+                    const imgSrc = src ?? ""
+                    setImgSrc(imgSrc)
+                    const base64Response = await fetch(imgSrc);
                     blobSize = (await base64Response.blob()).size
                 } catch (e) {
                     blobSize = 0
@@ -214,23 +222,19 @@ export const Base64SerdeImageBlockBlock = () => {
         if (!inData) {
             return ""
         }
-        if (base64SourceType === 0) {
-            return inData
-        }
+
         // source in image tag
-        if (base64SourceType === 1) {
-            let matches = inData.match(/data:image\/[^;]+;base64[^"]+/igm);
-            if (matches && matches.length > 0) {
-                let fistMatch = matches[0]
-                let base64Data = fistMatch.split("base64,")[1]
-                base64Data = base64Data.slice(0, base64Data.length - 1);
-                return base64Data
-            }
+        let matches = inData.match(/data:image\/[^;]+;base64[^"]+/igm);
+        if (matches && matches.length > 0) {
+            let fistMatch = matches[0]
+            let base64Data = fistMatch.split("base64,")[1]
+            base64Data = base64Data.slice(0, base64Data.length);
+            return base64Data
         }
-        return '';
+        return inData;
     }
 
-    const onInValueChanged = (data: string) => {
+    const onInValueChanged = (data: string, fileType: string = "image/jpeg") => {
         setInValue(data);
 
         // data might be raw base64 string, image html tag, or css url pattern
@@ -253,7 +257,7 @@ export const Base64SerdeImageBlockBlock = () => {
             return
         } else {
             try {
-                originalImageResized = createImage(base64String);
+                originalImageResized = createImage(base64String, fileType);
             } catch (e) {
                 setImageSize([0, 0])
                 return
@@ -282,60 +286,155 @@ export const Base64SerdeImageBlockBlock = () => {
         return `${formatNumber(n)} bytes`;
     }
 
-    return (
-        <div className='section-container mod-section-container-row' style={{flexBasis: 50}}>
-            <Layout className='section mod-50vw' style={{paddingTop: 10, paddingRight: 5}}>
-                <Layout.Header className="section-header">
-                    <Space className="section-header-inner" style={{justifyContent: "space-between"}}>
-                        <Space>
-                            <Button onClick={onGenSampleClicked}>Sample</Button>
-                            <Button onClick={onClearClicked}>Clear</Button>
-                        </Space>
-                        <RadioGroup
-                            style={{paddingRight: 10}}
-                            defaultValue={base64SourceType} value={base64SourceType}
-                            onChange={(evt) => {
-                                setBase64SourceType(evt.target.value as number)
-                            }}>
+    //<editor-fold desc="Read image from fs">
+    const [isLoadingFile, setIsLoadingFile] = useState<boolean>(false)
+    const fileReaderRef = useRef<HTMLInputElement>(null)
+    const fillBase64FormFromFile = (data: Uint8Array, fileType: string = "image/jpeg") => {
+        const base64String = arrayBufferToBase64(data)
 
-                            <Tooltip content={"Raw base64 string"}>
-                                <Radio value={0}>
-                                    Raw String
-                                </Radio>
-                            </Tooltip>
-                            <Tooltip content={"HTML/CSS containing base64 string"}>
-                                <Radio value={1}>HTML / CSS</Radio>
-                            </Tooltip>
-                        </RadioGroup>
+        let img = createImage(base64String, fileType)
+        img.hidden = true
+        img.id = "temp_img"
+        if (base64SourceType === 0) {
+            onInValueChanged(base64String, fileType)
+        }
+        if (base64SourceType === 1) {
+            onInValueChanged(`<img src="${img.src}" alt="">`, fileType)
+        }
+
+        setIsLoadingFile(false)
+        img.parentElement?.removeChild(img)
+    }
+    const handelInputChange = () => {
+        if (fileReaderRef?.current?.files) {
+            const selectedFile = fileReaderRef!.current!.files![0];
+            setIsLoadingFile(true)
+            selectedFile.arrayBuffer().then((data) => {
+                fillBase64FormFromFile(new Uint8Array(data), selectedFile.type)
+            }).finally(
+                () => {
+                    setIsLoadingFile(false)
+                }
+            )
+        }
+    }
+
+    async function onLoadFileClicked() {
+        if (fileReaderRef.current) {
+            setIsLoadingFile(true)
+            if (isTauri) {
+                // @ts-ignore
+                const tauri = window.__TAURI__;
+                let filePath = await tauri.dialog.open();
+                if (filePath) {
+                    let data: Uint8Array = await tauri.invoke("read_binary_file", {"path": filePath});
+                    fillBase64FormFromFile(data)
+                }
+            } else {
+                fileReaderRef.current.click()
+            }
+            setIsLoadingFile(false)
+        }
+    }
+
+    //</editor-fold>
+
+    return (
+        <Row className='h-layout-child-container'>
+            <Row className='h-layout-child'>
+                <Space className='header'>
+                    <Space>
+                        <Button onClick={onGenSampleClicked}>Sample</Button>
+                        <Button onClick={onClearClicked} disabled={!inValue}>Clear</Button>
                     </Space>
-                </Layout.Header>
-                <Layout.Content className="mod-padding-vertical">
+                    <RadioGroup
+                        style={{paddingRight: 10}}
+                        defaultValue={base64SourceType} value={base64SourceType}
+                        onChange={(evt) => {
+                            setBase64SourceType(evt.target.value as number)
+                        }}>
+
+                        <Tooltip content={"Raw base64 string"}>
+                            <Radio value={0}>
+                                Raw String
+                            </Radio>
+                        </Tooltip>
+                        <Tooltip content={"HTML/CSS containing base64 string"}>
+                            <Radio value={1}>HTML / CSS</Radio>
+                        </Tooltip>
+                    </RadioGroup>
+                </Space>
+                <Row className='mod-section-content'>
                     <AutoFitTextAreaWithRef value={inValue} onChange={(val) => {
                         onInValueChanged(val)
                     }}/>
-                </Layout.Content>
-                <Layout.Footer>
+                </Row>
+                <Row className='footer'>
                     <span style={{display: "flex", flexDirection: "row-reverse"}}>
                         <Text><code>{formatBytes(new Blob([inValue]).size)}</code></Text>
                     </span>
-                </Layout.Footer>
-            </Layout>
-            <Layout className='section' style={{paddingTop: 10, paddingLeft: 5,}}>
-                <Layout.Header className='section-header'>
-                    <Space className="section-header-inner" style={{justifyContent: "start"}}>
-                        <Button icon={<IconFile/>} children={"Load File ..."}/>
-                        <Button children={"Clear"}/>
-                        <Button icon={<IconDownload/>} children={"Save"}/>
-                        <Button icon={<IconCopy/>} children={"Copy"}/>
+                </Row>
+            </Row>
+            <Row className='h-layout-child'>
+                <Row className='header'>
+                    <Space>
+                        <input type={"file"} style={{display: "none"}} ref={fileReaderRef}
+                               onChange={handelInputChange}/>
+                        <Button loading={isLoadingFile} icon={<IconFile/>} children={"Load File ..."}
+                                onClick={onLoadFileClicked}/>
+                        <Button onClick={onClearClicked} disabled={!imgTag}>Clear</Button>
+                        <Button icon={<IconDownload/>} children={"Save"} disabled={!imgTag} onClick={async () => {
+                            const base64Raw = base64SourceType === 0 ? inValue : extractBase64(inValue);
+                            if (imgTag) {
+                                let fileExt = ""
+                                fileExt = imgTag.src.split("image/")[1].split(";")[0] ?? ""
+                                if (imgTag.src) {
+                                    if (isTauri) {
+                                        // @ts-ignore
+                                        let tauri = window.__TAURI__;
+                                        tauri.invoke("write_binary_file", {
+                                            "data": base64Raw,
+                                            "fileName": `img.${fileExt}`
+                                        })
+                                            .catch((err: string) => {
+                                                Toast.error(err)
+                                            })
+                                    } else {
+
+                                        saveBase64AsFile(base64Raw, `img.${fileExt}`);
+                                    }
+                                }
+                            }
+                        }}/>
+                        {/*<Button icon={<IconCopy/>} children={"Copy"} onClick={() => {*/}
+                        {/*    if (imgTag) {*/}
+                        {/*        getBlobFromImageElement(imgTag).then(blob => {*/}
+                        {/*            return copyBlobToClipboard(blob)*/}
+                        {/*        }).then(() => {*/}
+                        {/*            Notification.success({*/}
+                        {/*                content: "Image copied successfully",*/}
+                        {/*                position: "bottom",*/}
+                        {/*                showClose: false*/}
+                        {/*            })*/}
+                        {/*        }).catch(e => {*/}
+                        {/*            Notification.error({*/}
+                        {/*                content: `Image copy failed: ${e}`,*/}
+                        {/*                position: "bottom",*/}
+                        {/*                showClose: false*/}
+                        {/*            })*/}
+                        {/*        })*/}
+                        {/*    }*/}
+                        {/*}}/>*/}
                     </Space>
-                </Layout.Header>
-                <Layout.Content className="mod-padding-vertical">
+                </Row>
+                <Row className='mod-section-content'>
                     <div className='img-container' ref={imgContainerRef}/>
-                </Layout.Content>
-                <Layout.Footer style={{display: "flex", flexDirection: "row-reverse"}}>
+                </Row>
+
+                <Row className='footer' style={{display: "flex", flexDirection: "row-reverse"}}>
                     <Text><code>{imgSize.join("x")} | {formatBytes(imgBlobSize)}</code></Text>
-                </Layout.Footer>
-            </Layout>
-        </div>
+                </Row>
+            </Row>
+        </Row>
     );
 };

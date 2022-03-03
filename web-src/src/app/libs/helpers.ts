@@ -40,3 +40,36 @@ export function formatNumber(n: number, fractionDigits: number = 0) {
     }
     return x1 + x2;
 }
+
+export function base64ToArrayBuffer(base64: string) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes;
+}
+
+export function arrayBufferToBase64(dView: Uint8Array) {
+
+    const arr = Array.prototype.slice.call(dView); //Create a normal array
+
+    const arr1 = arr.map(function (item) {
+        return String.fromCharCode(item);    //Convert
+    });
+
+    return window.btoa(arr1.join(''));   //Form a string
+
+}
+
+
+export function saveBase64AsFile(base64: string, fileName: string) {
+    const link = document.createElement("a");
+    document.body.appendChild(link);
+    link.setAttribute("type", "hidden");
+    link.href = "data:text/plain;base64," + base64;
+    link.download = fileName;
+    link.click();
+    document.body.removeChild(link);
+}

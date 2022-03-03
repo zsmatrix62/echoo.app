@@ -9,7 +9,7 @@ fn collect_files(proto_dir: &str) -> Vec<impl AsRef<Path>> {
             let entry = a.unwrap();
             entry.path()
         })
-        .filter(|p| p.is_file())
+        .filter(|p| p.is_file() && p.extension().map_or(false, |ex| ex == "proto"))
         .collect()
 }
 
