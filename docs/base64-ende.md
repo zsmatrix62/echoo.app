@@ -1,7 +1,6 @@
 # Encode / Decode String
-
-![](img/base64-img.png)
+![](img/base64-str.png)
 
 # Encode / Decode Image
 
-## TODO
+![](img/base64-img.png)

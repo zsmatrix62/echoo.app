@@ -32,8 +32,12 @@ the [release page](https://github.com/echoo-app/echoo-app/releases).
 
 ----
 
-![](docs/img/json-2.png)
-![](docs/img/json-1.png)
+## Examples
+
+- JSON Validation
+  ![](docs/img/json-2.png)
+- Base64 Encode/Decode
+  ![](docs/img/base64-img.png)
 
 -----
 
