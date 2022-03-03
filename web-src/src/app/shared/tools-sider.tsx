@@ -25,6 +25,29 @@ export const ToolsSider = () => {
         return i.navItemProps;
     }))
 
+    const [, setToolSearchKeyword] = useObservableState<string>(obs => {
+        obs.subscribe(keyword => {
+            let filteredTools = Object.values(ToolSiderConfigs).filter(i => {
+                return (i.navItemProps.text as string).toUpperCase().trim().includes(keyword.toUpperCase().trim())
+            }).map((i) => {
+                return i.navItemProps;
+            })
+            setTools(filteredTools)
+            let filteredItemKeys = filteredTools.map(i => {
+                return i.itemKey as string
+            });
+            if (filteredItemKeys.length >= 1) {
+                console.debug(`filtered tool item keys: ${filteredItemKeys}`);
+                let firstKey = filteredItemKeys[0]
+                console.debug(`filtered first key: ${firstKey}`)
+                setSelectedItems([firstKey])
+                // send first node to content
+                sharedSubsCtx.activeToolNode$.next(ToolSiderConfigs[firstKey].node);
+            }
+        })
+        return obs
+    }, "")
+
     const darkModEnabled = useObservableState<boolean>(Pref.getInstance().darkModeEnabled.$)
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -70,7 +93,6 @@ export const ToolsSider = () => {
     })
 
     useMount(() => {
-        // const toolItemKey = new URLSearchParams(search).get("tk") // tk: tool-key
         const toolItemKey = searchParams.get("tk")
 
         // init tool node
@@ -83,27 +105,6 @@ export const ToolsSider = () => {
             setSelectedItems([defaultKey])
         }
         sharedSubsCtx.activeToolNode$.next(ToolSiderConfigs[defaultKey].node);
-
-        // search tools, filter nav items and show first tool node
-        sharedSubsCtx.toolsNavSearch$.subscribe(keyword => {
-            let filteredTools = Object.values(ToolSiderConfigs).filter(i => {
-                return (i.navItemProps.text as string).toUpperCase().trim().includes(keyword.toUpperCase().trim())
-            }).map((i) => {
-                return i.navItemProps;
-            })
-            setTools(filteredTools)
-            let filteredItemKeys = filteredTools.map(i => {
-                return i.itemKey as string
-            });
-            if (filteredItemKeys.length >= 1) {
-                console.debug(`filtered tool item keys: ${filteredItemKeys}`);
-                let firstKey = filteredItemKeys[0]
-                console.debug(`filtered first key: ${firstKey}`)
-                setSelectedItems([firstKey])
-                // send first node to content
-                sharedSubsCtx.activeToolNode$.next(ToolSiderConfigs[firstKey].node);
-            }
-        })
     });
 
     //<editor-fold desc="Define hot keys">
@@ -111,7 +112,7 @@ export const ToolsSider = () => {
     const onFocusSearchTools = React.useCallback((ke: (KeyboardEvent | undefined)) => {
         console.debug("hotkey invoked: focus search tools", JSON.stringify(ke))
         setSideBarCollapsed(false)
-        searchToolInputRef.current?.focus()
+        searchToolInputRef.current?.focus();
     }, [setSideBarCollapsed])
     const hotkeyHandlers = {
         SEARCH_TOOLS: onFocusSearchTools
@@ -124,9 +125,10 @@ export const ToolsSider = () => {
     const HeaderNode =
         <Input ref={searchToolInputRef}
                onChange={(value) => {
-                   sharedSubsCtx.toolsNavSearch$.next(value)
+                   setToolSearchKeyword(value)
                }}
                placeholder="Search by ⌘ + ."/>
+
     const FooterNode = <Space vertical={sidebarCollapsed}>
         <Button icon={<IconSidebar/>} onClick={() => {
             if (sidebarCollapsed) {
@@ -158,6 +160,7 @@ export const ToolsSider = () => {
             header={<GlobalHotKeys handlers={hotkeyHandlers}
                                    keyMap={keyMap}>{!sidebarCollapsed ? HeaderNode : null}</GlobalHotKeys>}
             onSelect={onSiderToolSelected}
+            className={'tools-sider'}
         />
     );
 };

@@ -108,7 +108,6 @@ export const JsonFormatterBlock = () => {
             const req = new InValidateJson();
             req.setInput(changedInput!)
             setIsAPILoading(true)
-            inputRef?.current?.setSelectionRange(null, null)
             api.JsonFormatterAPI.validateJson(req, (err, res) => {
                 if (res) {
                     let errors = res.getErrorsList().filter(e => {
@@ -269,7 +268,7 @@ export const JsonFormatterBlock = () => {
                                             fullMode={false} type="danger" bordered icon={null} closeIcon={null}
                                             description={<ErrorDisplay
                                                 onFirstErrorRange={(start, end) => {
-                                                    inputRef?.current?.setSelectionRange(start, end)
+                                                    // inputRef?.current?.setSelectionRange(start, end)
                                                 }
                                                 }
                                                 input={inputValue} errors={validationErrors}/>}
