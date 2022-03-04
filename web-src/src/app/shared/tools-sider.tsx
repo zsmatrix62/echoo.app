@@ -138,7 +138,7 @@ export const ToolsSider = () => {
             }
 
         }}/>
-        <Button icon={darkModEnabled ? <IconMoon/> : <IconSun/>}
+        <Button icon={darkModEnabled ? <IconSun/> : <IconMoon/>}
                 onClick={() => {
                     Pref.getInstance().darkModeEnabled.toggle()
                 }}/>
