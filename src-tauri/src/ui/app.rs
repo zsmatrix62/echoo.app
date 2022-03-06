@@ -1,13 +1,16 @@
 use tauri::{App, AppHandle, GlobalShortcutManager, Manager, RunEvent, Wry};
 
-use crate::ui::actions::action_show_app;
-
-pub fn handle_run_events(_app_handle: &AppHandle<Wry>, e: RunEvent) {
+pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
     match e {
         RunEvent::Exit => {}
         RunEvent::ExitRequested { .. } => {}
-        RunEvent::CloseRequested { .. } => {}
-        RunEvent::WindowClosed(_j) => {}
+        RunEvent::CloseRequested { api, .. } => {
+            api.prevent_close();
+            let _ = app_handle.get_window("main").map(|win| {
+                win.hide();
+            });
+        }
+        RunEvent::WindowClosed(_) => {}
         RunEvent::Ready => {}
         RunEvent::Resumed => {}
         RunEvent::MainEventsCleared => {}

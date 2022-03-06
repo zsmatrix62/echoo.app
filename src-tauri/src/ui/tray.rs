@@ -47,9 +47,7 @@ impl SystemTrayBuilder {
             },
             SystemTrayEvent::LeftClick { .. } => {}
             SystemTrayEvent::RightClick { .. } => {}
-            SystemTrayEvent::DoubleClick { .. } => {
-                action_show_app(app_handler);
-            }
+            SystemTrayEvent::DoubleClick { .. } => {}
             _ => {}
         }
     }
