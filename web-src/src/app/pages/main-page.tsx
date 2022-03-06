@@ -54,8 +54,8 @@ export const MainPage = () => {
         <isTauriAppContext.Consumer>
             {
                 (isTauriApp) => (
-
                     <Layout className="main-layout">
+
                         {!isTauriApp && <Header> <MainNav/> </Header>}
                         <Layout className="central-layout">
                             <Sider children={<ToolsSider/>}/>

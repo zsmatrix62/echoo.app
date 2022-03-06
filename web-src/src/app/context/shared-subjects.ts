@@ -1,5 +1,5 @@
 import {createContext, ReactNode} from "react";
-import {ReplaySubject} from "rxjs";
+import {ReplaySubject, Subject} from "rxjs";
 
 const tauri = require("@tauri-apps/api")
 
@@ -10,8 +10,8 @@ class SharedSubjects {
     // public toolMainContentSizeChanged$ = new ReplaySubject<[number, number]>(1)
     // public toolContentWidthChanged$ = new ReplaySubject<number>(1)
     // public toolContentHeightChanged$ = new ReplaySubject<number>(1)
-    public apiServiceAddr = new ReplaySubject<string>(1)
     public tauri$: ReplaySubject<typeof tauri>
+    public beEvent$: Subject<object> = new Subject<any>()
 
     constructor() {
         this.tauri$ = new ReplaySubject<typeof tauri | undefined>(1)

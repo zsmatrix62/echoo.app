@@ -1,6 +1,6 @@
 import {Button, Input, Nav, Space} from "@douyinfe/semi-ui";
 import {OnSelectedData} from "@douyinfe/semi-ui/lib/es/navigation";
-import React, {useContext, useRef} from "react";
+import React, {useContext, useRef, useState} from "react";
 import ToolSiderConfigs from "../consts/tool-sider-configs";
 import toolSiderConfigs from "../consts/tool-sider-configs";
 import {SharedSubjectContext} from "../context/shared-subjects";
@@ -9,9 +9,10 @@ import {useSearchParams} from 'react-router-dom';
 import "./tools-sider.scss"
 import {useObservableState} from "observable-hooks/dist/esm2015";
 import {GlobalHotKeys} from "react-hotkeys";
-import {IconMoon, IconSidebar, IconSun} from "@douyinfe/semi-icons";
+import {IconSetting, IconSidebar} from "@douyinfe/semi-icons";
 import {findDOMNode} from "react-dom";
 import {Pref} from "../context/pref";
+import {SettingsModal} from "./setting";
 
 export const ToolsSider = () => {
     const sharedSubsCtx = useContext(SharedSubjectContext);
@@ -48,7 +49,6 @@ export const ToolsSider = () => {
         return obs
     }, "")
 
-    const darkModEnabled = useObservableState<boolean>(Pref.getInstance().darkModeEnabled.$)
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [sidebarCollapsed, setSideBarCollapsed] = useObservableState<boolean>(obs => {
@@ -107,6 +107,14 @@ export const ToolsSider = () => {
         sharedSubsCtx.activeToolNode$.next(ToolSiderConfigs[defaultKey].node);
     });
 
+    useMount(() => {
+        sharedSubsCtx.beEvent$.subscribe((evt: any) => {
+            if (evt["event"] === "open-settings") {
+                setShowSettings(true)
+            }
+        })
+    })
+
     //<editor-fold desc="Define hot keys">
     const searchToolInputRef = useRef<HTMLInputElement>(null)
     const onFocusSearchTools = React.useCallback((ke: (KeyboardEvent | undefined)) => {
@@ -129,6 +137,9 @@ export const ToolsSider = () => {
                }}
                placeholder="Search by ⌘ + ."/>
 
+
+    const [showSettings, setShowSettings] = useState(false)
+
     const FooterNode = <Space vertical={sidebarCollapsed}>
         <Button icon={<IconSidebar/>} onClick={() => {
             if (sidebarCollapsed) {
@@ -138,29 +149,32 @@ export const ToolsSider = () => {
             }
 
         }}/>
-        <Button icon={darkModEnabled ? <IconSun/> : <IconMoon/>}
+        <Button icon={<IconSetting/>}
                 onClick={() => {
-                    Pref.getInstance().darkModeEnabled.toggle()
+                    setShowSettings(true)
                 }}/>
     </Space>
 
     return (
-        <Nav
-            ref={navRef}
-            selectedKeys={selectedItems}
-            multiple={false}
-            style={{}}
-            mode="vertical"
-            items={tools}
-            isCollapsed={sidebarCollapsed as boolean}
-            footer={{
-                collapseButton: true,
-                children: FooterNode
-            }}
-            header={<GlobalHotKeys handlers={hotkeyHandlers}
-                                   keyMap={keyMap}>{!sidebarCollapsed ? HeaderNode : null}</GlobalHotKeys>}
-            onSelect={onSiderToolSelected}
-            className={'tools-sider'}
-        />
+        <>
+            <SettingsModal visible={showSettings} onVisibleChange={setShowSettings}/>
+            <Nav
+                ref={navRef}
+                selectedKeys={selectedItems}
+                multiple={false}
+                style={{}}
+                mode="vertical"
+                items={tools}
+                isCollapsed={sidebarCollapsed as boolean}
+                footer={{
+                    collapseButton: true,
+                    children: FooterNode
+                }}
+                header={<GlobalHotKeys handlers={hotkeyHandlers}
+                                       keyMap={keyMap}>{!sidebarCollapsed ? HeaderNode : null}</GlobalHotKeys>}
+                onSelect={onSiderToolSelected}
+                className={'tools-sider'}
+            />
+        </>
     );
 };

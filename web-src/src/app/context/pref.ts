@@ -57,6 +57,8 @@ export class Pref {
     private static instance: Pref
 
     public darkModeEnabled = new StoreItem<boolean>("pref:dark-mode", false)
+    public theme = new StoreItem<string>("pref:theme", "system")
+    public osName = new StoreItem<string>("pref:os", "")
     public toolsSiderCollapsed = new StoreItem<boolean>("pref:sider-collapsed", true)
     public jsonFormatterDefaultIndentSpace = new StoreItem<number>("pref:json-formatter:default-indent-space", 2)
 

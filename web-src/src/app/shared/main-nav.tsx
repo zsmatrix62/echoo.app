@@ -27,10 +27,8 @@ export const MainNav = () => {
                 <Button size={"large"} onClick={onDownloadClicked}
                         icon={<Computer theme="outline" size="21" fill="var(--semi-color-primary)"/>}/>
             </Tooltip>
-            <Tooltip position='bottomLeft'>
-                <Button size={"large"} icon={<IconGithubLogo size={"extra-large"} onClick={onHomePageClicked}
-                />}/>
-            </Tooltip>
+            <Button size={"large"} icon={<IconGithubLogo size={"extra-large"} onClick={onHomePageClicked}
+            />}/>
         </Space>
     </Nav.Footer>
 

@@ -7,6 +7,7 @@ export function GetStorageValue<T>(key: string, defaultValue: T) {
     }
     try {
         const initial = JSON.parse(saved);
+        Object.assign(defaultValue, initial)
         return initial || defaultValue;
     } catch (e) {
         return defaultValue

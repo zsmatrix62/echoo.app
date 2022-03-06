@@ -6,6 +6,8 @@ import {createContext, useContext} from "react";
 import {SharedSubjectContext} from "./app/context/shared-subjects";
 import {useObservableState} from "observable-hooks";
 import {Pref} from "./app/context/pref";
+import {useLocalStore} from "./app/libs/hooks/localstore";
+import {EchooSettings, EchooSettingsDefault} from "./app/shared/setting";
 
 
 export const isTauriAppContext = createContext(false)
@@ -41,22 +43,59 @@ function App() {
         })
     })
 
+    const [settings, setSettings] = useLocalStore<EchooSettings>("settings", EchooSettingsDefault)
+
     // subscribe dark mode
     useMount(() => {
-        Pref.getInstance().darkModeEnabled.subscribe(
+        function enableDark(enable: boolean) {
+            const body = document.body;
+            if (enable) {
+                body.setAttribute('theme-mode', 'dark');
+            } else {
+                if (body.hasAttribute('theme-mode')) {
+                    body.removeAttribute('theme-mode');
+                }
+            }
+            Pref.getInstance().darkModeEnabled.$.next(enable)
+        }
+
+        // @ts-ignore
+        Pref.getInstance().theme.$.next(settings["appearance:theme"] as string)
+        Pref.getInstance().theme.subscribe(
             {
-                next: enabled => {
-                    const body = document.body;
-                    if (enabled) {
-                        body.setAttribute('theme-mode', 'dark');
-                    } else {
-                        if (body.hasAttribute('theme-mode')) {
-                            body.removeAttribute('theme-mode');
-                        }
+                next: theme => {
+                    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+                    switch (theme) {
+                        case "dark":
+                            enableDark(true)
+                            break
+                        case "light":
+                            enableDark(false)
+                            break
+                        default:
+                            enableDark(mql.matches)
+                            mql.addEventListener("change", (e) => {
+                                enableDark(e.matches)
+                            })
                     }
                 }
             }
         )
+    })
+
+    useMount(() => {
+        // @ts-ignore
+        let tauri = window.__TAURI__;
+        if (tauri) {
+            tauri.invoke("get_system", {}).then((os: string) => {
+                Pref.getInstance().osName.value = os
+            });
+            ["open-settings", "open-about", "open-help"].forEach(evt => {
+                tauri.event.listen(evt, (event:object) => {
+                    sharedSubsCtx.beEvent$.next(event)
+                })
+            })
+        }
     })
 
     return <BrowserRouter>

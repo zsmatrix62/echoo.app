@@ -1,18 +1,20 @@
-#![cfg_attr(all(not(debug_assertions), target_os = "windows"), windows_subsystem = "windows")]
-
-use tauri::Manager;
+use tauri::{Manager, WindowEvent};
 use tauri_plugin_window_state::WindowState;
 
 use crate::libs::plugins::api_server::EchooAPIServerPlugin;
+use crate::ui::app::{handle_run_events, register_shortcut};
+use crate::ui::menu::main_menu_builder;
+use crate::ui::tray::SystemTrayBuilder;
 
 mod commands;
+mod events;
 mod libs;
 mod ui;
 
 fn main() {
     let builder = tauri::Builder::default();
-    builder
-        .menu(ui::menu::main_menu_builder())
+    let app = builder
+        .menu(main_menu_builder())
         .plugin(WindowState::default())
         .plugin(EchooAPIServerPlugin::default())
         .setup(|app| {
@@ -23,10 +25,16 @@ fn main() {
             });
             Ok(())
         })
+        .system_tray(SystemTrayBuilder::build())
+        .on_system_tray_event(SystemTrayBuilder::handle_tray_event)
         .invoke_handler(tauri::generate_handler![
             commands::fs::read_binary_file,
-            commands::fs::write_binary_file
+            commands::fs::write_binary_file,
+            commands::os::get_system
         ])
-        .run(tauri::generate_context!())
+        .build(tauri::generate_context!())
         .expect("error while running tauri application");
+
+    register_shortcut(&app);
+    app.run(handle_run_events);
 }
