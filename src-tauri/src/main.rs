@@ -1,4 +1,4 @@
-use tauri::{Manager, WindowEvent};
+use tauri::Manager;
 use tauri_plugin_window_state::WindowState;
 
 use crate::libs::plugins::api_server::EchooAPIServerPlugin;

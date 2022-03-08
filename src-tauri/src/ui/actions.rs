@@ -1,5 +1,5 @@
 use serde::Serialize;
-use tauri::{AppHandle, Manager, Window, Wry};
+use tauri::{AppHandle, Manager, Wry};
 
 fn emit_to_main<S>(app_handler: &AppHandle<Wry>, event: &str, payload: S)
 where
@@ -30,9 +30,9 @@ pub fn action_open_help(a: &AppHandle<Wry>) {
 
 pub fn action_show_app(a: &AppHandle<Wry>) {
     let _ = a.get_window("main").map(|win| {
-        win.unminimize();
-        win.show();
-        win.set_focus();
+        let _ = win.unminimize();
+        let _ = win.show();
+        let _ = win.set_focus();
     });
 }
 

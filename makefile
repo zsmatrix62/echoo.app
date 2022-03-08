@@ -15,3 +15,6 @@ build-api-image: c
 
 c:
 	cargo clippy --fix --allow-dirty --allow-staged
+
+client:
+	cd ../deployment && make build-tauri-client

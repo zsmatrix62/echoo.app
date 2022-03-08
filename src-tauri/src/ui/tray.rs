@@ -1,6 +1,6 @@
 use tauri::{AppHandle, SystemTray, SystemTrayEvent, Wry};
 use tauri::{CustomMenuItem, Icon};
-use tauri::{MenuItem, SystemTrayMenu, SystemTrayMenuItem};
+use tauri::{SystemTrayMenu, SystemTrayMenuItem};
 
 use crate::ui::actions::{action_open_about, action_open_help, action_open_settings, action_quit_app, action_show_app};
 
@@ -25,7 +25,7 @@ impl SystemTrayBuilder {
             if id.as_str() == "-" {
                 menu = menu.add_native_item(SystemTrayMenuItem::Separator);
             } else {
-                let mut item = CustomMenuItem::new(id, tray_menu_name);
+                let item = CustomMenuItem::new(id, tray_menu_name);
                 // if tray_menu_name == "Open" {
                 //     item = item.accelerator("Ctrl+Alt+Cmd+E");
                 // }

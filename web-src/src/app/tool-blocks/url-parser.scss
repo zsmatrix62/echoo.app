@@ -1,0 +1,50 @@
+@import "../shared/styles/h-layout";
+
+.parser-block-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+
+  .url-input-container {
+    width: inherit;
+
+    .url-input-element {
+      margin-top: 10px;
+      height: 100px;
+      width: inherit;
+    }
+  }
+
+  .output-container {
+    height: calc(var(--h-layout-content-height));
+    margin-top: 10px;
+
+    .segments {
+      height: 100%;
+      overflow: scroll;
+      border: var(--semi-color-border-1) 1px solid;
+      border-radius: var(--semi-border-radius-small);
+
+      .des {
+        padding: 5px;
+      }
+
+      .query {
+        overflow-wrap: anywhere;
+      }
+    }
+
+    .query-json {
+      .cm-theme-light, .cm-theme-dark, .cm-editor {
+        margin-top: 10px;
+      }
+
+      .cm-theme-light, .cm-theme-dark, .cm-editor {
+        height: calc(var(--h-layout-content-height) - 32px - 10px);
+        width: 100%;
+      }
+    }
+  }
+}

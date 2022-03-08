@@ -90,8 +90,11 @@ function App() {
             tauri.invoke("get_system", {}).then((os: string) => {
                 Pref.getInstance().osName.value = os
             });
+            tauri.path.appDir().then((s: any) => {
+                console.log(s)
+            });
             ["open-settings", "open-about", "open-help"].forEach(evt => {
-                tauri.event.listen(evt, (event:object) => {
+                tauri.event.listen(evt, (event: object) => {
                     sharedSubsCtx.beEvent$.next(event)
                 })
             })

@@ -7,7 +7,7 @@ pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
         RunEvent::CloseRequested { api, .. } => {
             api.prevent_close();
             let _ = app_handle.get_window("main").map(|win| {
-                win.hide();
+                let _ = win.hide();
             });
         }
         RunEvent::WindowClosed(_) => {}
@@ -20,7 +20,7 @@ pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
 
 pub fn register_shortcut(app: &App<Wry>) {
     let mut mgr = app.global_shortcut_manager();
-    let a = app.handle().clone();
+    let a = app.handle();
     let _ = mgr.register("Cmd+q", move || {
         let window = a.get_window("main");
         let a = a.clone();

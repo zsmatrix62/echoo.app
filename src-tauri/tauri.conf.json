@@ -1,12 +1,12 @@
 {
   "package": {
     "productName": "Echoo",
-    "version": "0.23.1"
+    "version": "0.24.0"
   },
   "build": {
     "distDir": "../web-src/build",
     "devPath": "http://localhost:3001",
-    "beforeDevCommand": "cd web-src && yarn start",
+    "beforeDevCommand": "",
     "beforeBuildCommand": "cd web-src && yarn build",
     "withGlobalTauri": true
   },
@@ -63,6 +63,8 @@
     "windows": [
       {
         "title": "Echoo",
+        "width": 1440,
+        "height": 900,
         "minWidth": 800,
         "minHeight": 600,
         "maxHeight": 900,
