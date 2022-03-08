@@ -61,9 +61,7 @@ export const UrlParser = () => {
     );
 };
 
-
-type UrlParserProps = {};
-export const UrlParserBlock = (props: UrlParserProps) => {
+export const UrlParserBlock = () => {
     const SAMPLE_URL = "https://www.google.com:443/search?sxsrf=ALeKk03TpCS68ykjCqWWm7_5xDzmkdCBsw%3A1591797655810&ei=l-fgXsOCMcyl-Qaq8p6AAw&q=sample+long+query+string+url&oq=sample+long+query+string+url&gs_lcp=CgZwc3ktYWIQAzoECAAQRzoCCAA6BggAEBYQHjoICCEQFhAdEB46BAgjECc6BwgAEBQQhwI6BwgjELACECc6BAgAEA06CAgAEAgQDRAeOgoIABAIEA0QChAeUIcLWP4vYIAyaAFwAXgAgAF-iAHQC5IBAzkuNpgBAKABAaoBB2d3cy13aXo&sclient=psy-ab&ved=0ahUKEwiDqtCutPfpAhXMUt4KHSq5BzAQ4dUDCAw&uact=5&bb[]=1&bb[]=ab&&bb[]=x#some-hash"
 
     const [editorTheme, setEditorTheme] = useObservableState<string | undefined>((obs) => {
@@ -81,7 +79,7 @@ export const UrlParserBlock = (props: UrlParserProps) => {
     const {copy} = useClipboard({
         onSuccess: (_) => {
             Toast.success({
-                content: `query contentj copied`,
+                content: `query content copied`,
             },)
         }
     });
