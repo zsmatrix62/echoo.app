@@ -151,13 +151,16 @@ export const JsonFormatterBlock = () => {
         // setInputValue(`[{"category":"porro","sold":true,"author":"Mr. Clotilde Rohan","title":"eos magni sint corporis itaque eos.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"eddie_inventore@yahoo.com"},{"category":"voluptas","sold":false,"author":"Miss Jaleel Green","title":"suscipit labore ea ducimus harum.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"dariana_tenetur@gmail.com"},{"category":"est","sold":false,"author":"Miss Zane Hintz","title":"quia sit et velit pariatur et repudiandae.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"kiera_ea@yahoo.com"},{"category":"dolor","sold":false,"author":"Mr. Domenico Hayes","title":"modi voluptas enim aut sunt voluptatibus velit non.","price":7.0,"isbn":"504fa9b5-0499-43a6-97c3-61ab5293db58","email":"autumn_quis@yahoo.com"}]`)
     })
 
-    const setOutputJson = (val?: string, indent?: number) => {
+    const setOutputJson = (val?: string, indent?: number | string) => {
         let outObj = {}
         let content = ''
         try {
             if (val) {
                 outObj = JSON.parse(val)
-                content = JSON.stringify(outObj, null, indent)
+                if (indent === 91) {
+                    indent = "\t"
+                }
+                content = JSON.stringify(outObj, null, indent);
             }
         } catch (e) {
 
@@ -225,7 +228,7 @@ export const JsonFormatterBlock = () => {
                     </SideSheet>
 
                     <Row className='json-formatter-container-child' gutter={10}>
-                        <Col span={12} className={`input-block ${isTauri ? 'mod-input-block-is-tauri' : ''}`}>
+                        <Col span={9} className={`input-block ${isTauri ? 'mod-input-block-is-tauri' : ''}`}>
                             <Row style={{padding: "10px 0"}}>
                                 <Space> <Button onClick={setRandomJson}>Sample</Button> <Button
                                     onClick={onClearClicked}>Clear</Button> </Space>
@@ -241,7 +244,7 @@ export const JsonFormatterBlock = () => {
                                 />
                             </Row>
                         </Col>
-                        <Col span={12} className={`input-block ${isTauri ? 'mod-input-block-is-tauri' : ''}`}>
+                        <Col span={15} className={`input-block ${isTauri ? 'mod-input-block-is-tauri' : ''}`}>
                             <Row style={{padding: "10px 0", flexDirection: "row-reverse"}} type={"flex"}>
                                 <Space>
                                     <Button disabled={!outputValue}
@@ -254,6 +257,7 @@ export const JsonFormatterBlock = () => {
                                         onChange={onIndentSelectionChanged}>
                                         <Select.Option value={2}>2 spaces</Select.Option>
                                         <Select.Option value={4}>4 spaces</Select.Option>
+                                        <Select.Option value={91}>1 tab</Select.Option>
                                         <Select.Option value={0}>minified</Select.Option>
                                     </Select>
                                     <Button disabled={!outputValue}
