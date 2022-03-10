@@ -13,8 +13,8 @@ rust-version = "1.57"
 tauri-build = { version = "1.0.0-rc.3", features = [] }
 
 [dependencies.tauri]
-version = "1.0.0-rc.3"
-features = ["api-all", "system-tray"]
+version = "1.0.0-rc.4"
+features = ["api-all", "system-tray", "icon-ico", "icon-png"]
 
 [dependencies.tauri-plugin-window-state]
 git = "https://github.com/tauri-apps/tauri-plugin-window-state"
