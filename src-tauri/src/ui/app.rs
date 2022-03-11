@@ -19,22 +19,22 @@ pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
 }
 
 pub fn register_shortcut(app: &App<Wry>) {
-    let mut mgr = app.global_shortcut_manager();
-    let a = app.handle();
-    let _ = mgr.register("Cmd+q", move || {
-        let window = a.get_window("main");
-        let a = a.clone();
-        tauri::api::dialog::ask(
-            window.as_ref(),
-            "",
-            "Are you sure that you want to quit echoo?",
-            move |answer| {
-                if answer {
-                    std::thread::spawn(move || {
-                        a.exit(0);
-                    });
-                }
-            },
-        );
-    });
+    // let mut mgr = app.global_shortcut_manager();
+    // let a = app.handle();
+    // let _ = mgr.register("Cmd+q", move || {
+    //     let window = a.get_window("main");
+    //     let a = a.clone();
+    //     tauri::api::dialog::ask(
+    //         window.as_ref(),
+    //         "",
+    //         "Are you sure that you want to quit echoo?",
+    //         move |answer| {
+    //             if answer {
+    //                 std::thread::spawn(move || {
+    //                     a.exit(0);
+    //                 });
+    //             }
+    //         },
+    //     );
+    // });
 }
