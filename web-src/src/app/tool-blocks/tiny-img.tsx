@@ -40,10 +40,10 @@ type resRowRecord = {
 
 export const TinyImg = () => {
     const isTauri = useContext(isTauriAppContext);
-    const maxFileBytesLimitClient = 1024 * 1024 * 5
+    const maxFileBytesLimitClient = 1024 * 1024 * 50
     const maxFileBytesLimitWeb = 1024 * 1024 * 2
     const maxFileBytesLimit = !isTauri ? maxFileBytesLimitWeb : maxFileBytesLimitClient
-    const maxFileCountLimitClient = 10
+    const maxFileCountLimitClient = 100
     const maxFileCountLimitWeb = 2
     const maxFileCountLimit = !isTauri ? maxFileCountLimitWeb : maxFileCountLimitClient
 
@@ -267,14 +267,25 @@ export const TinyImg = () => {
 
 
     const onFileChanged = (files: Array<File>) => {
-        if (files.length > maxFileCountLimit) {
+        const stop = () => {
             if (isTauri) {
-                console.log("showing hints")
                 setShowHint(true)
             } else {
                 setShowSuggest(true)
             }
             return
+        }
+
+        // validate file count
+        if (files.length > maxFileCountLimit) {
+            return stop()
+        }
+
+        // validate file size
+        for (let file of files) {
+            if (file.size > maxFileBytesLimit) {
+                return stop()
+            }
         }
 
         setTableRows(files.map(file => {
