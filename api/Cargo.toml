@@ -28,6 +28,10 @@ rand = "0.8"
 
 jsonprima = "0.3.0" # json lint
 
+[dependencies.pio]
+git = "https://github.com/siiptuo/pio.git"
+branch = "master"
+
 [dependencies.http]
 version = "0.2"
 

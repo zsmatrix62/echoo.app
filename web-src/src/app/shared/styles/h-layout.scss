@@ -4,10 +4,12 @@
   --var-h-layout-tabs-top-height: 54px;
 
   --h-layout-content-height: calc((100vh - var(--var-h-layout-tabs-top-height) - var(--var-h-layout-echoo-header-footer-height) - var(--var-h-layout-adjust-height)));
+  --h-layout-content-height-no-tabs: calc((100vh - var(--var-h-layout-adjust-height) + 103px));
   --h-layout-content-height-half: calc(var(--h-layout-content-height) / 2);
 
   .mod-is-tauri {
     --var-h-layout-echoo-header-footer-height: 0;
+    --h-layout-content-height-no-tabs: calc((100vh - 1px));
     --h-layout-content-height: calc((100vh - var(--var-h-layout-tabs-top-height) - var(--var-h-layout-adjust-height)));
     --h-layout-content-height-half: calc(var(--h-layout-content-height) / 2);
   }

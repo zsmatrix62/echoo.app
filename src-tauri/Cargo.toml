@@ -1,6 +1,6 @@
 [package]
 name = "echoo"
-version = "0.24.0"
+version = "0.25.0"
 description = "Tools for developers"
 authors = ["zs.matrix62@gmail.com"]
 license = ""
@@ -14,7 +14,7 @@ tauri-build = { version = "1.0.0-rc.3", features = [] }
 
 [dependencies.tauri]
 version = "1.0.0-rc.4"
-features = ["api-all", "system-tray", "icon-ico", "icon-png"]
+features = ["api-all", "icon-ico", "icon-png", "system-tray"]
 
 [dependencies.tauri-plugin-window-state]
 git = "https://github.com/tauri-apps/tauri-plugin-window-state"
@@ -25,6 +25,7 @@ echoo_app_api = { path = "../api" }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 base64 = "0.13.0"
+md5 = "0.7.0"
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL

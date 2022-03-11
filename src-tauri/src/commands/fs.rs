@@ -4,8 +4,13 @@ use std::io::Write;
 use tauri::command;
 
 #[command]
-pub async fn read_binary_file(path: String) -> Option<Vec<u8>> {
-    tauri::api::file::read_binary(path).ok()
+pub async fn read_binary_file(path: String) -> Option<(String, Vec<u8>)> {
+    if let Ok(array) = tauri::api::file::read_binary(path) {
+        let digest = md5::compute(array.clone());
+        Some((format!("{:x}", digest), array))
+    } else {
+        None
+    }
 }
 
 #[command]
