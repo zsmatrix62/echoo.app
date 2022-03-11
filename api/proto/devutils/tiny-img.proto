@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package devutils.tiny_img;
+
+service TinyImageService{
+  rpc CompressImage(InCompressImage) returns (OutCompressImage);
+}
+
+message InCompressImage{
+  bytes data = 1;
+  string ext = 2;
+  uint32 quality = 3;
+}
+message OutCompressImage{
+  bytes data = 1;
+  string ext = 2;
+  uint64 size = 3;
+}

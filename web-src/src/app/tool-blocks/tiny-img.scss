@@ -1,0 +1,39 @@
+@import "../shared/styles/h-layout";
+
+.tiny-img-container {
+  height: var(--h-layout-content-height-no-tabs);
+
+  .drag-container {
+    height: calc((var(--h-layout-content-height-no-tabs) - 40px) / 3 * 1);
+    margin: 20px 0;
+    width: 100%;
+
+    .upload {
+      height: 100%;
+      width: 100%;
+    }
+
+    .semi-upload-file-list {
+      display: none;
+    }
+  }
+
+
+  .result-container {
+    height: calc((var(--h-layout-content-height-no-tabs) - 40px) / 3 * 2);
+    overflow: scroll;
+  }
+
+  //.semi-table-row-cell {
+  //  & * {
+  //    width: 100%;
+  //  }
+  //}
+}
+
+.count-indicator {
+  font-weight: bold;
+  padding: 5px 10px;
+  border: var(--semi-color-secondary-light-default) 1px solid;
+  border-radius: var(--semi-border-radius-small);
+}

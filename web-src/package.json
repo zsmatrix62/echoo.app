@@ -1,6 +1,6 @@
 {
   "name": "echoo-app-fe",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "dependencies": {
     "@codemirror/lang-json": "^0.19.2",

@@ -1,6 +1,6 @@
 {
   "name": "devutils-rs",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-rc.1",

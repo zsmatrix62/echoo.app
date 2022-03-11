@@ -327,8 +327,10 @@ export const Base64SerdeImageBlockBlock = () => {
                 const tauri = window.__TAURI__;
                 let filePath = await tauri.dialog.open();
                 if (filePath) {
-                    let data: Uint8Array = await tauri.invoke("read_binary_file", {"path": filePath});
-                    fillBase64FormFromFile(data)
+                    tauri.invoke("read_binary_file", {"path": filePath}).then((invokeRes: [string, Uint8Array]) => {
+                        let data = invokeRes[1]
+                        fillBase64FormFromFile(data)
+                    });
                 }
             } else {
                 fileReaderRef.current.click()
@@ -406,25 +408,6 @@ export const Base64SerdeImageBlockBlock = () => {
                                 }
                             }
                         }}/>
-                        {/*<Button icon={<IconCopy/>} children={"Copy"} onClick={() => {*/}
-                        {/*    if (imgTag) {*/}
-                        {/*        getBlobFromImageElement(imgTag).then(blob => {*/}
-                        {/*            return copyBlobToClipboard(blob)*/}
-                        {/*        }).then(() => {*/}
-                        {/*            Notification.success({*/}
-                        {/*                content: "Image copied successfully",*/}
-                        {/*                position: "bottom",*/}
-                        {/*                showClose: false*/}
-                        {/*            })*/}
-                        {/*        }).catch(e => {*/}
-                        {/*            Notification.error({*/}
-                        {/*                content: `Image copy failed: ${e}`,*/}
-                        {/*                position: "bottom",*/}
-                        {/*                showClose: false*/}
-                        {/*            })*/}
-                        {/*        })*/}
-                        {/*    }*/}
-                        {/*}}/>*/}
                     </Space>
                 </Row>
                 <Row className='mod-section-content'>
