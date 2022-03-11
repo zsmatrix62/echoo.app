@@ -43,7 +43,7 @@ export const TinyImg = () => {
     const maxFileBytesLimitClient = 1024 * 1024 * 5
     const maxFileBytesLimitWeb = 1024 * 1024 * 2
     const maxFileBytesLimit = !isTauri ? maxFileBytesLimitWeb : maxFileBytesLimitClient
-    const maxFileCountLimitClient = 1
+    const maxFileCountLimitClient = 10
     const maxFileCountLimitWeb = 2
     const maxFileCountLimit = !isTauri ? maxFileCountLimitWeb : maxFileCountLimitClient
 
