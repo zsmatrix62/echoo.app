@@ -4,21 +4,8 @@
 import * as jspb from "google-protobuf";
 
 export class InCompressImage extends jspb.Message {
-  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
-  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
-
-  static toObject(includeInstance: boolean, msg: InCompressImage): InCompressImage.AsObject;
-
-  static serializeBinaryToWriter(message: InCompressImage, writer: jspb.BinaryWriter): void;
-
-  static deserializeBinary(bytes: Uint8Array): InCompressImage;
-
-  static deserializeBinaryFromReader(message: InCompressImage, reader: jspb.BinaryReader): InCompressImage;
-
   getData(): Uint8Array | string;
-
   getData_asU8(): Uint8Array;
-
   getData_asB64(): string;
 
   setData(value: Uint8Array | string): void;
@@ -34,6 +21,17 @@ export class InCompressImage extends jspb.Message {
   serializeBinary(): Uint8Array;
 
   toObject(includeInstance?: boolean): InCompressImage.AsObject;
+
+  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
+
+  static toObject(includeInstance: boolean, msg: InCompressImage): InCompressImage.AsObject;
+
+  static serializeBinaryToWriter(message: InCompressImage, writer: jspb.BinaryWriter): void;
+
+  static deserializeBinary(bytes: Uint8Array): InCompressImage;
+
+  static deserializeBinaryFromReader(message: InCompressImage, reader: jspb.BinaryReader): InCompressImage;
 }
 
 export namespace InCompressImage {
@@ -45,21 +43,8 @@ export namespace InCompressImage {
 }
 
 export class OutCompressImage extends jspb.Message {
-  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
-  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
-
-  static toObject(includeInstance: boolean, msg: OutCompressImage): OutCompressImage.AsObject;
-
-  static serializeBinaryToWriter(message: OutCompressImage, writer: jspb.BinaryWriter): void;
-
-  static deserializeBinary(bytes: Uint8Array): OutCompressImage;
-
-  static deserializeBinaryFromReader(message: OutCompressImage, reader: jspb.BinaryReader): OutCompressImage;
-
   getData(): Uint8Array | string;
-
   getData_asU8(): Uint8Array;
-
   getData_asB64(): string;
 
   setData(value: Uint8Array | string): void;
@@ -75,6 +60,17 @@ export class OutCompressImage extends jspb.Message {
   serializeBinary(): Uint8Array;
 
   toObject(includeInstance?: boolean): OutCompressImage.AsObject;
+
+  static extensions: { [key: number]: jspb.ExtensionFieldInfo<jspb.Message> };
+  static extensionsBinary: { [key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message> };
+
+  static toObject(includeInstance: boolean, msg: OutCompressImage): OutCompressImage.AsObject;
+
+  static serializeBinaryToWriter(message: OutCompressImage, writer: jspb.BinaryWriter): void;
+
+  static deserializeBinary(bytes: Uint8Array): OutCompressImage;
+
+  static deserializeBinaryFromReader(message: OutCompressImage, reader: jspb.BinaryReader): OutCompressImage;
 }
 
 export namespace OutCompressImage {
