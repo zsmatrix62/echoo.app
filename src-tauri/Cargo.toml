@@ -1,6 +1,6 @@
 [package]
 name = "echoo"
-version = "0.25.0"
+version = "0.25.1"
 description = "Tools for developers"
 authors = ["zs.matrix62@gmail.com"]
 license = ""

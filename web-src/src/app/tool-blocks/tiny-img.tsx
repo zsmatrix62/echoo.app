@@ -1,17 +1,32 @@
-import {Button, Col, Modal, Row, Space, Table, TextArea, Toast, Tooltip, Typography, Upload} from '@douyinfe/semi-ui';
+import {
+    Banner,
+    Button,
+    Col,
+    Modal,
+    Row,
+    Space,
+    Table,
+    TextArea,
+    Toast,
+    Tooltip,
+    Typography,
+    Upload
+} from '@douyinfe/semi-ui';
 import * as React from 'react';
-import {useContext, useRef, useState} from 'react';
+import {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {isTauriAppContext} from "../../App";
 import "./tiny-img.scss";
 import {ColumnProps} from "@douyinfe/semi-ui/lib/es/table";
-import {customRequestArgs} from "@douyinfe/semi-ui/lib/es/upload/interface";
 import {APIServiceContext} from "../context/api";
 import {Subject} from "rxjs";
 import {useMount} from "react-use";
 import {InCompressImage} from "../libs/proto/tiny-img_pb";
-import {Clear} from "@icon-park/react";
+import {Clear, Close, Correct} from "@icon-park/react";
 import {IconCode, IconCopy, IconDownload} from "@douyinfe/semi-icons";
 import useClipboard from "use-clipboard-hook";
+import {DialogSuggestClient} from "../shared/dialog-suggest-client";
+import Text from "@douyinfe/semi-ui/lib/es/typography/text";
+import {useObservableState} from "observable-hooks";
 
 type resRowRecord = {
     key: string,
@@ -25,13 +40,19 @@ type resRowRecord = {
 
 export const TinyImg = () => {
     const isTauri = useContext(isTauriAppContext);
-    const maxFileBytesLimit = !isTauri ? 1024 : 1024 * 5
-    const maxFileCountLimit = !isTauri ? 2 : 10
+    const maxFileBytesLimitClient = 1024 * 1024 * 5
+    const maxFileBytesLimitWeb = 1024 * 1024 * 2
+    const maxFileBytesLimit = !isTauri ? maxFileBytesLimitWeb : maxFileBytesLimitClient
+    const maxFileCountLimitClient = 1
+    const maxFileCountLimitWeb = 2
+    const maxFileCountLimit = !isTauri ? maxFileCountLimitWeb : maxFileCountLimitClient
 
     const api = useContext(APIServiceContext)
 
     const getButtonDownloadType = (s: number) => {
         switch (s) {
+            case -1:
+                return "primary"
             case 1:
                 return "primary"
             case 2:
@@ -54,7 +75,7 @@ export const TinyImg = () => {
             case 3:
                 return "Downloaded"
             default:
-                return ""
+                return "Ready"
         }
     }
 
@@ -130,7 +151,7 @@ export const TinyImg = () => {
                             }
                         }>
                         {
-                            item.status > 0 ?
+                            item.status !== 0 ?
                                 getButtonText(item.status) :
                                 null
                         }
@@ -161,9 +182,12 @@ export const TinyImg = () => {
     }
 
     // type fileCallback = { key: string, buffer: Array<ArrayBuffer> }
-    const fileCallback$ = new Subject<resRowRecord>()
-    useMount(() => {
+    const fileCallback$ = useMemo(() => {
+        return new Subject<resRowRecord>()
+    }, [])
+    useEffect(() => {
         fileCallback$.subscribe(fcb => {
+            // console.log(`received api row: ${JSON.stringify(fcb)}`)
             setTableRows((preRows) => {
                 return [...preRows.map((row,) => {
                     if (row.key === fcb.key) {
@@ -171,9 +195,9 @@ export const TinyImg = () => {
                     }
                     return row;
                 })]
-            })
+            });
         })
-    })
+    }, [fileCallback$])
 
 
     const callCompressAPI = (row: resRowRecord, fileExt: string, buffer: ArrayBuffer) => {
@@ -183,18 +207,27 @@ export const TinyImg = () => {
         rqst.setExt(fileExt)
         rqst.setQuality(50)
 
-        api.TinyImageClient.compressImage(rqst, (error, responseMessage) => {
-            if (error) {
+        let apiCallRqst = api.TinyImageClient.compressImage(rqst, (error, responseMessage) => {
+            const returnErr = () => {
                 row.status = 2
                 fileCallback$.next(row)
                 return
             }
-            row.download = new Blob([responseMessage?.getData_asU8() ?? new Uint8Array()])
+            if (error) {
+                return returnErr()
+            }
+            if (!responseMessage) {
+                return returnErr()
+            }
+            row.download = new Blob([responseMessage?.getData_asU8() ?? new Uint8Array()]);
             row.downloadBase64 = responseMessage?.getData_asB64() ?? ""
             row.status = 1
             row.compressedSize = row.download.size
             fileCallback$.next(row)
         })
+        window.addEventListener('beforeunload', function (event) {
+            apiCallRqst.cancel()
+        });
 
     }
 
@@ -209,35 +242,60 @@ export const TinyImg = () => {
         };
 
         row.status = 0
-        fileCallback$.next(row)
 
         return row
     }
 
     // status should be one of: 'success' | 'uploadFail' | 'validateFail' | 'validating' | 'uploading' | 'wait'
-    const customUpload = (obj: customRequestArgs) => {
-        const fileExt = obj.fileInstance.type.split("/")[1]
-        obj.fileInstance.arrayBuffer().then(buffer => {
-            newFileResRecord(obj.file.uid, obj.file.name,
-                obj.fileInstance.size,
-                fileExt,
-                buffer
-            ).then(row => {
-                setTableRows((preRows) => {
-                    return [row, ...preRows,]
-                });
-                return [row, fileExt, buffer]
-            }).then(async ([row, ext, buf]) => {
-                callCompressAPI(row as resRowRecord, ext as string, buf as ArrayBuffer)
+    const customUpload = (files: Array<File>) => {
+        files.forEach(file => {
+            const fileExt = file.type.split("/")[1]
+            file.arrayBuffer().then(buffer => {
+                newFileResRecord(file.name, file.name,
+                    file.size,
+                    fileExt,
+                    buffer
+                ).then(row => {
+                    return [row, fileExt, buffer]
+                }).then(async ([row, ext, buf]) => {
+                    callCompressAPI(row as resRowRecord, ext as string, buf as ArrayBuffer)
+                    fileCallback$.next(row as resRowRecord)
+                })
             })
         })
     }
 
+
+    const onFileChanged = (files: Array<File>) => {
+        if (files.length > maxFileCountLimit) {
+            if (isTauri) {
+                console.log("showing hints")
+                setShowHint(true)
+            } else {
+                setShowSuggest(true)
+            }
+            return
+        }
+
+        setTableRows(files.map(file => {
+            return {
+                fileName: file.name,
+                status: 0,
+                key: file.name,
+                origSize: file.size,
+                compressedSize: 0
+            }
+        }))
+
+        customUpload(files)
+    }
+
     const [base64Encoded, setBase64Encoded] = useState<string>("")
     const fileReaderRef = useRef<Upload>(null)
+    const [showSuggest, setShowSuggest] = useObservableState<boolean>(obs => obs, false)
+    const [showHint, setShowHint] = useState<boolean>(false)
 
-
-    // handle upload frame click in tauri
+    // handle upload frame clicking in tauri
     useMount(() => {
         if (isTauri) {
             let uploadNodes = document.getElementsByClassName("semi-upload")
@@ -290,6 +348,7 @@ export const TinyImg = () => {
                                     return [row, fileExt, data]
                                 }).then(async ([row, ext, buf]) => {
                                     callCompressAPI(row as resRowRecord, ext as string, buf as ArrayBuffer)
+                                    fileCallback$.next(row as resRowRecord)
                                 })
                             })
                         });
@@ -299,32 +358,58 @@ export const TinyImg = () => {
         }
     },)
 
+    const hintNode = <Typography.Text type={"primary"}>Up to {maxFileCountLimit} images,
+        max {formatSize(maxFileBytesLimit)} each.</Typography.Text>
 
+    const getUploadNodeClass = () => {
+        let cls = isTauri ? `drag-container mod-is-tauri` : `drag-container`;
+        if (tableRows.length == 0) {
+            cls += ` mod-only-upload`
+        }
+
+        return cls;
+    }
+
+    // noinspection RequiredAttributes
     const mainContent = <>
         <Row style={{width: "100%"}}>
             <Space vertical align={"end"}
-                   className={isTauri ? `drag-container mod-is-tauri` : `drag-container`}>
+                   className={getUploadNodeClass()}>
                 <Upload
                     ref={fileReaderRef}
                     className="upload"
                     draggable={true}
                     multiple={true}
+                    uploadTrigger={"custom"}
                     accept={'.jpg,.jpeg,.png,.webp'}
-                    maxSize={maxFileBytesLimit}
                     dragMainText={<Typography.Text type={'primary'}>Drop your WebP, PNG or JPEG files
                         here!</Typography.Text>}
-                    limit={maxFileCountLimit}
-                    dragSubText={<Typography.Text type={"primary"}>Up to {maxFileCountLimit} images,
-                        max {maxFileBytesLimit / 1024}MB each.</Typography.Text>}
-                    customRequest={customUpload}
+                    dragSubText={hintNode}
+                    onFileChange={onFileChanged}
                     action=""
                 ></Upload>
 
                 <Row type={"flex"} justify={"space-between"} style={{width: "100%"}}>
+
                     <Space>
                         <Button icon={<Clear/>} disabled={tableRows.length === 0} onClick={() => {
                             setTableRows([])
                         }}>Clear</Button>
+                        <Modal
+                            visible={showHint}
+                            closeOnEsc={true}
+                            maskClosable={true}
+                            hasCancel={false}
+                            keepDOM={true}
+                            onCancel={() => {
+                                setShowHint(false)
+                            }
+                            }
+                            onOk={() => {
+                                setShowHint(false)
+                            }}>
+                            <b>Limited</b>: {hintNode}
+                        </Modal>
                     </Space>
 
                     {/*<Space style={{visibility: tableRows.length ? "visible" : "hidden"}}>*/}
@@ -345,15 +430,62 @@ export const TinyImg = () => {
                 </Row>
             </Space>
         </Row>
-        <Row className={isTauri ? `result-container mod-is-tauri` : `result-container`}>
-            <Table columns={resColumns} showHeader={false} pagination={false}
-                   dataSource={tableRows}/>
-        </Row>
+        {
+            tableRows.length > 0 ? <Row className={isTauri ? `result-container mod-is-tauri` : `result-container`}>
+                <Table columns={resColumns} showHeader={false} pagination={false}
+                       dataSource={tableRows}/>
+            </Row> : null
+        }
     </>
+
+    const suggestClientNode = <Banner closeIcon={null} fullMode={false} type={"warning"} icon={null}
+                                      style={{marginTop: 10, marginBottom: 10}}>
+        <Space vertical>
+            <div>
+                <Space spacing={30}>
+                    <Close
+                        style={{
+                            fontSize: 24,
+                            color: "var(--semi-color-danger)"
+                        }}></Close>
+                    <p>
+                        Web version supports up to:
+                        <b style={{color: "red"}}> {maxFileCountLimitWeb}</b> images
+                        and
+                        max <b
+                        style={{color: "red"}}>{formatSize(maxFileBytesLimitWeb)}</b> each.
+                    </p>
+                </Space>
+            </div>
+            <div>
+                <Space spacing={30}>
+                    <Correct
+                        style={{fontSize: 24, color: "var(--semi-color-success)"}}/>
+                    <p>
+                        <Text type={'success'} style={{
+                            width: 300,
+                        }}>
+
+                            Offline client supports up to <b
+                            style={{color: "green"}}>
+                            <u>{maxFileCountLimitClient}</u></b> images and
+                            max <b><u>{formatSize(maxFileBytesLimitClient)}</u></b> each.
+                        </Text>
+                    </p>
+                </Space>
+            </div>
+        </Space>
+    </Banner>
 
     // noinspection RequiredAttributes
     return (
         <>
+            <DialogSuggestClient visible={showSuggest}
+                                 onClosed={() => {
+                                     setShowSuggest(false)
+                                 }}
+                                 desNode={suggestClientNode}/>
+
             <Modal visible={!!base64Encoded} closeOnEsc={true}
                    maskClosable={true}
                    header={null}
@@ -386,7 +518,7 @@ export const TinyImg = () => {
                 {
                     isTauri ?
                         <Col span={22} push={1} style={{height: "inherit"}}> {mainContent} </Col> :
-                        <Col span={12} push={6} style={{height: "inherit", maxWidth: "50vw"}}>
+                        <Col span={16} offset={4} style={{height: "inherit", maxWidth: "60vw"}}>
                             {mainContent}
                         </Col>
                 }
