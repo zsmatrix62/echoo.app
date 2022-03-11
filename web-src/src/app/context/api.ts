@@ -2,9 +2,9 @@ import {JsonFormatterServiceClient} from "../libs/proto/json-formatter_pb_servic
 import {createContext} from "react";
 import {TinyImageServiceClient} from "../libs/proto/tiny-img_pb_service";
 
-// export const API_URL = "https://api.echoo.app"
-
-export const API_URL = "http://127.0.0.1:8080"
+export const API_URL = "https://api.echoo.app"
+//
+// export const API_URL = "http://127.0.0.1:8080"
 
 export class APIService {
     public JsonFormatterAPI: JsonFormatterServiceClient
