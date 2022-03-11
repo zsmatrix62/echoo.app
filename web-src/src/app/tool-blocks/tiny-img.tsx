@@ -127,7 +127,6 @@ export const TinyImg = () => {
                         loading={item.status === 0}
                         onClick={
                             async () => {
-
                                 if (isTauri) {
                                     // @ts-ignore
                                     let tauri = window.__TAURI__;
@@ -140,13 +139,20 @@ export const TinyImg = () => {
                                         })
                                 } else {
                                     const blobUrl = URL.createObjectURL(item.download!);
-                                    const link = document.createElement("a");
+
+                                    const link = document.createElement('a');
                                     link.href = blobUrl;
-                                    link.id = `download_compressed_${item.key}`
-                                    link.download = item.fileName;
+                                    link.setAttribute(
+                                        'download',
+                                        item.fileName,
+                                    );
+                                    // Append to html link element page
                                     document.body.appendChild(link);
+                                    // Start download
+                                    link.click();
+                                    // Clean up and remove the link
                                     // @ts-ignore
-                                    document.querySelector(`#download_compressed_${item.key}`)?.click()
+                                    link.parentNode.removeChild(link);
                                 }
                             }
                         }>
