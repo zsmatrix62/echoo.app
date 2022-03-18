@@ -3,8 +3,7 @@
   "version": "0.26.0",
   "private": true,
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.1",
-    "@types/google-protobuf": "^3.15.5"
+    "@tauri-apps/api": "^1.0.0-rc.1"
   },
   "scripts": {
     "tauri": "tauri",
