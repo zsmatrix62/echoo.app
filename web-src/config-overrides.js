@@ -7,7 +7,6 @@ module.exports = function override(config, _) {
             theme: "@semi-bot/semi-theme-universedesign",
         })
     );
-    // config.resolve.fallback = {"url": false}
 
     //region WASM Support
     const wasmExtensionRegExp = /\.wasm$/;
