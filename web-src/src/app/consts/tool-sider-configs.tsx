@@ -1,11 +1,10 @@
 import {NavItemProps} from "@douyinfe/semi-ui/lib/es/navigation";
-import {CodeBrackets, ImageFiles, LinkOne, PayCode} from "@icon-park/react";
+import {CodeBrackets, LinkOne, PayCode} from "@icon-park/react";
 import {ReactNode} from "react";
 import {JsonFormatterBlock} from "../tool-blocks/json-formatter";
 import {Icon} from "@douyinfe/semi-ui";
 import {Base64Serde} from "../tool-blocks/base64serde";
 import {UrlParser} from "../tool-blocks/url-parser";
-import {TinyImg} from "../tool-blocks/tiny-img";
 
 type ToolSiderItem = {
     navItemProps: NavItemProps;
@@ -37,15 +36,6 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
         },
         node: <UrlParser/>
     },
-    "tiny-img": {
-        navItemProps: {
-            itemKey: "tiny-img",
-            text: "Tiny Image",
-            icon: <Icon svg={<ImageFiles theme="outline"/>}/>
-        },
-        node: <TinyImg/>
-    },
-
 };
 
 export default ToolSiderConfigs;

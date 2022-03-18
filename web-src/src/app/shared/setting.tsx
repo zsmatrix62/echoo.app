@@ -1,11 +1,10 @@
 import * as React from 'react';
-import {useContext, useEffect, useRef} from 'react';
-import {Button, Col, Form, Modal, Row, Space, Tooltip, Typography} from "@douyinfe/semi-ui";
+import {useEffect, useRef} from 'react';
+import {Button, Col, Form, Modal, Row, Space, Typography} from "@douyinfe/semi-ui";
 import Section from "@douyinfe/semi-ui/lib/es/form/section";
-import {IMac, Magic, Setting, UpdateRotation} from "@icon-park/react";
+import {IMac, Magic, Setting} from "@icon-park/react";
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
-import {IconMoon, IconSun, IconSync} from "@douyinfe/semi-icons";
-import {isTauriAppContext} from "../../App";
+import {IconMoon, IconSun} from "@douyinfe/semi-icons";
 import {useLocalStore} from "../libs/hooks/localstore";
 import {useObservableState} from "observable-hooks";
 import {Pref} from "../context/pref";
@@ -24,7 +23,6 @@ export const EchooSettingsDefault: EchooSettings = {
 
 type settingsModelProps = { visible: boolean, onVisibleChange: (v: boolean) => void }
 export const SettingsModal = ({visible, onVisibleChange}: settingsModelProps) => {
-    const isTauri = useContext(isTauriAppContext)
     const [settings, setSettings] = useLocalStore("settings", EchooSettingsDefault)
     const [shown, setShown] = useObservableState<boolean>(obs => {
         obs.subscribe(shown => {

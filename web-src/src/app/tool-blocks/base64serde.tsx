@@ -16,6 +16,7 @@ import sampleData from "../../assets/base64-img-sample.json"
 import {isTauriAppContext} from '../../App';
 
 export const Base64Serde = () => {
+    // noinspection DuplicatedCode
     const [defaultTabIdx, setDefaultTabIdx] = useObservableState<string>(
         obs => {
             obs.subscribe(idx => {
@@ -62,88 +63,88 @@ export const Base64Serde = () => {
 };
 
 export const Base64SerdeStringBlockBlock = () => {
-    const [codingType, setCodingType] = useState<number>(0)
-    const [inValue, setInValue] = useObservableState<String>(obs => {
+        const [codingType, setCodingType] = useState<number>(0)
+        const [inValue, setInValue] = useObservableState<String>(obs => {
+                return obs
+            }, ''
+        )
+        const [outValue, setOutValue] = useObservableState<String>(obs => {
             return obs
-        }, ''
-    )
-    const [outValue, setOutValue] = useObservableState<String>(obs => {
-        return obs
-    }, '')
-    const {copy} = useClipboard({
-        onSuccess: (_) => {
-            Toast.success({
-                content: `${codingType === 0 ? 'encoded' : 'decoded'} content copied`,
-            },)
+        }, '')
+        const {copy} = useClipboard({
+            onSuccess: (_) => {
+                Toast.success({
+                    content: `${codingType === 0 ? 'encoded' : 'decoded'} content copied`,
+                },)
+            }
+        });
+
+        const setInputForm = (value: string) => {
+            setInValue(value)
+            setOutValue(codingType === 0 ? base64encode(value) : base64decode(value))
         }
-    });
 
-    const setInputForm = (value: string) => {
-        setInValue(value)
-        setOutValue(codingType === 0 ? base64encode(value) : base64decode(value))
-    }
+        const onGenSampleClicked = () => {
+            setInputForm(randSentence({length: 1})[0])
+        }
 
-    const onGenSampleClicked = () => {
-        setInputForm(randSentence({length: 1})[0])
-    }
+        const onClearClicked = () => {
+            setInputForm("")
+        }
 
-    const onClearClicked = () => {
-        setInputForm("")
-    }
+        const onCopy = () => {
+            copy(outValue.valueOf())
+        }
 
-    const onCopy = () => {
-        copy(outValue.valueOf())
-    }
+        const onUseAsInputClicked = () => {
+            setOutValue("");
+            setInValue(outValue)
+        }
 
-    const onUseAsInputClicked = () => {
-        setOutValue("");
-        setInValue(outValue)
-    }
-
-    return (
-        <Row className='h-layout-child-container' type={"flex"}>
-            <Row className={'h-layout-child'}>
-                <Row type='flex' className='header' style={{justifyContent: "space-between", alignItems: "center"}}>
-                    <Space>
-                        <Button onClick={onGenSampleClicked}>Sample</Button>
-                        <Button onClick={onClearClicked} disabled={!inValue}>Clear</Button>
-                    </Space>
-                    <RadioGroup
-                        style={{paddingRight: 5}}
-                        defaultValue={codingType} value={codingType} onChange={(v) => {
-                        setCodingType(v.target.value as number)
-                        if (inValue !== '') {
-                            try {
-                                setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
-                            } catch (e) {
-                                setOutValue("")
-                            } finally {
+        return (
+            <Row className='h-layout-child-container' type={"flex"}>
+                <Row className={'h-layout-child'}>
+                    <Row type='flex' className='header' style={{justifyContent: "space-between", alignItems: "center"}}>
+                        <Space>
+                            <Button onClick={onGenSampleClicked}>Sample</Button>
+                            <Button onClick={onClearClicked} disabled={!inValue}>Clear</Button>
+                        </Space>
+                        <RadioGroup
+                            style={{paddingRight: 5}}
+                            defaultValue={codingType} value={codingType} onChange={(v) => {
+                            setCodingType(v.target.value as number)
+                            if (inValue !== '') {
+                                try {
+                                    setOutValue(codingType === 1 ? base64encode(inValue.valueOf()) : base64decode(inValue.valueOf()))
+                                } catch (e) {
+                                    setOutValue("")
+                                } finally {
+                                }
                             }
-                        }
-                    }}>
-                        <Radio value={0}>Encode</Radio>
-                        <Radio value={1}>Decode</Radio>
-                    </RadioGroup>
+                        }}>
+                            <Radio value={0}>Encode</Radio>
+                            <Radio value={1}>Decode</Radio>
+                        </RadioGroup>
+                    </Row>
+                    <Row className={'mod-section-content mod-no-footer'}>
+                        <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
+                            setInputForm(value)
+                        }}/>
+                    </Row>
                 </Row>
-                <Row className={'mod-section-content mod-no-footer'}>
-                    <AutoFitTextAreaWithRef value={inValue.valueOf()} onChange={(value) => {
-                        setInputForm(value)
-                    }}/>
+                <Row className={'h-layout-child'}>
+                    <Row className='header'>
+                        <Space>
+                            <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
+                            <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
+                                as input</Button>
+                        </Space>
+                    </Row>
+                    <Row className={'mod-section-content mod-no-footer'}>
+                        <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
+                    </Row>
                 </Row>
             </Row>
-            <Row className={'h-layout-child'}>
-                <Row className='header'>
-                    <Space>
-                        <Button onClick={onCopy} disabled={outValue === ''} icon={<IconCopy/>}>Copy</Button>
-                        <Button onClick={onUseAsInputClicked} disabled={outValue === ''} icon={<IconArrowUp/>}>Use
-                            as input</Button>
-                    </Space>
-                </Row>
-                <Row className={'mod-section-content mod-no-footer'}>
-                    <AutoFitTextAreaWithRef value={outValue.valueOf()}/>
-                </Row>
-            </Row>
-        </Row>
         );
     }
 ;
@@ -163,14 +164,14 @@ export const Base64SerdeImageBlockBlock = () => {
     }
 
     const [base64SourceType, setBase64SourceType] = useObservableState<number>((obs) => {
-        obs.subscribe(t => {
+        obs.subscribe(_ => {
             onInValueChanged("")
         })
         return obs
     }, 0)
 
     const [imgSize, setImageSize] = useState<[number, number]>([0, 0])
-    const [_, setImgSrc] = useObservableState<string>(obs => {
+    const [, setImgSrc] = useObservableState<string>(obs => {
         return obs
     }, '')
     const [imgTag, setImgTag] = useObservableState<HTMLImageElement | null>(obs => {
@@ -388,7 +389,7 @@ export const Base64SerdeImageBlockBlock = () => {
                         <Button icon={<IconDownload/>} children={"Save"} disabled={!imgTag} onClick={async () => {
                             const base64Raw = base64SourceType === 0 ? inValue : extractBase64(inValue);
                             if (imgTag) {
-                                let fileExt = ""
+                                let fileExt: string
                                 fileExt = imgTag.src.split("image/")[1].split(";")[0] ?? ""
                                 if (imgTag.src) {
                                     if (isTauri) {

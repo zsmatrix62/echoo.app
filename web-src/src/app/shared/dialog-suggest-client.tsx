@@ -33,9 +33,6 @@ type Props = {
     data?: { icon: JSX.Element, title: string, content: string }[]
 };
 export const DialogSuggestClient = (props: Props) => {
-    useEffect(() => {
-        setShow(props.visible)
-    }, [props])
 
     const [show, setShow] = useObservableState<boolean>(obs => {
         obs.subscribe(s => {
@@ -45,6 +42,11 @@ export const DialogSuggestClient = (props: Props) => {
         })
         return obs
     }, false)
+
+    useEffect(() => {
+        setShow(props.visible)
+    }, [props, setShow])
+
 
     const handleOk = () => {
         window.open(RELEASE_DOWNLOAD_PAGE, "blank",)

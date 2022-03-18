@@ -70,9 +70,9 @@ Click link to check screenshots
 
 ## Architecture / Workspace
 
-### /api
+### /wasm-api
 
-gRPC API for both client and [https://echoo.app](https://echoo.app)
+WASM for both client and [https://echoo.app](https://echoo.app)
 
 ### /src-tauri
 

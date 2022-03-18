@@ -1,4 +1,4 @@
-use tauri::{App, AppHandle, GlobalShortcutManager, Manager, RunEvent, Wry};
+use tauri::{App, AppHandle, Manager, RunEvent, Wry};
 
 pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
     match e {
@@ -18,7 +18,7 @@ pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
     }
 }
 
-pub fn register_shortcut(app: &App<Wry>) {
+pub fn register_shortcut(_app: &App<Wry>) {
     // let mut mgr = app.global_shortcut_manager();
     // let a = app.handle();
     // let _ = mgr.register("Cmd+q", move || {

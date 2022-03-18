@@ -43,7 +43,7 @@ function App() {
         })
     })
 
-    const [settings, setSettings] = useLocalStore<EchooSettings>("settings", EchooSettingsDefault)
+    const [settings,] = useLocalStore<EchooSettings>("settings", EchooSettingsDefault)
 
     // subscribe dark mode
     useMount(() => {

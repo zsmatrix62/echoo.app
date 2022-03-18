@@ -1,7 +1,5 @@
 use tauri::Manager;
-use tauri_plugin_window_state::WindowState;
 
-use crate::libs::plugins::api_server::EchooAPIServerPlugin;
 use crate::ui::app::{handle_run_events, register_shortcut};
 use crate::ui::menu::main_menu_builder;
 use crate::ui::tray::SystemTrayBuilder;
@@ -15,8 +13,6 @@ fn main() {
     let builder = tauri::Builder::default();
     let app = builder
         .menu(main_menu_builder())
-        .plugin(WindowState::default())
-        .plugin(EchooAPIServerPlugin::default())
         .setup(|app| {
             app.get_window("main").and_then(|win| {
                 let pkg_info = app.package_info();

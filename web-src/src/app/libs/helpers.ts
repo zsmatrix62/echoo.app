@@ -74,6 +74,6 @@ export function saveBase64AsFile(base64: string, fileName: string) {
     document.body.removeChild(link);
 }
 
-export function getOS(){
+export function getOS() {
     return window.navigator.appName
 }
