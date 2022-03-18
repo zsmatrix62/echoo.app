@@ -23,21 +23,14 @@
 
 ## 🌏 Online Web
 
-[Echoo.app](https://echoo.app) provides online version of the same tools **[echoo.app](https://echoo.app)**
+[This website](https://zsmatrix62.github.io/echoo-app/) provides online version of the same
+tools **[echoo](https://zsmatrix62.github.io/echoo-app/)**
 
-## 💻 Offline Client / Download
+## 💻 Offline Client
 
-Client version of [Echoo.app](https://echoo.app) provides full `offline` features, download them from
+Client provides full `offline` features without any remote API calls, download them from
 the [release page](https://github.com/echoo-app/echoo-app/releases).
 
-----
-
-## Examples
-
-- JSON Validation
-  ![](docs/img/json-2.png)
-- Base64 Encode/Decode
-  ![](docs/img/base64-img.png)
 
 -----
 
@@ -72,7 +65,7 @@ Click link to check screenshots
 
 ### /wasm-api
 
-WASM for both client and [https://echoo.app](https://echoo.app)
+WASM for both client and [web site](https://zsmatrix62.github.io/echoo-app/)
 
 ### /src-tauri
 
@@ -105,3 +98,15 @@ Check bundle file in `target/release` directory
 ## LICENSE
 
 [AGPL-3.0](https://github.com/zsmatrix62/echoo-app/blob/main/LICENSE)
+
+
+----
+
+## Examples
+
+- JSON Validation
+  ![](docs/img/json-2.png)
+- Base64 Encode/Decode
+  ![](docs/img/base64-img.png)
+- Url Parser
+  ![](docs/img/url-parser.png)
