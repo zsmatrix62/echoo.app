@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="ex-node" pattern="!file[echoo-app]:*/node_modules/*&amp;&amp;!file[echoo-app]:.github//*&amp;&amp;!file[echoo-app]:.idea//*&amp;&amp;!file[echoo-app]:src-tauri/icons//*&amp;&amp;!file[echoo-app]:web-src/src/assets//*&amp;&amp;!file[echoo-app]:web-src/build//*&amp;&amp;!file[echoo-app]:web-src/public//*" />
+</component>

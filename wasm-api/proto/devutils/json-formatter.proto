@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package devutils.json_formatter;
+
+import "google/protobuf/empty.proto";
+
+service JsonFormatterService{
+  rpc GetRandomJson(google.protobuf.Empty) returns (OutGetRandomJson);
+  rpc ValidateJson(InValidateJson) returns (OutValidateJson);
+}
+
+message OutGetRandomJson{
+  string inputSample = 1;
+}
+
+message InValidateJson{
+  string input = 1;
+}
+
+message OutValidateJson{
+  message ValidationError{
+    string code = 1;
+    string description = 2;
+    uint64 indexStart = 3;
+    uint64 indexEnd = 4;
+  }
+  repeated ValidationError errors = 1;
+}
+
+

@@ -1,0 +1,47 @@
+:root {
+  --var-h-layout-echoo-header-footer-height: 109px;
+  --var-h-layout-adjust-height: calc(72.5px + 103px);
+  --var-h-layout-tabs-top-height: 54px;
+
+  --h-layout-content-height: calc((100vh - var(--var-h-layout-tabs-top-height) - var(--var-h-layout-echoo-header-footer-height) - var(--var-h-layout-adjust-height)));
+  --h-layout-content-height-no-tabs: calc((100vh - var(--var-h-layout-adjust-height) + 103px));
+  --h-layout-content-height-half: calc(var(--h-layout-content-height) / 2);
+
+  .mod-is-tauri {
+    --var-h-layout-echoo-header-footer-height: 0;
+    --h-layout-content-height-no-tabs: calc((100vh - 1px));
+    --h-layout-content-height: calc((100vh - var(--var-h-layout-tabs-top-height) - var(--var-h-layout-adjust-height)));
+    --h-layout-content-height-half: calc(var(--h-layout-content-height) / 2);
+  }
+}
+
+.h-layout-container {
+  height: calc(100vh - var(--var-h-layout-echoo-header-footer-height));
+  padding: 0 10px;
+
+  .h-layout-child-container {
+    flex-direction: column;
+    flex-basis: 50%;
+
+    .h-layout-child {
+      .header {
+        margin: 10px 0
+      }
+
+      .footer {
+        margin: 10px 0 0 0;
+        height: 20px;
+      }
+
+      .mod-section-content {
+        display: flex;
+        flex-direction: column;
+        height: var(--h-layout-content-height-half);
+
+        &.mod-no-footer {
+          height: calc(var(--h-layout-content-height-half) + 25px) !important;
+        }
+      }
+    }
+  }
+}

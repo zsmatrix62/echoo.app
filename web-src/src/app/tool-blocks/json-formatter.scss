@@ -1,0 +1,60 @@
+
+.validation-error {
+  width: 96%;
+}
+
+
+.json-formatter-container {
+  height: 100%;
+  padding: 0 10px;
+  min-height: 0;
+
+  .json-formatter-container-child {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .mod-input-block-is-tauri {
+      height: 100vh !important;
+    }
+
+    .input-block {
+      height: calc(100vh - 109px);
+
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 10px;
+
+      .text-area {
+        height: 100%;
+
+        textarea {
+          height: 100%;
+          overflow-y: hidden;
+        }
+      }
+
+      .cm-block {
+        .mod-cm-in-tauri {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            height: calc(100vh - 124px);
+          }
+        }
+        .mod-cm-in-browser {
+          .cm-theme-light, .cm-theme-dark, .cm-editor {
+            height: calc(100vh - 124px - 100px);
+          }
+        }
+        .cm-block-group {
+          width: 100%;
+          height: 100%;
+          flex-direction: column;
+          flex-grow: 1;
+          justify-content: space-between;
+          padding-top: 10px;
+        }
+      }
+    }
+  }
+}

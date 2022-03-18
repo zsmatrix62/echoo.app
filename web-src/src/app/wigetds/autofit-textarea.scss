@@ -1,0 +1,39 @@
+.text-area {
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+
+  textarea {
+    height: inherit;
+    width: inherit;
+  }
+}
+
+.mod-error {
+  textarea {
+    &::-moz-selection {
+      background-color: var(--semi-color-primary);
+      color: var(--semi-color-default);
+    }
+
+    &::selection {
+      background-color: var(--semi-color-danger);
+      color: var(--semi-color-default);
+    }
+  }
+}
+
+
+.mod-normal {
+  textarea {
+    &::-moz-selection {
+      background-color: var(--semi-color-primary);
+      color: var(--semi-color-default);
+    }
+
+    &::selection {
+      background-color: var(--semi-color-primary);
+      color: var(--semi-color-default);
+    }
+  }
+}
