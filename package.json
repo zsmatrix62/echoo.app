@@ -1,0 +1,33 @@
+{
+  "name": "devutils-rs",
+  "version": "0.26.0",
+  "private": true,
+  "dependencies": {
+    "@tauri-apps/api": "^1.0.0-rc.1",
+    "@types/google-protobuf": "^3.15.5"
+  },
+  "scripts": {
+    "tauri": "tauri",
+    "icon": "node ./node_modules/@tauri-apps/tauricon/bin/tauricon.js --target=src-tauri/icons"
+  },
+  "eslintConfig": {
+    "extends": []
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.0.0-rc.5",
+    "@tauri-apps/tauricon": "git+https://github.com/tauri-apps/tauricon.git",
+    "cross-env": "^7.0.3"
+  }
+}

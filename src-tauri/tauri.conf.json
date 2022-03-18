@@ -1,0 +1,80 @@
+{
+  "package": {
+    "productName": "Echoo",
+    "version": "0.26.0"
+  },
+  "build": {
+    "distDir": "../web-src/build",
+    "devPath": "http://localhost:3001",
+    "beforeDevCommand": "",
+    "beforeBuildCommand": "cd web-src && yarn build",
+    "withGlobalTauri": true
+  },
+  "tauri": {
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": true
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "app.echoo.mac",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "zs.matrix62@gmail.com",
+      "category": "DeveloperTool",
+      "shortDescription": "",
+      "longDescription": "",
+      "deb": {
+        "depends": [],
+        "useBootstrapper": false
+      },
+      "macOS": {
+        "frameworks": [],
+        "minimumSystemVersion": "10.7",
+        "useBootstrapper": false,
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": "../entitlements.plist"
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "allowlist": {
+      "all": true,
+      "fs": {
+        "all": true,
+        "scope": [
+          "$USER/*"
+        ]
+      }
+    },
+    "windows": [
+      {
+        "title": "Echoo",
+        "width": 800,
+        "height": 600,
+        "minWidth": 800,
+        "minHeight": 600,
+        "maxHeight": 900,
+        "maxWidth": 1440,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}

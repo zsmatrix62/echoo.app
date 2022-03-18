@@ -1,0 +1,18 @@
+
+#created-img-resized {
+  width: 100%;
+  object-fit: scale-down;
+}
+
+.img-container {
+  border: var(--semi-color-border-1) 1px solid;
+  border-radius: var(--semi-border-radius-small);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  img {
+    height: inherit;
+  }
+}
