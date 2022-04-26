@@ -1,6 +1,6 @@
 {
   "name": "devutils-rs",
-  "version": "0.26.0",
+  "version": "0.26.1",
   "private": true,
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-rc.1"
@@ -25,7 +25,7 @@
     ]
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.5",
+    "@tauri-apps/cli": "1.0.0-rc.5",
     "@tauri-apps/tauricon": "git+https://github.com/tauri-apps/tauricon.git",
     "cross-env": "^7.0.3"
   }

@@ -10,6 +10,9 @@ build-web:wasm
 build-bundle: c wasm
 	yarn install && cd web-src && make build && cd .. && yarn tauri build
 
+build-debug-bundle: c wasm
+	yarn install && cd web-src && make build && cd .. && yarn tauri build --debug
+
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && yarn install --force && cd ..
 c:

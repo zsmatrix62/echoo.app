@@ -1,13 +1,13 @@
 {
   "package": {
     "productName": "Echoo",
-    "version": "0.26.0"
+    "version": "0.26.1"
   },
   "build": {
     "distDir": "../web-src/build",
     "devPath": "http://localhost:3001",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "cd web-src && yarn build",
+    "beforeBuildCommand": "",
     "withGlobalTauri": true
   },
   "tauri": {
@@ -55,9 +55,7 @@
       "all": true,
       "fs": {
         "all": true,
-        "scope": [
-          "$USER/*"
-        ]
+        "scope": ["$USER/*"]
       }
     },
     "windows": [
