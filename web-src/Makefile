@@ -1,11 +1,7 @@
-
 dev:
 	yarn install --force && yarn start
 
-build-image:build
-	docker build -t echoo-app-web .
-
-build:
+build-web:
 	yarn build
 
 deploy:
