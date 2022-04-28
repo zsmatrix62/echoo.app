@@ -61,8 +61,7 @@ export const MainPage = () => {
         <Layout className="main-layout">
           {!isTauriApp && (
             <Header>
-              {" "}
-              <MainNav />{" "}
+              <MainNav />
             </Header>
           )}
           <Layout className="central-layout">
@@ -71,8 +70,7 @@ export const MainPage = () => {
           </Layout>
           {!isTauriApp && (
             <Layout.Footer className="main-footer-container">
-              {" "}
-              <MainFooter />{" "}
+              <MainFooter />
             </Layout.Footer>
           )}
         </Layout>
