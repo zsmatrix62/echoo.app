@@ -18,5 +18,5 @@ wasm:
 c:
 	cargo clippy --fix --allow-dirty --allow-staged
 
-client:
-	cd ../deployment && make build-tauri-client
+gh:
+	cd ./web-src && yarn deploy
