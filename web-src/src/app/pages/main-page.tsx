@@ -10,7 +10,7 @@ import { isTauriAppContext } from "../../App";
 import "./main-page.scss";
 
 export const MainPage = () => {
-  const { Content } = Layout;
+  const { Header, Content } = Layout;
   const sharedSubs = useContext(SharedSubjectContext);
   const isTauri = useContext(isTauriAppContext);
   const [activeToolNode, setActiveToolNode] = useObservableState<ReactNode>(
@@ -59,7 +59,11 @@ export const MainPage = () => {
     <isTauriAppContext.Consumer>
       {(isTauriApp) => (
         <Layout className="main-layout">
-          {!isTauriApp && <MainNav />}
+          {!isTauriApp && (
+            <Header>
+              <MainNav />
+            </Header>
+          )}
           <Layout className="central-layout">
             <Sider children={<ToolsSider />} />
             <Content children={activeToolNode} />
