@@ -4,13 +4,15 @@ pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
     match e {
         RunEvent::Exit => {}
         RunEvent::ExitRequested { .. } => {}
-        RunEvent::CloseRequested { api, .. } => {
-            api.prevent_close();
-            let _ = app_handle.get_window("main").map(|win| {
-                let _ = win.hide();
-            });
-        }
-        RunEvent::WindowClosed(_) => {}
+        RunEvent::WindowEvent { label: _, event, .. } => match event {
+            tauri::WindowEvent::CloseRequested { api, .. } => {
+                api.prevent_close();
+                let _ = app_handle.get_window("main").map(|win| {
+                    let _ = win.hide();
+                });
+            }
+            _ => {}
+        },
         RunEvent::Ready => {}
         RunEvent::Resumed => {}
         RunEvent::MainEventsCleared => {}
