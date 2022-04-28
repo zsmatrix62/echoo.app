@@ -1,7 +1,7 @@
 import { Layout, Notification } from "@douyinfe/semi-ui";
 import Sider from "@douyinfe/semi-ui/lib/es/layout/Sider";
 import { useObservableState } from "observable-hooks";
-import React, { ReactNode, useContext, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { SharedSubjectContext } from "../context/shared-subjects";
 import { MainFooter } from "../shared/main-footer";
 import { MainNav } from "../shared/main-nav";
@@ -10,7 +10,7 @@ import { isTauriAppContext } from "../../App";
 import "./main-page.scss";
 
 export const MainPage = () => {
-  const { Header, Content } = Layout;
+  const { Content } = Layout;
   const sharedSubs = useContext(SharedSubjectContext);
   const isTauri = useContext(isTauriAppContext);
   const [activeToolNode, setActiveToolNode] = useObservableState<ReactNode>(
@@ -59,11 +59,7 @@ export const MainPage = () => {
     <isTauriAppContext.Consumer>
       {(isTauriApp) => (
         <Layout className="main-layout">
-          {!isTauriApp && (
-            <Header>
-              <MainNav />
-            </Header>
-          )}
+          {!isTauriApp && <MainNav />}
           <Layout className="central-layout">
             <Sider children={<ToolsSider />} />
             <Content children={activeToolNode} />
