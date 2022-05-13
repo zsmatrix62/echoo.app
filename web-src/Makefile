@@ -4,5 +4,8 @@ dev:
 build-web:
 	yarn build
 
-deploy:
-	yarn deploy
+build-gh-web:
+	yarn build-gh
+
+deploy:build-gh-web
+	yarn gh-pages -d build

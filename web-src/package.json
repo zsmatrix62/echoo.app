@@ -45,10 +45,10 @@
   "scripts": {
     "start": "PORT=3001 react-app-rewired start",
     "build": "cross-env PUBLIC_URL=/  react-app-rewired build",
+    "build-gh": "cross-env PUBLIC_URL=/echoo-app  react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "predeploy": "yarn build"
   },
   "eslintConfig": {
     "extends": [

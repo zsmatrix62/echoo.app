@@ -104,7 +104,7 @@ function App() {
   });
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={window.location.pathname || ""}>
       <isTauriAppContext.Provider value={isTauri}>
         <Routes>
           <Route path="/" element={<MainPage />}>

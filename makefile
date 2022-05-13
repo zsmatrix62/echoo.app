@@ -1,7 +1,7 @@
 dev-tauri:
 	yarn install &&	RUST_DEBUT=1  yarn tauri dev
 
-dev-web: wasm
+dev-web:wasm
 	cd web-src && make dev
 
 build-web:wasm
@@ -18,5 +18,5 @@ wasm:
 c:
 	cargo clippy --fix --allow-dirty --allow-staged
 
-gh:
-	cd ./web-src && yarn deploy
+gh: wasm
+	cd ./web-src && make deploy
