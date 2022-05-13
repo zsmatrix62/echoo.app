@@ -4,8 +4,8 @@
     "09b732525742457db0a1.module.wasm": "/echoo-app/09b732525742457db0a1.module.wasm",
     "static/js/0.d18e2976.chunk.js.map": "/echoo-app/static/js/0.d18e2976.chunk.js.map",
     "main.css": "/echoo-app/static/css/main.a54567a0.chunk.css",
-    "main.js": "/echoo-app/static/js/main.960c24de.chunk.js",
-    "main.js.map": "/echoo-app/static/js/main.960c24de.chunk.js.map",
+    "main.js": "/echoo-app/static/js/main.9c3797ae.chunk.js",
+    "main.js.map": "/echoo-app/static/js/main.9c3797ae.chunk.js.map",
     "runtime-main.js": "/echoo-app/static/js/runtime-main.2517afd5.js",
     "runtime-main.js.map": "/echoo-app/static/js/runtime-main.2517afd5.js.map",
     "static/js/3.0452453e.chunk.js": "/echoo-app/static/js/3.0452453e.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.2517afd5.js",
     "static/js/3.0452453e.chunk.js",
     "static/css/main.a54567a0.chunk.css",
-    "static/js/main.960c24de.chunk.js"
+    "static/js/main.9c3797ae.chunk.js"
   ]
 }
