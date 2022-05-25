@@ -1,3 +1,4 @@
+#![cfg_attr(all(not(debug_assertions), target_os = "windows"), windows_subsystem = "windows")]
 use tauri::Manager;
 
 use crate::ui::app::{handle_run_events, register_shortcut};
