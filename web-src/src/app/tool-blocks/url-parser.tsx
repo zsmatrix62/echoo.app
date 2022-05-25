@@ -17,11 +17,11 @@ import { Percentage } from "@icon-park/react";
 import "./url-parser.scss";
 import { AutoFitTextAreaWithRef } from "../wigetds/autofit-textarea";
 import ReactCodeMirror, { Extension } from "@uiw/react-codemirror";
-import { json } from "@codemirror/lang-json";
 import { Pref } from "../context/pref";
 import { IconCopy } from "@douyinfe/semi-icons";
 import parseUrl from "parse-url";
 import useClipboard from "use-clipboard-hook";
+import { json } from "@codemirror/lang-json";
 
 export const UrlParser = () => {
   // noinspection DuplicatedCode
@@ -241,4 +241,3 @@ export const UrlParserBlock = () => {
     </Row>
   );
 };
-

@@ -3,6 +3,7 @@
   "version": "0.26.2",
   "private": true,
   "dependencies": {
+    "@codemirror/lang-json": "0.20.0",
     "@tauri-apps/api": "^1.0.0-rc.6",
     "react-app-rewired": "^2.2.1"
   },
