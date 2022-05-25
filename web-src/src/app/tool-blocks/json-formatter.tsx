@@ -16,7 +16,6 @@ import {
   IconHelpCircle,
   IconLayers,
 } from "@douyinfe/semi-icons";
-import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useObservableState } from "observable-hooks";
 import { useMount } from "react-use";
@@ -26,12 +25,11 @@ import useClipboard from "use-clipboard-hook";
 import { JSONPath } from "jsonpath-plus";
 import { JsonPathGuide } from "../wigetds/json-path-guide";
 import { Pref } from "../context/pref";
-import { Record } from "@icon-park/react";
-import { json } from "@codemirror/lang-json";
 import ReactCodeMirror, { Extension } from "@uiw/react-codemirror";
 import { isTauriAppContext } from "../../App";
 import { useWasmAPI } from "../libs/hooks/wasm-api";
 import { ValidationError } from "wasm-api";
+import { json } from "@codemirror/lang-json";
 
 const ErrorDisplay = ({
   input,
@@ -401,4 +399,3 @@ export const JsonFormatterBlock = () => {
     </isTauriAppContext.Consumer>
   );
 };
-
