@@ -7,10 +7,10 @@ dev-web:wasm
 build-web:wasm
 	cd web-src && make build
 
-build-bundle: icon c wasm
+build-bundle: c wasm
 	yarn install && cd web-src && make build-web && cd .. && yarn tauri build
 
-build-debug-bundle: icon c wasm
+build-debug-bundle: c wasm
 	yarn install && cd web-src && make build-web && cd .. && yarn tauri build --debug
 
 wasm:
