@@ -5,7 +5,8 @@
   "homepage": "https://zsmatrix62.github.io/echoo-app/",
   "resolutions": {
     "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2"
+    "@types/react-dom": "^17.0.2",
+    "@douyinfe/semi-theme-default": "^2.11.1"
   },
   "dependencies": {
     "@codemirror/lang-json": "^0.19.2",
