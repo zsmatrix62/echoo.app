@@ -1,12 +1,10 @@
 import { NavItemProps } from "@douyinfe/semi-ui/lib/es/navigation";
-import { CodeBrackets, DataFour, LinkOne, PayCode } from "@icon-park/react";
+import { CodeBrackets, LinkOne, PayCode } from "@icon-park/react";
 import { ReactNode } from "react";
 import { JsonFormatterBlock } from "../tool-blocks/json-formatter";
 import { Icon } from "@douyinfe/semi-ui";
 import { Base64Serde } from "../tool-blocks/base64serde";
 import { UrlParser } from "../tool-blocks/url-parser";
-import { IconArticle } from "@douyinfe/semi-icons";
-import { SQLFormatterBlock } from "../tool-blocks/sql-formatter";
 
 type ToolSiderItem = {
   navItemProps: NavItemProps;
@@ -37,14 +35,6 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
       icon: <Icon svg={<LinkOne theme="outline" />} />,
     },
     node: <UrlParser />,
-  },
-  "sql-parser": {
-    navItemProps: {
-      itemKey: "sql-parser",
-      text: "SQL Parser",
-      icon: <Icon svg={<DataFour theme="outline" />} />,
-    },
-    node: <SQLFormatterBlock />,
   },
 };
 
