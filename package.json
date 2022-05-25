@@ -27,7 +27,6 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "1.0.0-rc.12",
-    "@tauri-apps/tauricon": "git+https://github.com/tauri-apps/tauricon.git",
     "cross-env": "^7.0.3"
   }
 }
