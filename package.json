@@ -3,7 +3,8 @@
   "version": "0.26.1",
   "private": true,
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.6"
+    "@tauri-apps/api": "^1.0.0-rc.6",
+    "react-app-rewired": "^2.2.1"
   },
   "scripts": {
     "tauri": "tauri",
