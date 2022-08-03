@@ -20,7 +20,7 @@ regex = "1.5.4"
 anyhow = "1.0.55"
 base64 = "0.13.0"
 # fake data generator
-fake = { version = "2.4", features = ['derive', 'chrono', 'http', 'uuid'] }
+fake = { version = "2.5.0", features = ['derive', 'chrono', 'http', 'uuid'] }
 jsonprima = "0.3.0" # json lint
 getrandom = { version = "0.2.5", features = ["js"] }
 
@@ -31,7 +31,6 @@ wee_alloc = { version = "0.4.5", optional = true }
 wasm-bindgen-test = "0.3.13"
 
 [build-dependencies]
-
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
