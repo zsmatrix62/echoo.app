@@ -1,6 +1,7 @@
 #![allow(clippy::unused_unit)]
 #![allow(dead_code)]
 
+mod crontab_parser;
 mod json_formatter;
 mod utils;
 
