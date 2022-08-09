@@ -5,7 +5,6 @@
 <p align="center"><span>A cross-platform desktop application of tools for developers
 </span></p>
 
-
 <div align="center">
 
 [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases)
@@ -31,8 +30,7 @@ tools **[echoo](https://zsmatrix62.github.io/echoo-app/)**
 Client provides full `offline` features without any remote API calls, download them from
 the [release page](https://github.com/echoo-app/echoo-app/releases).
 
-
------
+---
 
 ## 🎉 Features / Todos
 
@@ -87,11 +85,7 @@ make build-bundle
 
 - Windows
 
-```bash
-git clone https://github.com/echoo-app/echoo-app.git  && \
-cd echoo-app  && \
-yarn install && cd web-src && yarn build && cd .. && yarn tauri build
-```
+  Follow this [command](https://github.com/zsmatrix62/echoo-app/blob/2bac67f838d7504974652fbfb93942a8d66a3e7b/.github/workflows/main.yml#L31)
 
 Check bundle file in `target/release` directory
 
@@ -99,14 +93,24 @@ Check bundle file in `target/release` directory
 
 [AGPL-3.0](https://github.com/zsmatrix62/echoo-app/blob/main/LICENSE)
 
-
-----
+---
 
 ## Examples
-
-- JSON Validation
-  ![](docs/img/json-2.png)
-- Base64 Encode/Decode
-  ![](docs/img/base64-img.png)
-- Url Parser
-  ![](docs/img/url-parser.png)
+  <table>
+  <tr>
+    <td> 
+     <img src="docs/img/json-1.png" width=680px>
+    </td>
+    <td> 
+      <img src="docs/img/json-2.png" width=680px>
+    </td>
+  </tr> 
+  <tr> <td> <img src="docs/img/base64-img.png" width=680px></td>
+    <td> <img src="docs/img/base64-str.png" width=680px></td>
+  </tr>
+  <tr>
+    <td> 
+      <img src="docs/img/url-parser.png" width=680px>
+      </td> 
+  </tr>
+</table>

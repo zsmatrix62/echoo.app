@@ -3,7 +3,6 @@ use tauri::Manager;
 
 use crate::ui::app::{handle_run_events, register_shortcut};
 use crate::ui::menu::main_menu_builder;
-use crate::ui::tray::SystemTrayBuilder;
 
 mod commands;
 mod events;
@@ -22,8 +21,6 @@ fn main() {
             });
             Ok(())
         })
-        .system_tray(SystemTrayBuilder::build())
-        .on_system_tray_event(SystemTrayBuilder::handle_tray_event)
         .invoke_handler(tauri::generate_handler![
             commands::fs::read_binary_file,
             commands::fs::write_binary_file,

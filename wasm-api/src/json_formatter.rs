@@ -1,6 +1,6 @@
-use fake::uuid::UUIDv4;
+use ::uuid::Uuid;
+
 use fake::{faker, Fake};
-use uuid::Uuid;
 use wasm_bindgen::prelude::*;
 
 use random_json::Book;
@@ -39,7 +39,7 @@ mod random_json {
 
 #[wasm_bindgen]
 pub fn get_random_json() -> String {
-    let uid: Uuid = UUIDv4.fake();
+    let uid: Uuid = Uuid::new_v4();
     let price = faker::number::en::Digit().fake::<String>();
     let fake_data = || Book {
         title: Some(faker::lorem::en::Sentence(5..10).fake::<String>()),
