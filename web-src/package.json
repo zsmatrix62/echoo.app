@@ -6,7 +6,8 @@
   "resolutions": {
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
-    "@douyinfe/semi-theme-default": "^2.11.1"
+    "@douyinfe/semi-theme-default": "^2.11.1",
+    "normalize-url":"https://github.com/sindresorhus/normalize-url.git"
   },
   "dependencies": {
     "@codemirror/lang-json": "^0.20.0",
