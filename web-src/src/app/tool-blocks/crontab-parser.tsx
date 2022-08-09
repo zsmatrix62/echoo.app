@@ -1,4 +1,4 @@
-import { Button, Typography, Col, Input, Row, Select, Space, SideSheet, Descriptions, List } from "@douyinfe/semi-ui"
+import { Button, Typography, Col, Input, Row, Select, Space, SideSheet, Descriptions, List, Toast } from "@douyinfe/semi-ui"
 import { isTauriAppContext } from "../../App"
 import "./crontab-paser.scss"
 import { useWasmAPI } from '../libs/hooks/wasm-api'
@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import cronstrue from "cronstrue"
 import { IconHelpCircle } from "@douyinfe/semi-icons"
 import { Data, DescriptionsItemProps } from "@douyinfe/semi-ui/lib/es/descriptions"
+import useClipboard from "use-clipboard-hook"
 
 type crontabExample = {
 	des: string,
@@ -117,9 +118,11 @@ export const CrontabParserBlock = () => {
 	const [showCrontabHelp, setShowCrontabHelp] = useState(false)
 	const [inputExp, setInputExp] = useState("")
 	const [data, setData] = useState<Array<Data>>(defaultData)
+	const [exmapleIdx, setExampleIdx] = useState<number | undefined>()
 
 	const onInpuExpChanged = (exp: string) => {
 		setInputExp(exp)
+		setExampleIdx(undefined)
 		if (!exp) {
 			setExplain(defaultExplain)
 			setIsErrorCron(false)
@@ -141,7 +144,6 @@ export const CrontabParserBlock = () => {
 				const isAllDays = expSegs[2] === "*"
 				const isAllMonths = expSegs[3] === "*"
 				const isAllWeekdays = expSegs[4] === "*"
-				console.log(parseRes?.next_executions)
 				setData([
 					{
 						key: "Minutes", value: isAllMinutes ? "(All)" : Array.from(new Set(parseRes?.minutes)).map((m: Number) => { return ":" + `${m}`.padStart(2, "0") }).join(', '),
@@ -171,16 +173,16 @@ export const CrontabParserBlock = () => {
 					},
 					{
 						key: "Day of Week", value: isAllWeekdays ? "(All)" : Array.from(new Set(parseRes?.weekdays)).map((m: Number) => {
-							return [
-								"Sunday",
-								"Monday",
-								"Tuesday",
-								"Wedensday",
-								"Thursday",
-								"Friday",
-								"Saturday",
+							return {
+								0: "Sunday",
+								1: "Monday",
+								2: "Tuesday",
+								3: "Wedensday",
+								4: "Thursday",
+								5: "Friday",
+								6: "Saturday",
 
-							][(m) as number]
+							}[(m) as number - 1]
 						}).join(', '),
 					},
 					{
@@ -219,6 +221,14 @@ export const CrontabParserBlock = () => {
 		onInpuExpChanged(exp)
 	}
 
+	const { copy } = useClipboard({
+		onSuccess: (_) => {
+			Toast.success({
+				content: `Copied Crontab expression.`,
+			})
+		},
+	})
+
 	return (
 		<Row className={'g-tool-block-container'}>
 			<SideSheet
@@ -233,14 +243,23 @@ export const CrontabParserBlock = () => {
 			<Row className={'crontab-input-actions'}>
 				<Row>
 					<Space>
-						<Button onClick={() => { }} > Clipboard </Button>
-						<Button onClick={() => { }} > Sample </Button>
+						<Button onClick={() => {
+							let idx = Math.floor(exampleCrontabs.length * Math.random());
+							const exp = exampleCrontabs[idx].exp
+							setInputExp(exp)
+							setExplain(defaultExplain)
+							onInpuExpChanged(exp)
+							setExampleIdx(idx)
+						}} > Sample </Button>
 						<Button onClick={() => {
 							setInputExp("")
+							setExplain(defaultExplain)
 							onInpuExpChanged("")
 							setData(defaultData)
 						}} > Clear </Button>
-						<Button onClick={() => { }} > Copy </Button>
+						<Button onClick={() => {
+							copy(inputExp)
+						}} > Copy </Button>
 					</Space>
 				</Row>
 			</Row>
@@ -261,7 +280,10 @@ export const CrontabParserBlock = () => {
 				<Col span={11} style={{ paddingLeft: "10px" }}>
 					<Select style={{ width: "100%" }}
 						placeholder="Pick an example ..."
-						onSelect={onExampleSelected}>
+						onSelect={onExampleSelected}
+						defaultValue={undefined}
+						value={exmapleIdx}
+					>
 						{
 							exampleCrontabs.map((exp, idx) => {
 								return <Select.Option
