@@ -44,7 +44,7 @@ Click link to check screenshots
 - [ ] JWT Debugger
 - [ ] RegExp Tester
 - [ ] SQL Formatter
-- [ ] Cron Job Parser
+- [x] Cron Job Parser
 
 ### Generators
 
@@ -98,19 +98,19 @@ Check bundle file in `target/release` directory
 ## Examples
   <table>
   <tr>
-    <td> 
+    <td>
      <img src="docs/img/json-1.png" width=680px>
     </td>
-    <td> 
+    <td>
       <img src="docs/img/json-2.png" width=680px>
     </td>
-  </tr> 
+  </tr>
   <tr> <td> <img src="docs/img/base64-img.png" width=680px></td>
     <td> <img src="docs/img/base64-str.png" width=680px></td>
   </tr>
   <tr>
-    <td> 
+    <td>
       <img src="docs/img/url-parser.png" width=680px>
-      </td> 
+      </td>
   </tr>
 </table>
