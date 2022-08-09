@@ -1,10 +1,12 @@
-use crontab::Crontab;
-use crontab::ScheduleComponents;
-
+use chrono::Local;
+use chrono::Utc;
+use cron_clock::Schedule;
+use cron_clock::TimeUnitSpec;
+use std::str::FromStr;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen(getter_with_clone)]
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct CrontabRes {
     /// Minutes in the schedule.
     /// Range [0,59] inclusive.
@@ -25,16 +27,34 @@ pub struct CrontabRes {
     /// Days of the week in the schedule.
     /// Range [0,6] inclusive.
     pub weekdays: Vec<u32>,
+    pub next_executions: String,
 }
 
-impl From<Crontab> for CrontabRes {
-    fn from(f: Crontab) -> Self {
+impl From<Schedule> for CrontabRes {
+    fn from(f: Schedule) -> Self {
+        let mut next_executions: Vec<String> = vec![];
+        let mut next_executions_local: Vec<String> = vec![];
+        for dt in f.upcoming(Utc).take(10) {
+            next_executions.push(dt.to_string());
+        }
+        for dt in f.upcoming(Local).take(10) {
+            next_executions_local.push(dt.to_string());
+        }
+
+        let next_executions_all: Vec<String> = next_executions_local
+            .iter()
+            .zip(next_executions)
+            .map(|(l, u)| -> String { format!("{}, {}", l, u) })
+            .collect();
+        let next_executions = next_executions_all.join("#");
+
         CrontabRes {
-            minutes: f.schedule.minutes,
-            hours: f.schedule.hours,
-            days: f.schedule.days,
-            months: f.schedule.months,
-            weekdays: f.schedule.weekdays,
+            minutes: f.minutes().iter().collect(),
+            hours: f.hours().iter().collect(),
+            days: f.days_of_month().iter().collect(),
+            months: f.months().iter().collect(),
+            weekdays: f.days_of_week().iter().collect(),
+            next_executions,
         }
     }
 }
@@ -42,25 +62,23 @@ impl From<Crontab> for CrontabRes {
 #[wasm_bindgen]
 pub fn parse_crontab_string(input: String) -> Result<CrontabRes, String> {
     let mut input = input;
-    input = input.to_uppercase();
-    input = input.replace("SUN", "0");
-    input = input.replace("MON", "1");
-    input = input.replace("TUE", "2");
-    input = input.replace("WED", "3");
-    input = input.replace("THU", "4");
-    input = input.replace("FRI", "5");
-    input = input.replace("SAT", "6");
-    let res = Crontab::parse(input.as_str());
+    if !input.starts_with("@") {
+        input.push_str(" *");
+        input.insert_str(0, "* ");
+    }
+    let res = Schedule::from_str(&input);
     match res {
-        Ok(sche) => {
-            let mut res = sche.into();
-            Ok(res)
-        }
-        Err(e) => Err(|| -> String {
-            let re = regex::Regex::new(r#".+"(.+)""#).unwrap();
-            let er_str = e.to_string();
-            let caps = re.captures(er_str.as_str()).unwrap();
-            caps.get(1).unwrap().as_str().to_string()
-        }()),
+        Ok(sche) => Ok(sche.into()),
+        Err(e) => Err(|| -> String { e.to_string() }()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn exploration() {
+        let a = parse_crontab_string("* * * * SUN".to_string());
+        println!(">>>> next_executions:{:?}", a)
     }
 }

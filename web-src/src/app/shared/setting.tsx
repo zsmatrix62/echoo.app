@@ -1,8 +1,7 @@
-import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { Button, Col, Form, Modal, Row, Space, Typography } from "@douyinfe/semi-ui";
 import Section from "@douyinfe/semi-ui/lib/es/form/section";
-import { IMac, Magic, Setting } from "@icon-park/react";
+import { IMac, Magic, } from "@icon-park/react";
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
 import { IconMoon, IconSun } from "@douyinfe/semi-icons";
 import { useLocalStore } from "../libs/hooks/localstore";

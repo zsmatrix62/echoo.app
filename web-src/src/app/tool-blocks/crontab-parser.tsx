@@ -1,14 +1,11 @@
-import { Button, Typography, Col, Input, Row, Select, Space, SideSheet } from "@douyinfe/semi-ui"
+import { Button, Typography, Col, Input, Row, Select, Space, SideSheet, Descriptions, List } from "@douyinfe/semi-ui"
 import { isTauriAppContext } from "../../App"
 import "./crontab-paser.scss"
 import { useWasmAPI } from '../libs/hooks/wasm-api'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import cronstrue from "cronstrue"
-import { defaultMaxListeners } from "events"
-import inputGroup from "@douyinfe/semi-ui/lib/es/input/inputGroup"
-import { Record } from "@icon-park/react"
-import { CrontabRes } from "wasm-api"
 import { IconHelpCircle } from "@douyinfe/semi-icons"
+import { Data, DescriptionsItemProps } from "@douyinfe/semi-ui/lib/es/descriptions"
 
 type crontabExample = {
 	des: string,
@@ -36,17 +33,29 @@ const CrontabParser = () => {
 	)
 }
 
-const CrontabParserResDisplay = () => {
-	return <></>
+let defaultData: Array<Data> = [
+	{ key: "Minutes", value: "-" },
+	{ key: "Hours", value: "-" },
+	{ key: "Day of Month", value: "-" },
+	{ key: "Months", value: "-" },
+	{ key: "Day of Week", value: "-" },
+	{ key: "Next executions", value: "-" },
+]
+const CrontabParserResDisplay = (props: { data: Array<Data> }) => {
+	const [data, setData] = useState<Array<Data> | undefined>()
+
+	useEffect(() => {
+		setData(props.data)
+	}, [props])
+
+	return <Descriptions
+		align={'left'}
+		style={{ width: "100%" }} data={data}> </Descriptions>
 }
 
 const CrontabHelp = () => {
 	return <Row>
 		<Col>
-			<Row>
-				<Col>
-				</Col>
-			</Row>
 			<Row>
 				<Col>
 					<table>
@@ -99,18 +108,20 @@ const CrontabHelp = () => {
 }
 
 export const CrontabParserBlock = () => {
-	const { Text } = Typography
+	const { Text, Title } = Typography
 	const wasmAPI = useWasmAPI()
 
-	const [explain, setExplain] = useState("")
+	const defaultExplain = "Please enter a cron expression"
+	const [explain, setExplain] = useState(defaultExplain)
 	const [isErroCron, setIsErrorCron] = useState(false)
 	const [showCrontabHelp, setShowCrontabHelp] = useState(false)
 	const [inputExp, setInputExp] = useState("")
+	const [data, setData] = useState<Array<Data>>(defaultData)
 
-	const onInpuExpChanged = (value: string) => {
-		setInputExp(value)
-		if (!value) {
-			setExplain("")
+	const onInpuExpChanged = (exp: string) => {
+		setInputExp(exp)
+		if (!exp) {
+			setExplain(defaultExplain)
 			setIsErrorCron(false)
 			return
 		}
@@ -119,17 +130,80 @@ export const CrontabParserBlock = () => {
 			setIsErrorCron(true)
 		}
 		try {
-			const parseRes = wasmAPI?.parse_crontab_string(value)
+			const parseRes = wasmAPI?.parse_crontab_string(exp)
 			try {
-				const explain = cronstrue.toString(value)
+				const explain = cronstrue.toString(exp)
 				setExplain(explain.replace("aN:", "00:"))
 				setIsErrorCron(false)
+				const expSegs = exp.replace(/\s\s/g, '').split(" ")
+				const isAllMinutes = expSegs[0] === "*"
+				const isAllHours = expSegs[1] === "*"
+				const isAllDays = expSegs[2] === "*"
+				const isAllMonths = expSegs[3] === "*"
+				const isAllWeekdays = expSegs[4] === "*"
+				console.log(parseRes?.next_executions)
+				setData([
+					{
+						key: "Minutes", value: isAllMinutes ? "(All)" : Array.from(new Set(parseRes?.minutes)).map((m: Number) => { return ":" + `${m}`.padStart(2, "0") }).join(', '),
+					},
+					{
+						key: "Hours", value: isAllHours ? "(All)" : Array.from(new Set(parseRes?.hours)).map((m: Number) => { return `${m}`.padStart(2, "0") }).join(', '),
+					},
+					{ key: "Days", value: isAllDays ? "(All)" : Array.from(new Set(parseRes?.days)).map((m: Number) => { return `${m}` }).join(', '), },
+					{
+						key: "Day of Month", value: isAllMonths ? "(All)" : Array.from(new Set(parseRes?.months)).map((m: Number) => {
+							return [
+								"January",
+								"February",
+								"March",
+								"April",
+								"May",
+								"June",
+								"July",
+								"August",
+								"September",
+								"October",
+								"November",
+								"December"
+
+							][(m) as number - 1]
+						}).join(', '),
+					},
+					{
+						key: "Day of Week", value: isAllWeekdays ? "(All)" : Array.from(new Set(parseRes?.weekdays)).map((m: Number) => {
+							return [
+								"Sunday",
+								"Monday",
+								"Tuesday",
+								"Wedensday",
+								"Thursday",
+								"Friday",
+								"Saturday",
+
+							][(m) as number]
+						}).join(', '),
+					},
+					{
+						key: "Next executions", value:
+							<Space vertical={true}>
+								{parseRes?.next_executions.split("#").map(n => {
+									let [local, utc] = n.split(",");
+									return <Space>
+										<Text code>{local}</Text>
+										<span>{utc}</span>
+									</Space>
+								})}
+							</Space>
+
+					}
+				])
 			} catch (_) {
 				defautlErr()
 			}
 		} catch (e) {
 			let errMsg = `${e}`;
 			if (errMsg.startsWith("RuntimeError")) {
+				console.error(e)
 				defautlErr();
 				return;
 			}
@@ -161,23 +235,30 @@ export const CrontabParserBlock = () => {
 					<Space>
 						<Button onClick={() => { }} > Clipboard </Button>
 						<Button onClick={() => { }} > Sample </Button>
-						<Button onClick={() => { }} > Clear </Button>
+						<Button onClick={() => {
+							setInputExp("")
+							onInpuExpChanged("")
+							setData(defaultData)
+						}} > Clear </Button>
 						<Button onClick={() => { }} > Copy </Button>
 					</Space>
 				</Row>
 			</Row>
 			<Row className={'crontab-input-container'}>
-				<Col span={1}>
-					<Button
-						icon={<IconHelpCircle />}
-						onClick={() => {
-							setShowCrontabHelp(true)
-						}}
-					/>
-				</Col>
 				<Col span={11} style={{ paddingLeft: "5px" }}>
-					<Input placeholder="* * * * *" value={inputExp} onChange={onInpuExpChanged}></Input> </Col>
-				<Col span={12} style={{ paddingLeft: "10px" }}>
+					<Space style={{ width: "100%" }} >
+						<Button
+							icon={<IconHelpCircle />}
+							onClick={() => {
+								setShowCrontabHelp(true)
+							}}
+						/>
+						<Input
+							placeholder="* * * * *" value={inputExp} onChange={onInpuExpChanged}></Input>
+					</Space>
+
+				</Col>
+				<Col span={11} style={{ paddingLeft: "10px" }}>
 					<Select style={{ width: "100%" }}
 						placeholder="Pick an example ..."
 						onSelect={onExampleSelected}>
@@ -191,10 +272,17 @@ export const CrontabParserBlock = () => {
 					</Select>
 				</Col>
 			</Row>
-			<Row className={'crontab-explain'}>
-				<Col span={24}>
-					<Text type={isErroCron ? "danger" : "secondary"}>{explain}</Text>
-				</Col>
+			<Row className="crontab-content">
+				<Row className={'crontab-explain'}>
+					<Col span={24}>
+						<Text type={isErroCron ? "danger" : "secondary"}>{explain}</Text>
+					</Col>
+				</Row>
+				<Row style={{ marginTop: "20px" }}>
+					<Col>
+						<CrontabParserResDisplay data={data} />
+					</Col>
+				</Row>
 			</Row>
 		</Row >
 	)
