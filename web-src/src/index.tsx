@@ -1,12 +1,17 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import App from './App';
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom';
 
 ReactDOM.render(
-    <App/>,
-    document.getElementById('root')
+	<HashRouter basename='/'>
+		<Routes>
+			<Route path="/" element={<App />}> </Route>
+			<Route path="/privacy" element={<App />}> </Route>
+		</Routes>
+	</HashRouter>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
