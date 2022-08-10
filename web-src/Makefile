@@ -1,11 +1,14 @@
-dev:
+dev: link-local
 	yarn install --force && yarn start
 
-build-web:
+build-web: link-local
 	yarn build
 
-build-gh-web:
+build-gh-web: link-local
 	yarn build-gh
 
-deploy:build-gh-web
+deploy:build-gh-web link-local
 	yarn gh-pages -d build
+
+link-local:
+	npm link ./ext_libs/normalize-url
