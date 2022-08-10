@@ -25,8 +25,13 @@ icon:
 gh: wasm
 	cd ./web-src && make deploy
 
-build-mac:
-	plutil -convert xml1 ./entitlements.plist
-	codesign --force --verbose --deep --sign "Apple Development: Chiang Hwang (RVNSC87L4G)" --entitlements ./entitlements.plist ./target/release/bundle/macos/Echoo.app
+TARGET_PATH_BASE = target/release/bundle/macos/Echoo
+APP_SIGN_IDENTITY = "3rd Party Mac Developer Application: Chiang Hwang (6T8X94ZY3T)"
+INSTALLER_SIGN_IDENTITY = "3rd Party Mac Developer Installer: Chiang Hwang (6T8X94ZY3T)"
+ENTITLEMENTS_PLIST = ./entitlements.plist
 
-	productbuild --component target/release/bundle/macos/Echoo.app /Applications target/release/bundle/macos/Echoo.pkg --sign "3rd Party Mac Developer Installer: Chiang Hwang (6T8X94ZY3T)" --product ./entitlements.plist
+build-mac:
+	plutil -convert xml1 ${ENTITLEMENTS_PLIST}
+	codesign --force --verbose --deep --sign ${APP_SIGN_IDENTITY}  ./${TARGET_PATH_BASE}.app
+	codesign --force --verbose --deep --sign ${APP_SIGN_IDENTITY} --entitlements ${ENTITLEMENTS_PLIST} ./${TARGET_PATH_BASE}.app
+	productbuild --component ${TARGET_PATH_BASE}.app /Applications ${TARGET_PATH_BASE}.pkg --sign ${INSTALLER_SIGN_IDENTITY} --product ${ENTITLEMENTS_PLIST}
