@@ -1,8 +1,12 @@
+'use strict';
+
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
 const DATA_URL_DEFAULT_MIME_TYPE = 'text/plain';
 const DATA_URL_DEFAULT_CHARSET = 'us-ascii';
 
-const testParameter = (name, filters) => filters.some(filter => filter instanceof RegExp ? filter.test(name) : filter === name);
+const testParameter = (name, filters) => {
+	return filters.some(filter => filter instanceof RegExp ? filter.test(name) : filter === name);
+};
 
 const normalizeDataURL = (urlString, {stripHash}) => {
 	const match = /^data:(?<type>[^,]*?),(?<data>[^#]*?)(?:#(?<hash>.*))?$/.exec(urlString);
@@ -41,21 +45,21 @@ const normalizeDataURL = (urlString, {stripHash}) => {
 		.filter(Boolean);
 
 	const normalizedMediaType = [
-		...attributes,
+		...attributes
 	];
 
 	if (isBase64) {
 		normalizedMediaType.push('base64');
 	}
 
-	if (normalizedMediaType.length > 0 || (mimeType && mimeType !== DATA_URL_DEFAULT_MIME_TYPE)) {
+	if (normalizedMediaType.length !== 0 || (mimeType && mimeType !== DATA_URL_DEFAULT_MIME_TYPE)) {
 		normalizedMediaType.unshift(mimeType);
 	}
 
 	return `data:${normalizedMediaType.join(';')},${isBase64 ? data.trim() : data}${hash ? `#${hash}` : ''}`;
 };
 
-export default function normalizeUrl(urlString, options) {
+const normalizeUrl = (urlString, options) => {
 	options = {
 		defaultProtocol: 'http:',
 		normalizeProtocol: true,
@@ -70,7 +74,7 @@ export default function normalizeUrl(urlString, options) {
 		removeSingleSlash: true,
 		removeDirectoryIndex: false,
 		sortQueryParameters: true,
-		...options,
+		...options
 	};
 
 	urlString = urlString.trim();
@@ -92,37 +96,33 @@ export default function normalizeUrl(urlString, options) {
 		urlString = urlString.replace(/^(?!(?:\w+:)?\/\/)|^\/\//, options.defaultProtocol);
 	}
 
-	const urlObject = new URL(urlString);
+	const urlObj = new URL(urlString);
 
 	if (options.forceHttp && options.forceHttps) {
 		throw new Error('The `forceHttp` and `forceHttps` options cannot be used together');
 	}
 
-	if (options.forceHttp && urlObject.protocol === 'https:') {
-		urlObject.protocol = 'http:';
+	if (options.forceHttp && urlObj.protocol === 'https:') {
+		urlObj.protocol = 'http:';
 	}
 
-	if (options.forceHttps && urlObject.protocol === 'http:') {
-		urlObject.protocol = 'https:';
+	if (options.forceHttps && urlObj.protocol === 'http:') {
+		urlObj.protocol = 'https:';
 	}
 
 	// Remove auth
 	if (options.stripAuthentication) {
-		urlObject.username = '';
-		urlObject.password = '';
+		urlObj.username = '';
+		urlObj.password = '';
 	}
 
 	// Remove hash
 	if (options.stripHash) {
-		urlObject.hash = '';
+		urlObj.hash = '';
 	} else if (options.stripTextFragment) {
-		urlObject.hash = urlObject.hash.replace(/#?:~:text.*?$/i, '');
+		urlObj.hash = urlObj.hash.replace(/#?:~:text.*?$/i, '');
 	}
 
-	// Remove duplicate slashes if not preceded by a protocol
-	// NOTE: This could be implemented using a single negative lookbehind
-	// regex, but we avoid that to maintain compatibility with older js engines
-	// which do not have support for that feature.
 	if (urlObject.pathname) {
 		// TODO: Replace everything below with `urlObject.pathname = urlObject.pathname.replace(/(?<!\b[a-z][a-z\d+\-.]{1,50}:)\/{2,}/g, '/');` when Safari supports negative lookbehind.
 
@@ -155,10 +155,10 @@ export default function normalizeUrl(urlString, options) {
 	}
 
 	// Decode URI octets
-	if (urlObject.pathname) {
+	if (urlObj.pathname) {
 		try {
-			urlObject.pathname = decodeURI(urlObject.pathname);
-		} catch {}
+			urlObj.pathname = decodeURI(urlObj.pathname);
+		} catch (_) {}
 	}
 
 	// Remove directory index
@@ -167,62 +167,62 @@ export default function normalizeUrl(urlString, options) {
 	}
 
 	if (Array.isArray(options.removeDirectoryIndex) && options.removeDirectoryIndex.length > 0) {
-		let pathComponents = urlObject.pathname.split('/');
+		let pathComponents = urlObj.pathname.split('/');
 		const lastComponent = pathComponents[pathComponents.length - 1];
 
 		if (testParameter(lastComponent, options.removeDirectoryIndex)) {
-			pathComponents = pathComponents.slice(0, -1);
-			urlObject.pathname = pathComponents.slice(1).join('/') + '/';
+			pathComponents = pathComponents.slice(0, pathComponents.length - 1);
+			urlObj.pathname = pathComponents.slice(1).join('/') + '/';
 		}
 	}
 
-	if (urlObject.hostname) {
+	if (urlObj.hostname) {
 		// Remove trailing dot
-		urlObject.hostname = urlObject.hostname.replace(/\.$/, '');
+		urlObj.hostname = urlObj.hostname.replace(/\.$/, '');
 
 		// Remove `www.`
-		if (options.stripWWW && /^www\.(?!www\.)[a-z\-\d]{1,63}\.[a-z.\-\d]{2,63}$/.test(urlObject.hostname)) {
+		if (options.stripWWW && /^www\.(?!www\.)(?:[a-z\-\d]{1,63})\.(?:[a-z.\-\d]{2,63})$/.test(urlObj.hostname)) {
 			// Each label should be max 63 at length (min: 1).
 			// Source: https://en.wikipedia.org/wiki/Hostname#Restrictions_on_valid_host_names
 			// Each TLD should be up to 63 characters long (min: 2).
 			// It is technically possible to have a single character TLD, but none currently exist.
-			urlObject.hostname = urlObject.hostname.replace(/^www\./, '');
+			urlObj.hostname = urlObj.hostname.replace(/^www\./, '');
 		}
 	}
 
 	// Remove query unwanted parameters
 	if (Array.isArray(options.removeQueryParameters)) {
-		for (const key of [...urlObject.searchParams.keys()]) {
+		for (const key of [...urlObj.searchParams.keys()]) {
 			if (testParameter(key, options.removeQueryParameters)) {
-				urlObject.searchParams.delete(key);
+				urlObj.searchParams.delete(key);
 			}
 		}
 	}
 
 	if (options.removeQueryParameters === true) {
-		urlObject.search = '';
+		urlObj.search = '';
 	}
 
 	// Sort query parameters
 	if (options.sortQueryParameters) {
-		urlObject.searchParams.sort();
+		urlObj.searchParams.sort();
 	}
 
 	if (options.removeTrailingSlash) {
-		urlObject.pathname = urlObject.pathname.replace(/\/$/, '');
+		urlObj.pathname = urlObj.pathname.replace(/\/$/, '');
 	}
 
 	const oldUrlString = urlString;
 
 	// Take advantage of many of the Node `url` normalizations
-	urlString = urlObject.toString();
+	urlString = urlObj.toString();
 
-	if (!options.removeSingleSlash && urlObject.pathname === '/' && !oldUrlString.endsWith('/') && urlObject.hash === '') {
+	if (!options.removeSingleSlash && urlObj.pathname === '/' && !oldUrlString.endsWith('/') && urlObj.hash === '') {
 		urlString = urlString.replace(/\/$/, '');
 	}
 
 	// Remove ending `/` unless removeSingleSlash is false
-	if ((options.removeTrailingSlash || urlObject.pathname === '/') && urlObject.hash === '' && options.removeSingleSlash) {
+	if ((options.removeTrailingSlash || urlObj.pathname === '/') && urlObj.hash === '' && options.removeSingleSlash) {
 		urlString = urlString.replace(/\/$/, '');
 	}
 
@@ -237,4 +237,6 @@ export default function normalizeUrl(urlString, options) {
 	}
 
 	return urlString;
-}
+};
+
+module.exports = normalizeUrl;

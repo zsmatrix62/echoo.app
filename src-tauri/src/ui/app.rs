@@ -1,6 +1,6 @@
-use tauri::{App, AppHandle, Manager, RunEvent, Wry};
+use tauri::{App, AppHandle, RunEvent, Wry};
 
-pub fn handle_run_events(app_handle: &AppHandle<Wry>, e: RunEvent) {
+pub fn handle_run_events(_app_handle: &AppHandle<Wry>, e: RunEvent) {
     match e {
         RunEvent::Exit => {}
         RunEvent::ExitRequested { .. } => {}

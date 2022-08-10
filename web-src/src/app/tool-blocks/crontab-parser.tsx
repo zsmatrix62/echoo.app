@@ -1,11 +1,11 @@
-import { Button, Typography, Col, Input, Row, Select, Space, SideSheet, Descriptions, List, Toast } from "@douyinfe/semi-ui"
+import { Button, Typography, Col, Input, Row, Select, Space, SideSheet, Descriptions, Toast } from "@douyinfe/semi-ui"
 import { isTauriAppContext } from "../../App"
 import "./crontab-paser.scss"
 import { useWasmAPI } from '../libs/hooks/wasm-api'
 import { useEffect, useState } from "react"
 import cronstrue from "cronstrue"
 import { IconHelpCircle } from "@douyinfe/semi-icons"
-import { Data, DescriptionsItemProps } from "@douyinfe/semi-ui/lib/es/descriptions"
+import { Data, } from "@douyinfe/semi-ui/lib/es/descriptions"
 import useClipboard from "use-clipboard-hook"
 import "../shared/styles/h-layout.scss"
 
@@ -26,91 +26,7 @@ const exampleCrontabs: Array<crontabExample> = [
 ]
 
 const CrontabParser = () => {
-	return (
-		<isTauriAppContext.Consumer>
-			{(isTauri) => (
-				<></>
-			)}
-		</isTauriAppContext.Consumer>
-	)
-}
-
-let defaultData: Array<Data> = [
-	{ key: "Minutes", value: "-" },
-	{ key: "Hours", value: "-" },
-	{ key: "Day of Month", value: "-" },
-	{ key: "Months", value: "-" },
-	{ key: "Day of Week", value: "-" },
-	{ key: "Next executions", value: "-" },
-]
-const CrontabParserResDisplay = (props: { data: Array<Data> }) => {
-	const [data, setData] = useState<Array<Data> | undefined>()
-
-	useEffect(() => {
-		setData(props.data)
-	}, [props])
-
-	return <Descriptions
-		align={'left'}
-		style={{ width: "100%" }} data={data}> </Descriptions>
-}
-
-const CrontabHelp = () => {
-	return <Row>
-		<Col>
-			<Row>
-				<Col>
-					<table>
-						<thead>
-							<tr>
-								<th>Field</th>
-								<th>Required</th>
-								<th>Allowed values</th>
-								<th>Allowed special characters</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>Minutes</td>
-								<td>Yes</td>
-								<td>0–59</td>
-								<td>* , - /</td>
-							</tr>
-							<tr>
-								<td>Hours</td>
-								<td>Yes</td>
-								<td>0–23</td>
-								<td>* , - /</td>
-							</tr>
-							<tr>
-								<td>Day of month</td>
-								<td>Yes</td>
-								<td>1–31</td>
-								<td>* , - /</td>
-							</tr>
-							<tr>
-								<td>Month</td>
-								<td>Yes</td>
-								<td>1–12 or Jan-Dec</td>
-								<td>* , - /</td>
-							</tr>
-							<tr>
-								<td>Day of week</td>
-								<td>Yes</td>
-								<td>1–7 or Sun-Sat</td>
-								<td>* , - /</td>
-							</tr>
-						</tbody>
-					</table>
-				</Col>
-			</Row>
-
-		</Col>
-	</Row>
-}
-
-export const CrontabParserBlock = () => {
-	const { Text, Title } = Typography
+	const { Text, } = Typography
 	const wasmAPI = useWasmAPI()
 
 	const defaultExplain = "Please enter a cron expression"
@@ -230,8 +146,11 @@ export const CrontabParserBlock = () => {
 		},
 	})
 
+	// setInputExp("0 */21 * * WED-THU")
+	// onInpuExpChanged("0 */21 * * WED-THU")
+
 	return (
-		<Row className={'g-tool-block-container'}>
+		<Row>
 			<SideSheet
 				size={'medium'}
 				visible={showCrontabHelp}
@@ -260,7 +179,7 @@ export const CrontabParserBlock = () => {
 						}} > Clear </Button>
 						<Button onClick={() => {
 							copy(inputExp)
-						}} > Copy </Button>
+						}} disabled={!inputExp} > Copy </Button>
 					</Space>
 				</Row>
 			</Row>
@@ -308,5 +227,93 @@ export const CrontabParserBlock = () => {
 				</Row>
 			</Row>
 		</Row >
+	)
+}
+
+let defaultData: Array<Data> = [
+	{ key: "Minutes", value: "-" },
+	{ key: "Hours", value: "-" },
+	{ key: "Day of Month", value: "-" },
+	{ key: "Months", value: "-" },
+	{ key: "Day of Week", value: "-" },
+	{ key: "Next executions", value: "-" },
+]
+const CrontabParserResDisplay = (props: { data: Array<Data> }) => {
+	const [data, setData] = useState<Array<Data> | undefined>()
+
+	useEffect(() => {
+		setData(props.data)
+	}, [props])
+
+	return <Descriptions
+		align={'left'}
+		style={{ width: "100%" }} data={data}> </Descriptions>
+}
+
+const CrontabHelp = () => {
+	return <Row>
+		<Col>
+			<Row>
+				<Col>
+					<table>
+						<thead>
+							<tr>
+								<th>Field</th>
+								<th>Required</th>
+								<th>Allowed values</th>
+								<th>Allowed special characters</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Minutes</td>
+								<td>Yes</td>
+								<td>0–59</td>
+								<td>* , - /</td>
+							</tr>
+							<tr>
+								<td>Hours</td>
+								<td>Yes</td>
+								<td>0–23</td>
+								<td>* , - /</td>
+							</tr>
+							<tr>
+								<td>Day of month</td>
+								<td>Yes</td>
+								<td>1–31</td>
+								<td>* , - /</td>
+							</tr>
+							<tr>
+								<td>Month</td>
+								<td>Yes</td>
+								<td>1–12 or Jan-Dec</td>
+								<td>* , - /</td>
+							</tr>
+							<tr>
+								<td>Day of week</td>
+								<td>Yes</td>
+								<td>1–7 or Sun-Sat</td>
+								<td>* , - /</td>
+							</tr>
+						</tbody>
+					</table>
+				</Col>
+			</Row>
+
+		</Col>
+	</Row>
+}
+
+export const CrontabParserBlock = () => {
+	return (
+		<isTauriAppContext.Consumer>
+			{(isTauri) => (
+				<Row className={`h-layout-container ${isTauri ? 'mod-is-tauri' : ''}`}
+					style={{ padding: "10px 10px" }}
+				>
+					<CrontabParser></CrontabParser>
+				</Row>
+			)}
+		</isTauriAppContext.Consumer>
 	)
 }

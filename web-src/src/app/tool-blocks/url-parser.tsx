@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
 	Button,
 	Col,
@@ -16,12 +15,10 @@ import { isTauriAppContext } from '../../App'
 import { Percentage } from '@icon-park/react'
 import './url-parser.scss'
 import { AutoFitTextAreaWithRef } from '../wigetds/autofit-textarea'
-import CodeMirror from '@uiw/react-codemirror'
 import { Pref } from '../context/pref'
 import { IconCopy } from '@douyinfe/semi-icons'
 import parseUrl from 'parse-url'
 import useClipboard from 'use-clipboard-hook'
-import { json } from '@codemirror/lang-json'
 
 export const UrlParser = () => {
 	// noinspection DuplicatedCode
@@ -176,7 +173,7 @@ export const UrlParserBlock = () => {
 				</Row>
 			</Row>
 			<Row className="output-container">
-				<Col span={9} className="segments">
+				<Col span={21} className="segments">
 					<Descriptions align={'left'} className="des">
 						<Descriptions.Item itemKey={'Protocol'}>
 							{parsedUrl?.protocol ?? ' - '}
@@ -214,7 +211,7 @@ export const UrlParserBlock = () => {
 						</Descriptions.Item>
 					</Descriptions>
 				</Col>
-				<Col span={15} style={{ paddingLeft: 10 }}>
+				<Col span={2} style={{ paddingLeft: 10 }}>
 					<Row>
 						<Button
 							icon={<IconCopy />}

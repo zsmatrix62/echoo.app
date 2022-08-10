@@ -62,9 +62,9 @@ impl From<Schedule> for CrontabRes {
 #[wasm_bindgen]
 pub fn parse_crontab_string(input: String) -> Result<CrontabRes, String> {
     let mut input = input;
-    if !input.starts_with("@") {
+    if !input.starts_with('@') {
         input.push_str(" *");
-        input.insert_str(0, "* ");
+        input.insert_str(0, "0 ");
     }
     let res = Schedule::from_str(&input);
     match res {
@@ -78,7 +78,7 @@ mod tests {
     use super::*;
     #[test]
     fn exploration() {
-        let a = parse_crontab_string("* * * * SUN".to_string());
+        let a = parse_crontab_string("0 */21 * * WED-THU".to_string());
         println!(">>>> next_executions:{:?}", a)
     }
 }
