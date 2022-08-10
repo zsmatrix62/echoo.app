@@ -28,7 +28,7 @@
     "@types/react-dom": "^17.0.2",
     "@uiw/react-codemirror": "^4.5.1",
     "codemirror": "^5.65.4",
-    "copy-image-clipboard": "https://github.com/LuanEdCosta/copy-image-clipboard.git",
+    "copy-image-clipboard": "^2.0.1",
     "cronstrue": "^2.11.0",
     "jsonpath-plus": "^6.0.1",
     "observable-hooks": "^4.2.0",
