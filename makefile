@@ -8,10 +8,10 @@ build-web:wasm
 	cd web-src && make build
 
 build-bundle: c wasm
-	yarn install && cd web-src && make build-web && cd .. && yarn tauri build
+	cd web-src && make build-web && cd .. && yarn tauri build
 
 build-debug-bundle: c wasm
-	yarn install && cd web-src && make build-web && cd .. && yarn tauri build --debug
+	cd web-src && make build-web && cd .. && yarn tauri build --debug
 
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && yarn install --force && cd ..
