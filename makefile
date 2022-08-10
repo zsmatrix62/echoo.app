@@ -22,6 +22,5 @@ c:
 icon:
 	yarn global add git+https://github.com/tauri-apps/tauricon.git
 	yarn icon
-
 gh: wasm
 	cd ./web-src && make deploy

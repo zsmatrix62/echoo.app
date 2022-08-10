@@ -59,10 +59,10 @@
     "windows": [
       {
         "title": "Echoo",
-        "width": 800,
-        "height": 600,
-        "minWidth": 800,
-        "minHeight": 600,
+        "width": 900,
+        "height": 700,
+        "minWidth": 900,
+        "minHeight": 700,
         "maxHeight": 900,
         "maxWidth": 1440,
         "resizable": true,

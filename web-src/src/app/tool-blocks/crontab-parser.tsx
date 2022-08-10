@@ -7,6 +7,7 @@ import cronstrue from "cronstrue"
 import { IconHelpCircle } from "@douyinfe/semi-icons"
 import { Data, DescriptionsItemProps } from "@douyinfe/semi-ui/lib/es/descriptions"
 import useClipboard from "use-clipboard-hook"
+import "../shared/styles/h-layout.scss"
 
 type crontabExample = {
 	des: string,
@@ -188,9 +189,9 @@ export const CrontabParserBlock = () => {
 					{
 						key: "Next executions", value:
 							<Space vertical={true}>
-								{parseRes?.next_executions.split("#").map(n => {
+								{parseRes?.next_executions.split("#").map((n, idx) => {
 									let [local, utc] = n.split(",");
-									return <Space>
+									return <Space key={idx}>
 										<Text code>{local}</Text>
 										<span>{utc}</span>
 									</Space>
