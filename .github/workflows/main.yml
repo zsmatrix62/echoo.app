@@ -29,6 +29,8 @@ jobs:
         sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
     - name: install app dependencies and build it
       run: yarn && cd wasm-api && cargo install wasm-pack && wasm-pack build && cd ../web-src && yarn install --force && cd ../web-src && yarn build
+      env:
+        CI: false
     - uses: tauri-apps/tauri-action@dev
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
