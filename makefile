@@ -24,3 +24,9 @@ icon:
 	yarn icon
 gh: wasm
 	cd ./web-src && make deploy
+
+build-mac:
+	plutil -convert xml1 ./entitlements.plist
+	codesign --force --verbose --deep --sign "Apple Development: Chiang Hwang (RVNSC87L4G)" --entitlements ./entitlements.plist ./target/release/bundle/macos/Echoo.app
+
+	productbuild --component target/release/bundle/macos/Echoo.app /Applications target/release/bundle/macos/Echoo.pkg --sign "3rd Party Mac Developer Installer: Chiang Hwang (6T8X94ZY3T)" --product ./entitlements.plist
