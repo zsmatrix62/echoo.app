@@ -1,5 +1,5 @@
 import { IconGithubLogo } from "@douyinfe/semi-icons";
-import { Button, Nav, Space, Tooltip, Typography } from "@douyinfe/semi-ui";
+import { Button, Nav, Space, Tag, Tooltip, Typography } from "@douyinfe/semi-ui";
 import "./main-nav.scss"
 
 import { LogoComponent } from "../wigetds/logo";
@@ -7,7 +7,6 @@ import { GITHUB_HOMEPAGE, RELEASE_DOWNLOAD_PAGE } from "../consts/literals";
 import { Computer } from "@icon-park/react/es";
 import { useMount } from "react-use";
 import { useState } from "react";
-
 export const MainNav = () => {
 
 	const onDownloadClicked = () => {
