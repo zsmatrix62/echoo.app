@@ -94,7 +94,9 @@ function App() {
 			setShowFirstLanchingDialog(yes)
 		})
 		p.allowAnalytics.$.subscribe(yes => {
-
+			if (yes) {
+				injectAnalyticsCodes()
+			}
 		})
 	})
 
@@ -115,6 +117,45 @@ function App() {
 			});
 		}
 	});
+
+	const injectAnalyticsCodes = () => {
+		const h = document.getElementsByTagName("head")[0]
+		const body = document.getElementsByTagName("body")[0]
+
+		const ga_s = document.createElement("script")
+		const gs_ss = document.createElement("script")
+		ga_s.src = "https://www.googletagmanager.com/gtag/js?id=G-68ZK6XEPVH"
+		ga_s.async = true
+		gs_ss.innerHTML = `
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		};
+		gtag('js', new Date());
+		gtag('config', 'G-68ZK6XEPVH');
+		`
+		const tag_mgr_head = document.createElement("script")
+		tag_mgr_head.innerHTML = `
+		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+													 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		 })(window,document,'script','dataLayer','GTM-N9NMZCN');
+		`
+		const ns = body.getElementsByTagName("noscript")[0]
+		const f = document.createElement("iframe")
+		f.src = "https://www.googletagmanager.com/ns.html?id=GTM-N9NMZCN"
+		f.height = "0"
+		f.width = "0"
+		f.style.display = "none"
+		f.style.visibility = "hidden"
+		ns.appendChild(f)
+
+		h.appendChild(ga_s)
+		h.appendChild(gs_ss)
+		h.appendChild(tag_mgr_head)
+
+	}
 
 	return (
 		<>
