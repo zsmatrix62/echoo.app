@@ -2,12 +2,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { MainPage } from "./app/pages/main-page";
 import { useMount } from "react-use";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { SharedSubjectContext } from "./app/context/shared-subjects";
 import { useObservableState } from "observable-hooks";
 import { Pref } from "./app/context/pref";
 import { useLocalStore } from "./app/libs/hooks/localstore";
 import { EchooSettings, EchooSettingsDefault } from "./app/shared/setting";
+import { FirstLanchingModal } from "./app/shared/first-lanching-dialog";
 
 export const isTauriAppContext = createContext(false);
 
@@ -18,6 +19,7 @@ function App() {
 		return obs;
 	}, false);
 
+	const p = Pref.getInstance();
 	// hooks
 	// listen window resize events
 	useMount(() => {
@@ -60,12 +62,12 @@ function App() {
 					body.removeAttribute("theme-mode");
 				}
 			}
-			Pref.getInstance().darkModeEnabled.$.next(enable);
+			p.darkModeEnabled.$.next(enable);
 		}
 
 		// @ts-ignore
-		Pref.getInstance().theme.$.next(settings["appearance:theme"] as string);
-		Pref.getInstance().theme.subscribe({
+		p.theme.$.next(settings["appearance:theme"] as string);
+		p.theme.subscribe({
 			next: (theme) => {
 				const mql = window.matchMedia("(prefers-color-scheme: dark)");
 				switch (theme) {
@@ -84,6 +86,17 @@ function App() {
 			},
 		});
 	});
+
+	// notify user to allow analytics
+	let [showFirstLanchingDialog, setShowFirstLanchingDialog] = useState(false)
+	useMount(() => {
+		p.isFirstLanching.$.subscribe(yes => {
+			setShowFirstLanchingDialog(yes)
+		})
+		p.allowAnalytics.$.subscribe(yes => {
+
+		})
+	})
 
 	useMount(() => {
 		// @ts-ignore
@@ -104,9 +117,18 @@ function App() {
 	});
 
 	return (
-		<isTauriAppContext.Provider value={isTauri}>
-			<MainPage />
-		</isTauriAppContext.Provider>
+		<>
+			{showFirstLanchingDialog &&
+				<FirstLanchingModal onVisibleChange={(v: any) => {
+					const p = Pref.getInstance();
+					p.allowAnalytics.value = v["allow-analytics"]
+					p.isFirstLanching.value = false
+					setShowFirstLanchingDialog(false)
+				}} />}
+			<isTauriAppContext.Provider value={isTauri}>
+				<MainPage />
+			</isTauriAppContext.Provider>
+		</>
 	);
 }
 

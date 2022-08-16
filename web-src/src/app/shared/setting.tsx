@@ -11,13 +11,11 @@ import { PrivacyPage } from './privacy';
 import { useLocation } from 'react-router-dom';
 
 export type EchooSettings = {
-	"general:share-analytics": boolean
 	"appearance:theme": "dark" | "light" | "system"
 	"updates:check-automatically": boolean
 }
 
 export const EchooSettingsDefault: EchooSettings = {
-	"general:share-analytics": true,
 	"appearance:theme": "system",
 	"updates:check-automatically": true
 }
