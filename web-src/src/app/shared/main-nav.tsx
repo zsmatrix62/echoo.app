@@ -29,7 +29,7 @@ export const MainNav = () => {
 
 	const navFooter = <Nav.Footer>
 		<Space align="center">
-			<Tooltip content={<Typography.Text>Desktop client</Typography.Text>}
+			<Tooltip content={"Desktop client"}
 				position='bottomLeft' >
 				{
 					isMac ?

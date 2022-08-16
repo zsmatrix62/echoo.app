@@ -16,7 +16,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"json-formatter": {
 		navItemProps: {
 			itemKey: "json-formatter",
-			text: <Typography.Text>JSON Formatter</Typography.Text>,
+			text: "JSON Formatter",
 			icon: <Icon svg={<CodeBrackets theme="outline" />} />,
 		},
 		node: <JsonFormatterBlock />,
@@ -24,7 +24,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"base64-serde": {
 		navItemProps: {
 			itemKey: "base64-serde",
-			text: <Typography.Text>Base64 Coders</Typography.Text>,
+			text: "Base64 Coders",
 			icon: <Icon svg={<PayCode theme="outline" />} />,
 		},
 		node: <Base64Serde />,
@@ -32,7 +32,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"url-parser": {
 		navItemProps: {
 			itemKey: "url-parser",
-			text: <Typography.Text>URL Parser</Typography.Text>,
+			text: "URL Parser",
 			icon: <Icon svg={<LinkOne theme="outline" />} />,
 		},
 		node: <UrlParser />,
@@ -40,7 +40,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"crontab-parser": {
 		navItemProps: {
 			itemKey: "crontab-parser",
-			text: <Typography.Text>Crontab Parser</Typography.Text>,
+			text: "Crontab Parser",
 			icon: <Icon svg={<Calendar theme="outline" />} />,
 		},
 		node: <CrontabParserBlock />,
