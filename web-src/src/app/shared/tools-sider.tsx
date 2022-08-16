@@ -38,9 +38,7 @@ export const ToolsSider = () => {
 				return i.itemKey as string
 			});
 			if (filteredItemKeys.length >= 1) {
-				console.debug(`filtered tool item keys: ${filteredItemKeys}`);
 				let firstKey = filteredItemKeys[0]
-				console.debug(`filtered first key: ${firstKey}`)
 				setSelectedItems([firstKey])
 				// send first node to content
 				sharedSubsCtx.activeToolNode$.next(ToolSiderConfigs[firstKey].node);

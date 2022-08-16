@@ -2,7 +2,7 @@ import { NavItemProps } from "@douyinfe/semi-ui/lib/es/navigation";
 import { Calendar, CodeBrackets, LinkOne, PayCode } from "@icon-park/react";
 import { ReactNode } from "react";
 import { JsonFormatterBlock } from "../tool-blocks/json-formatter";
-import { Icon } from "@douyinfe/semi-ui";
+import { Icon, Typography } from "@douyinfe/semi-ui";
 import { Base64Serde } from "../tool-blocks/base64serde";
 import { UrlParser } from "../tool-blocks/url-parser";
 import { CrontabParserBlock } from "../tool-blocks/crontab-parser";
@@ -16,7 +16,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"json-formatter": {
 		navItemProps: {
 			itemKey: "json-formatter",
-			text: "JSON Formatter",
+			text: <Typography.Text>JSON Formatter</Typography.Text>,
 			icon: <Icon svg={<CodeBrackets theme="outline" />} />,
 		},
 		node: <JsonFormatterBlock />,
@@ -24,7 +24,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"base64-serde": {
 		navItemProps: {
 			itemKey: "base64-serde",
-			text: "Base64 Coders",
+			text: <Typography.Text>Base64 Coders</Typography.Text>,
 			icon: <Icon svg={<PayCode theme="outline" />} />,
 		},
 		node: <Base64Serde />,
@@ -32,7 +32,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"url-parser": {
 		navItemProps: {
 			itemKey: "url-parser",
-			text: "URL Parser",
+			text: <Typography.Text>URL Parser</Typography.Text>,
 			icon: <Icon svg={<LinkOne theme="outline" />} />,
 		},
 		node: <UrlParser />,
@@ -40,7 +40,7 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 	"crontab-parser": {
 		navItemProps: {
 			itemKey: "crontab-parser",
-			text: "Crontab Parser",
+			text: <Typography.Text>Crontab Parser</Typography.Text>,
 			icon: <Icon svg={<Calendar theme="outline" />} />,
 		},
 		node: <CrontabParserBlock />,
