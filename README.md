@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases)
+<!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
 [![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
 [![Issues Count](https://img.shields.io/github/issues/zsmatrix62/echoo-app.svg?style=flat)](https://github.com/zsmatrix62/echoo-app/issues)
 
@@ -15,22 +15,29 @@
 [![Version](https://img.shields.io/github/release/echoo-app/echoo-app.svg?style=flat-square)](https://github.com/zsmatrix62/echoo-app/releases)
 
 [![Windows Support](https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
-[![macOS Support](https://img.shields.io/badge/MACOS-adb8c5?style=flat&logo=macos&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
+[![macOS Support](https://img.shields.io/badge/MACOS-adb8c5?style=flat&logo=macos&logoColor=white)](https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12)
 [![Linux Support](https://img.shields.io/badge/linux-1793D1?style=flat&logo=linux&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
 
 </div>
 
+## 💻 Native Client
+
+Client provides full `offline` features without any remote API calls on your Mac or PC.
+
+### MacOS
+
+<a href="https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12" target="_blank">
+<img height=40 src="./docs/img/mac-app-store-badge.svg" />
+</a>
+
+### Windows / Linux
+Download them from
+the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windows` and `Linux`.
+
+
 ## 🌏 Online Web
 
-[This website](https://zsmatrix62.github.io/echoo-app/) provides online version of the same
-tools **[echoo](https://zsmatrix62.github.io/echoo-app/)**
-
-## 💻 Offline Client
-
-Client provides full `offline` features without any remote API calls, download them from
-the [release page](https://github.com/echoo-app/echoo-app/releases).
-
----
+**[web.echoo.app](https://web.echoo.app)** hosts the same functionalities of client version.
 
 ## 🎉 Features / Todos
 
@@ -41,10 +48,10 @@ Click link to check screenshots
 - [x] [JSON Formatter Validator](docs/json-formatter.md)
 - [x] [Base64 (Image) Encoder and Decoder](docs/base64-ende.md)
 - [x] [URL Parser, Encoder and Decoder](docs/url-parser.md)
+- [x] Cron Job Parser
 - [ ] JWT Debugger
 - [ ] RegExp Tester
 - [ ] SQL Formatter
-- [x] Cron Job Parser
 
 ### Generators
 
@@ -56,38 +63,6 @@ Click link to check screenshots
 - [ ] Number Base Converter
 - [ ] Unix Time Converter
 - [ ] JSON <- -> YAML
-
-# 🧑‍💻 Development
-
-## Architecture / Workspace
-
-### /wasm-api
-
-WASM for both client and [web site](https://zsmatrix62.github.io/echoo-app/)
-
-### /src-tauri
-
-`tauri` source directory for offline clients
-
-### /web-src
-
-`React` + `Typescript` source for frontend UI
-
-## Build bundle
-
-- MacOS / Linux
-
-```shell
-git clone git@github.com:echoo-app/echoo-app.git && \
-cd echoo-app && \
-make build-bundle
-```
-
-- Windows
-
-  Follow this [command](https://github.com/zsmatrix62/echoo-app/blob/2bac67f838d7504974652fbfb93942a8d66a3e7b/.github/workflows/main.yml#L31)
-
-Check bundle file in `target/release` directory
 
 ## LICENSE
 
