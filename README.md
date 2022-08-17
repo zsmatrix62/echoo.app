@@ -39,6 +39,10 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
 
 **[web.echoo.app](https://web.echoo.app)** hosts the same functionalities of client version.
 
+## 🔑 Privacy and Data Safety
+
+`Echoo.app` clients (web / native) can be completely offline, any of the data you input will **NOT** be collected, including your codes, binary, image etc, anonymouse analysis will only be done only if you opt-in or enabled it ([check source code here](https://github.com/zsmatrix62/echoo.app/blob/4df7e95077809881d5a9f246823001b17d58e8bd/web-src/src/App.tsx#L98)). 
+
 ## 🎉 Features / Todos
 
 Click link to check screenshots
