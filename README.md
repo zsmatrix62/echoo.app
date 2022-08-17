@@ -20,7 +20,7 @@
 
 </div>
 
-## 💻 Native Client
+## 💻 Win / Mac / Linux
 
 Client provides full `offline` features without any remote API calls on your Mac or PC.
 
