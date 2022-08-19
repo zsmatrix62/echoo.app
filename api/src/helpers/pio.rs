@@ -1,15 +1,8 @@
 use std::{
     error::Error,
-    io::{
-        BufReader,
-        Read,
-        Write,
-    },
+    io::{BufReader, Read, Write},
     os::unix::prelude::PermissionsExt,
-    path::{
-        Path,
-        PathBuf,
-    },
+    path::{Path, PathBuf},
 };
 
 use assert_cmd::Command;
@@ -124,7 +117,7 @@ pub(crate) async fn download_pio_bin() -> Result<(), Box<dyn Error>> {
 
     #[cfg(target_os = "linux")]
     let url: &str = "https://github.com/zsmatrix62/pio-bins/raw/main/linux/pio";
-
+    println!("downloading pio from: {}", url);
     let response = reqwest::get(url).await?;
     let mut file = std::fs::File::create(&exe)?;
     file.write_all(&response.bytes().await?);
@@ -137,19 +130,11 @@ pub(crate) async fn download_pio_bin() -> Result<(), Box<dyn Error>> {
 
 #[cfg(test)]
 mod tests {
-    use std::io::{
-        BufReader,
-        Read,
-    };
+    use std::io::{BufReader, Read};
 
     use tempfile::tempdir;
 
-    use super::{
-        compress_image_file,
-        compress_image_file_bytes,
-        download_pio_bin,
-        try_pio,
-    };
+    use super::{compress_image_file, compress_image_file_bytes, download_pio_bin, try_pio};
     use crate::helpers::dir::expand_tilde;
 
     #[tokio::test]

@@ -1,19 +1,8 @@
-use tonic::{
-    Request,
-    Response,
-    Status,
-};
+use tonic::{Request, Response, Status};
 
-use super::{
-    pb::*,
-    EchooToolsService,
-};
+use super::{pb::*, EchooToolsService};
 #[cfg(feature = "tauri")]
-use crate::helpers::pio::{
-    compress_image_file_bytes,
-    download_pio_bin,
-    try_pio,
-};
+use crate::helpers::pio::{compress_image_file_bytes, download_pio_bin, try_pio};
 
 #[tonic::async_trait]
 impl tools_server::Tools for EchooToolsService {
@@ -67,20 +56,6 @@ impl tools_server::Tools for EchooToolsService {
 
     #[cfg(not(feature = "server"))]
     #[cfg(not(feature = "tauri"))]
-    async fn try_pio_binary(&self, _: Request<InTryPioBinary>) -> Result<Response<OutTryPioBinary>, Status> {
-        unimplemented!()
-    }
-
-    #[cfg(feature = "tauri")]
-    async fn try_pio_binary(&self, request: Request<InTryPioBinary>) -> Result<Response<OutTryPioBinary>, Status> {
-        let mut res = OutTryPioBinary::default();
-        res.ok = try_pio();
-        let resp = Response::new(res);
-        Ok(resp)
-    }
-
-    #[cfg(not(feature = "server"))]
-    #[cfg(not(feature = "tauri"))]
     async fn download_pio_binary(
         &self,
         _: Request<InDownloadPioBinary>,
@@ -91,16 +66,30 @@ impl tools_server::Tools for EchooToolsService {
     #[cfg(feature = "tauri")]
     async fn download_pio_binary(
         &self,
-        request: Request<InDownloadPioBinary>,
+        _request: Request<InDownloadPioBinary>,
     ) -> Result<Response<OutDownloadPioBinary>, Status> {
         match download_pio_bin().await {
             Ok(..) => {
-                let mut res = OutDownloadPioBinary::default();
+                let res = OutDownloadPioBinary::default();
                 let resp = Response::new(res);
                 Ok(resp)
             }
             Err(..) => Err(Status::new(tonic::Code::Unavailable, "download error")),
         }
+    }
+
+    #[cfg(not(feature = "server"))]
+    #[cfg(not(feature = "tauri"))]
+    async fn try_pio_binary(&self, _: Request<InTryPioBinary>) -> Result<Response<OutTryPioBinary>, Status> {
+        unimplemented!()
+    }
+
+    #[cfg(feature = "tauri")]
+    async fn try_pio_binary(&self, _request: Request<InTryPioBinary>) -> Result<Response<OutTryPioBinary>, Status> {
+        let mut res = OutTryPioBinary::default();
+        res.ok = try_pio();
+        let resp = Response::new(res);
+        Ok(resp)
     }
     // ENDREGION
 }
@@ -108,19 +97,12 @@ impl tools_server::Tools for EchooToolsService {
 #[cfg(test)]
 mod tests {
 
-    use std::io::{
-        BufReader,
-        Read,
-    };
+    use std::io::{BufReader, Read};
 
     use super::*;
     use crate::{
-        helpers::{
-            call_service,
-            pio::get_pio_binary,
-        },
-        random_port,
-        spawn_service,
+        helpers::{call_service, pio::get_pio_binary},
+        random_port, spawn_service,
     };
 
     #[tokio::test]
