@@ -20,6 +20,12 @@ fn main() {
                 let window_title = format!("{} - v{}", pkg_info.name, pkg_info.version);
                 win.set_title(window_title.as_str()).ok()
             });
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+                let window = app.get_window("main").unwrap();
+                window.open_devtools();
+                window.close_devtools();
+            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
