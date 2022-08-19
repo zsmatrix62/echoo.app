@@ -7,6 +7,7 @@ use crate::ui::menu::main_menu_builder;
 mod commands;
 mod events;
 mod libs;
+mod plugin;
 mod ui;
 
 fn main() {
@@ -26,6 +27,7 @@ fn main() {
             commands::fs::write_binary_file,
             commands::os::get_system
         ])
+        .plugin(plugin::EchooAPIPluginBuilder::new())
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 

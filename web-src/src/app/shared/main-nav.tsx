@@ -1,5 +1,5 @@
 import { IconGithubLogo } from "@douyinfe/semi-icons";
-import { Button, Nav, Space, Tag, Tooltip, Typography } from "@douyinfe/semi-ui";
+import { Button, Nav, Space, Tooltip } from "@douyinfe/semi-ui";
 import "./main-nav.scss"
 
 import { LogoComponent } from "../wigetds/logo";
@@ -32,7 +32,7 @@ export const MainNav = () => {
 				position='bottomLeft' >
 				{
 					isMac ?
-						<a href="https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12" target="_blank"><img src={process.env.PUBLIC_URL + "/mac-app-store-badge.svg"} /></a>
+						<a rel="noreferrer" href="https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12" target="_blank"><img alt="" src={process.env.PUBLIC_URL + "/mac-app-store-badge.svg"} /></a>
 						:
 						<Button size={"large"} onClick={onDownloadClicked}
 							icon={<Computer theme="outline" size="21" fill="var(--semi-color-primary)" />} />

@@ -45,10 +45,10 @@ export const SettingsModal = ({ visible, onVisibleChange }: settingsModelProps) 
 
 	useEffect(() => {
 		setShown(visible)
-		if (location.pathname == "/privacy") {
+		if (location.pathname === "/privacy") {
 			setShowPrivacy(true)
 		}
-	}, [setShown, visible])
+	}, [setShown, visible, location.pathname])
 
 	// noinspection RequiredAttributes
 	return (

@@ -1,5 +1,5 @@
 // @flow
-import { Space, Tag, Tooltip, Typography } from "@douyinfe/semi-ui";
+import { Space, Tooltip, Typography } from "@douyinfe/semi-ui";
 import "./log.scss"
 import logo from "../../icon.png";
 

@@ -77,17 +77,17 @@ export const UrlParserBlock = () => {
 	const SAMPLE_URL =
 		'https://www.google.com:443/search?sxsrf=ALeKk03TpCS68ykjCqWWm7_5xDzmkdCBsw%3A1591797655810&ei=l-fgXsOCMcyl-Qaq8p6AAw&q=sample+long+query+string+url&oq=sample+long+query+string+url&gs_lcp=CgZwc3ktYWIQAzoECAAQRzoCCAA6BggAEBYQHjoICCEQFhAdEB46BAgjECc6BwgAEBQQhwI6BwgjELACECc6BAgAEA06CAgAEAgQDRAeOgoIABAIEA0QChAeUIcLWP4vYIAyaAFwAXgAgAF-iAHQC5IBAzkuNpgBAKABAaoBB2d3cy13aXo&sclient=psy-ab&ved=0ahUKEwiDqtCutPfpAhXMUt4KHSq5BzAQ4dUDCAw&uact=5&bb[]=1&bb[]=ab&&bb[]=x#some-hash'
 
-	const [editorTheme, setEditorTheme] = useObservableState<string | undefined>(
-		(obs) => {
-			return obs
-		},
-		undefined
-	)
+	// const [_editorTheme, setEditorTheme] = useObservableState<string | undefined>(
+	// 	(obs) => {
+	// 		return obs
+	// 	},
+	// 	undefined
+	// )
 
 	useMount(() => {
 		Pref.getInstance().darkModeEnabled.subscribe({
-			next: (enabled) => {
-				setEditorTheme(enabled ? 'dark' : 'light')
+			next: (_) => {
+				// setEditorTheme(enabled ? 'dark' : 'light')
 			},
 		})
 	})

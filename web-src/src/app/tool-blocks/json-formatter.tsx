@@ -29,7 +29,7 @@ import CodeMirror from '@uiw/react-codemirror'
 import { isTauriAppContext } from '../../App'
 import { useWasmAPI } from '../libs/hooks/wasm-api'
 import { ValidationError } from 'wasm-api'
-import { json } from '@codemirror/lang-json'
+import { NewProperAPIClient } from '../../libs/api/client'
 
 const ErrorDisplay = ({
 	input,
@@ -229,6 +229,11 @@ export const JsonFormatterBlock = () => {
 		setInputValue('')
 	}
 
+	function onTestAPICliecked() {
+		const api = NewProperAPIClient();
+		console.log(111, api)
+	}
+
 	function onIndentSelectionChanged(
 		value: string | number | any[] | Record<string, any> | undefined
 	) {
@@ -267,6 +272,7 @@ export const JsonFormatterBlock = () => {
 								<Space>
 									<Button onClick={setRandomJson}>Sample</Button>
 									<Button onClick={onClearClicked}>Clear</Button>
+									<Button onClick={onTestAPICliecked}>Test API</Button>
 								</Space>
 							</Row>
 							<Row style={{ height: '100%' }}>

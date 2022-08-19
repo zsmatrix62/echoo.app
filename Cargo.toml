@@ -2,5 +2,6 @@
 
 members = [
     "src-tauri",
-    "wasm-api"
+    "wasm-api",
+	"api"
 ]

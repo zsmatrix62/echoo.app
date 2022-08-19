@@ -2,7 +2,7 @@ import { NavItemProps } from "@douyinfe/semi-ui/lib/es/navigation";
 import { Calendar, CodeBrackets, LinkOne, PayCode } from "@icon-park/react";
 import { ReactNode } from "react";
 import { JsonFormatterBlock } from "../tool-blocks/json-formatter";
-import { Icon, Typography } from "@douyinfe/semi-ui";
+import { Icon } from "@douyinfe/semi-ui";
 import { Base64Serde } from "../tool-blocks/base64serde";
 import { UrlParser } from "../tool-blocks/url-parser";
 import { CrontabParserBlock } from "../tool-blocks/crontab-parser";

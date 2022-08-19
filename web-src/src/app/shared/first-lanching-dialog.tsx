@@ -64,7 +64,7 @@ export const FirstLanchingModal = ({ onVisibleChange }: props) => {
 								</Space>
 								<Space align='center' style={{ marginTop: "10px" }}>
 									<Github size={24.5} />
-									<Typography.Text>Aways be an <a href="https://github.com/zsmatrix62/echoo.app" target="_blank"> open source software</a></Typography.Text>
+									<Typography.Text>Aways be an <a rel="noreferrer" href="https://github.com/zsmatrix62/echoo.app" target="_blank"> open source software</a></Typography.Text>
 								</Space>
 							</Typography.Paragraph>
 						</Col>

@@ -1,4 +1,3 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import { MainPage } from "./app/pages/main-page";
 import { useMount } from "react-use";
@@ -37,13 +36,7 @@ function App() {
 
 	// check is in tauri client or not
 	useMount(() => {
-		sharedSubsCtx.tauri$.subscribe((t) => {
-			if (t) {
-				setIsTauri(true);
-			} else {
-				setIsTauri(false);
-			}
-		});
+		setIsTauri(!!window.__TAURI__);
 	});
 
 	const [settings] = useLocalStore<EchooSettings>(
