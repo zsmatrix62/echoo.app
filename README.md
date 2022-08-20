@@ -1,5 +1,5 @@
 <div align="center">
-<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/doc/docs/img/gh-head.png?raw=true" />
+<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/main/docs/img/gh-head.png?raw=true" />
 </div>
 
 <div align="center">
