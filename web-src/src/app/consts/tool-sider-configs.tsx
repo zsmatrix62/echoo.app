@@ -4,6 +4,7 @@ import {
   CodeBrackets,
   LinkOne,
   PayCode,
+  Percentage,
   Time,
 } from '@icon-park/react'
 import { ReactNode } from 'react'
@@ -13,6 +14,7 @@ import { Base64Serde } from '../tool-blocks/base64serde'
 import { UrlParser } from '../tool-blocks/url-parser'
 import { CrontabParserBlock } from '../tool-blocks/crontab-parser'
 import { UnixTimeConverterPage } from '../tool-blocks/unix-time-converter'
+import { UrlEncodePage } from '../tool-blocks/url-encode'
 
 type ToolSiderItem = {
   navItemProps: NavItemProps
@@ -59,6 +61,14 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
       icon: <Icon svg={<Time theme="outline" />} />,
     },
     node: <UnixTimeConverterPage />,
+  },
+  'url-encode': {
+    navItemProps: {
+      itemKey: 'url-encode',
+      text: 'URL Encode/Decode',
+      icon: <Icon svg={<Percentage theme="outline" />} />,
+    },
+    node: <UrlEncodePage />,
   },
 }
 

@@ -346,45 +346,24 @@ function calendar(idate = new Date()) {
 
 function theDay(date) {
   return Math.ceil(
-    (date - new Date(date.getFullYear().toString())) / (24 * 60 * 60 * 1000) + 1
+    (new Date(date) - new Date(new Date(date).getFullYear().toString())) /
+      (24 * 60 * 60 * 1000) +
+      1
   )
 }
 
 function theWeek(now) {
-  var totalDays = 0,
-    years = now.getYear()
-  if (years < 1000) years += 1900
-  var days = new Array(12)
-  days[0] = 31
-  days[2] = 31
-  days[3] = 30
-  days[4] = 31
-  days[5] = 30
-  days[6] = 31
-  days[7] = 31
-  days[8] = 30
-  days[9] = 31
-  days[10] = 30
-  days[11] = 31
-  //判断是否为闰年，针对2月的天数进行计算
-  if (Math.round(now.getYear() / 4) == now.getYear() / 4) {
-    days[1] = 29
-  } else {
-    days[1] = 28
-  }
-  if (now.getMonth() == 0) {
-    totalDays = totalDays + now.getDate()
-  } else {
-    var curMonth = now.getMonth()
-    for (var count = 1; count <= curMonth; count++) {
-      totalDays = totalDays + days[count - 1]
-    }
-    totalDays = totalDays + now.getDate()
-  }
-  //得到第几周
-  var week = Math.round(totalDays / 7)
-  return week
+  //输入日期是年的第几天
+  var days = theDay(now)
+  //输入日期年的一月一日是周几
+  var startWeek = new Date(
+    new Date(now).getFullYear().toString() + '/01/01'
+  ).getDay()
+  //输入日期是年的第几周
+  var weeks = Math.ceil((days + startWeek - 1) / 7)
+  return weeks
 }
+
 function isLeap(now) {
   return Math.round(now.getYear() / 4) == now.getYear() / 4
 }
