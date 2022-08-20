@@ -52,16 +52,14 @@ jobs:
         CI: false
         
     - uses: tauri-apps/tauri-action@dev
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         CI: false
-       id: tauri_build
-       with:
-         tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-         target: ${{ matrix.rust_target }}
-         tagName: v__VERSION__
-         releaseName: "v__VERSION__"
-         releaseBody: "See the assets to download this version and install."
-         releaseDraft: true
-         prerelease: false
-         includeDebug: false
+      env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       CI: false
+      with:
+       tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
+       target: ${{ matrix.rust_target }}
+       releaseName: "v__VERSION__"
+       releaseBody: "See the assets to download this version and install."
+       releaseDraft: true
+       prerelease: false
+       includeDebug: false
