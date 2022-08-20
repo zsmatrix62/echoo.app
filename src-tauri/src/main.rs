@@ -7,6 +7,7 @@ use crate::ui::menu::main_menu_builder;
 mod commands;
 mod events;
 mod libs;
+mod plugin;
 mod ui;
 
 fn main() {
@@ -19,6 +20,12 @@ fn main() {
                 let window_title = format!("{} - v{}", pkg_info.name, pkg_info.version);
                 win.set_title(window_title.as_str()).ok()
             });
+            #[cfg(debug_assertions)] // only include this code on debug builds
+            {
+                let window = app.get_window("main").unwrap();
+                window.open_devtools();
+                window.close_devtools();
+            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -26,6 +33,7 @@ fn main() {
             commands::fs::write_binary_file,
             commands::os::get_system
         ])
+        .plugin(plugin::EchooAPIPluginBuilder::new())
         .build(tauri::generate_context!())
         .expect("error while running tauri application");
 

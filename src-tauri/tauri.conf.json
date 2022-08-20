@@ -1,7 +1,7 @@
 {
   "package": {
     "productName": "Echoo",
-    "version": "0.27.0"
+    "version": "0.28.0"
   },
   "build": {
     "distDir": "../web-src/build",
@@ -59,12 +59,10 @@
     "windows": [
       {
         "title": "Echoo",
-        "width": 900,
-        "height": 700,
-        "minWidth": 900,
-        "minHeight": 700,
-        "maxHeight": 900,
-        "maxWidth": 1440,
+        "width": 1440,
+        "height": 900,
+        "minWidth": 1440,
+        "minHeight": 900,
         "resizable": true,
         "fullscreen": false
       }

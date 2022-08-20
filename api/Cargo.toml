@@ -1,0 +1,39 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+prost = "0.11.0"
+tokio = {version="1.20.1"}
+tonic = { version = "0.8.0", features = ["tls", "tokio", "tracing-futures"] }
+serde = { version = "1.0.143", features = ["derive"] }
+serde_json = "1.0.83"
+# Required for wellknown types
+prost-types = "0.11.1"
+# grpc-web example
+bytes = "1.2.1"
+tonic-web = "0.4.0"
+tempdir = "0.3.7"
+dirs = "4.0.0"
+
+# command line calling
+assert_cmd = "2.0.4"
+tempfile = "3.3.0"
+
+# http
+reqwest = "0.11.11"
+
+[build-dependencies]
+tonic-build = { version = "0.8.0", features = ["prost"] }
+
+[dev-dependencies]
+hyper = "0.14.20"
+http = "0.2.8"
+
+[features]
+default = []
+server = []
+tauri = []

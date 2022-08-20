@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package tools;
+
+// #SC = Server and Client
+// #S = Server only
+// #C = Client only
+
+service Tools{
+	// #SC Sends a greeting
+	rpc SayHello(InSayHello) returns (OutSayHello){}
+
+	// #SC Image Compressor
+	rpc CompressImage(InCompressImage) returns (OutCompressImage){}
+
+	// #C Download PIO Binary for cimage compressor
+	rpc DownloadPioBinary(InDownloadPioBinary) returns (OutDownloadPioBinary){}
+
+	// #C Try PIO Binary
+	rpc TryPioBinary(InTryPioBinary) returns (OutTryPioBinary){}
+}
+
+message  InSayHello {
+	string name = 1;
+}
+message  OutSayHello{
+	string message = 1;
+}
+
+message InCompressImage{
+	bytes content = 1;
+	uint32 quality = 2;
+	string format = 3;
+}
+
+message OutCompressImage{
+	bytes content = 1;
+	uint64 i_size = 2;
+	uint64 o_size = 3;
+}
+
+message InDownloadPioBinary{}
+
+message OutDownloadPioBinary{}
+
+message InTryPioBinary{}
+
+message OutTryPioBinary{
+	bool Ok = 1;
+}

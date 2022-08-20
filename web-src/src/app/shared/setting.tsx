@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Button, Col, Form, Modal, Row, Space, Typography } from "@douyinfe/semi-ui";
+import { useEffect, useRef, useState } from 'react';
+import { Button, Col, Form, Modal, Row, SideSheet, Space, Typography } from "@douyinfe/semi-ui";
 import Section from "@douyinfe/semi-ui/lib/es/form/section";
 import { IMac, Magic, } from "@icon-park/react";
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
@@ -7,15 +7,15 @@ import { IconMoon, IconSun } from "@douyinfe/semi-icons";
 import { useLocalStore } from "../libs/hooks/localstore";
 import { useObservableState } from "observable-hooks";
 import { Pref } from "../context/pref";
+import { PrivacyPage } from './privacy';
+import { useLocation } from 'react-router-dom';
 
 export type EchooSettings = {
-	"general:share-analytics": boolean
 	"appearance:theme": "dark" | "light" | "system"
 	"updates:check-automatically": boolean
 }
 
 export const EchooSettingsDefault: EchooSettings = {
-	"general:share-analytics": true,
 	"appearance:theme": "system",
 	"updates:check-automatically": true
 }
@@ -40,9 +40,15 @@ export const SettingsModal = ({ visible, onVisibleChange }: settingsModelProps) 
 		Pref.getInstance().theme.$.next(theme)
 	}
 
+	const location = useLocation()
+	const [showPrivacy, setShowPrivacy] = useState(false)
+
 	useEffect(() => {
 		setShown(visible)
-	}, [setShown, visible])
+		if (location.pathname === "/privacy") {
+			setShowPrivacy(true)
+		}
+	}, [setShown, visible, location.pathname])
 
 	// noinspection RequiredAttributes
 	return (
@@ -58,6 +64,11 @@ export const SettingsModal = ({ visible, onVisibleChange }: settingsModelProps) 
 			keepDOM={true}
 			bodyStyle={{ overflow: 'auto', height: "400px", width: "600px" }}
 		>
+
+			<SideSheet size='medium' visible={showPrivacy} onCancel={() => { setShowPrivacy(false) }}>
+				<PrivacyPage />
+			</SideSheet>
+
 			<Form initValues={settings} ref={formRef} onValueChange={onChangeOfAnyField}
 				style={{ height: "100%" }}>
 				<Section text={<Space> <Magic size={28} /> <Typography.Text
@@ -90,6 +101,12 @@ export const SettingsModal = ({ visible, onVisibleChange }: settingsModelProps) 
 						</Col>
 					</Row>
 				</Section>
+				<Section text={<Space> <Typography.Text
+					style={{ fontSize: 18 }}>Others</Typography.Text> </Space>}>
+					<Row>
+						<Button onClick={() => { setShowPrivacy(true) }}>Privacy Policy</Button>
+					</Row>
+				</Section>
 				{/*{isTauri &&*/}
 				{/*    <Section text={<Space> <UpdateRotation size={28}/> <Typography.Text*/}
 				{/*        style={{fontSize: 18}}>Updates</Typography.Text> </Space>}>*/}
@@ -106,6 +123,6 @@ export const SettingsModal = ({ visible, onVisibleChange }: settingsModelProps) 
 				{/*    </Section>*/}
 				{/*}*/}
 			</Form>
-		</Modal>
+		</Modal >
 	);
 };

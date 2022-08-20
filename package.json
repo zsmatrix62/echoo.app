@@ -1,6 +1,6 @@
 {
   "name": "devutils-rs",
-  "version": "0.27.0",
+  "version": "0.28.0",
   "private": true,
   "dependencies": {
     "@codemirror/lang-json": "0.20.0",
