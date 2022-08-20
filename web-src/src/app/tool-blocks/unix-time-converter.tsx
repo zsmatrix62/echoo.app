@@ -159,7 +159,7 @@ export const UnixTimeConverterPage = () => {
             label={{ text: renderLabelText("Unix Timestamp", "timestamp") }}
           >
             <Form.Input
-              style={{ width: "40%" }}
+              style={{ width: "50%" }}
               field="timestamp"
               initValue={curDate.getTime()}
               onChange={(value: any) => {
@@ -168,7 +168,7 @@ export const UnixTimeConverterPage = () => {
             ></Form.Input>
             <Form.Select
               field="dateType"
-              style={{ width: "30%" }}
+              style={{ width: "50%" }}
               initValue={dateType}
               onChange={(value: any) => {
                 setDateType(value);
