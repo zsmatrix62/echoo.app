@@ -12,15 +12,6 @@ impl tools_server::Tools for EchooToolsService {
         unimplemented!()
     }
 
-    #[cfg(feature = "server")]
-    async fn say_hello(&self, rqst: Request<InSayHello>) -> Result<Response<OutSayHello>, Status> {
-        let mut res = OutSayHello::default();
-        let in_payload = rqst.into_inner();
-        res.message = format!("Hello {}! -- from server", in_payload.name);
-        let resp = Response::new(res);
-        Ok(resp)
-    }
-
     #[cfg(feature = "tauri")]
     async fn say_hello(&self, rqst: Request<InSayHello>) -> Result<Response<OutSayHello>, Status> {
         let mut res = OutSayHello::default();

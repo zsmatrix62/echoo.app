@@ -8,6 +8,7 @@
 <div align="center">
 
 <!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
+
 [![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
 [![Issues Count](https://img.shields.io/github/issues/zsmatrix62/echoo-app.svg?style=flat)](https://github.com/zsmatrix62/echoo-app/issues)
 
@@ -31,9 +32,9 @@ Client provides full `offline` features without any remote API calls on your Mac
 </a>
 
 ### Windows / Linux
+
 Download them from
 the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windows` and `Linux`.
-
 
 ## 🌏 Online Web
 
@@ -41,7 +42,7 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
 
 ## 🔑 Privacy and Data Safety
 
-`Echoo.app` clients (web / native) can be completely offline, any of the data you input will **NOT** be collected, including your codes, binary, image etc, anonymouse analysis will only be done only if you opt-in or enabled it ([check source code here](https://github.com/zsmatrix62/echoo.app/blob/4df7e95077809881d5a9f246823001b17d58e8bd/web-src/src/App.tsx#L98)). 
+`Echoo.app` clients (web / native) can be completely offline, any of the data you input will **NOT** be collected, including your codes, binary, image etc, anonymouse analysis will only be done only if you opt-in or enabled it ([check source code here](https://github.com/zsmatrix62/echoo.app/blob/4df7e95077809881d5a9f246823001b17d58e8bd/web-src/src/App.tsx#L98)).
 
 ## 🎉 Features / Todos
 
@@ -81,6 +82,7 @@ Please upvote us on:
 ---
 
 ## Examples
+
   <table>
   <tr>
     <td>

@@ -44,4 +44,3 @@ impl<R: Runtime> Plugin<R> for EchooAPIPlugin<R> {
         Ok(())
     }
 }
-
