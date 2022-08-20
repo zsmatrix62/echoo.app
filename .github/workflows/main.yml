@@ -20,6 +20,8 @@ jobs:
         node-version: 16
     - name: Setup protoc
       uses: arduino/setup-protoc@v1.1.2
+      with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: install Rust stable
       uses: actions-rs/toolchain@v1
       with:
