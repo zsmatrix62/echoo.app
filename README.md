@@ -1,9 +1,6 @@
 <div align="center">
-<img height=150 src="https://raw.githubusercontent.com/zsmatrix62/echoo-app/main/src-tauri/icons/128x128.png" />
+<img height=500 src="https://github.com/zsmatrix62/echoo.app/blob/doc/docs/img/gh-head.png?raw=true" />
 </div>
-
-<p align="center"><span>A cross-platform desktop application of tools for developers
-</span></p>
 
 <div align="center">
 
