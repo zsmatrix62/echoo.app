@@ -155,7 +155,6 @@ export const UnixTimeConverterPage = () => {
       end: new Date(),
     },
   ];
-  const { Paragraph } = Typography;
 
   return (
     <isTauriAppContext.Consumer>
