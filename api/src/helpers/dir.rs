@@ -3,7 +3,7 @@ use std::path::{
     PathBuf,
 };
 
-use dirs;
+
 
 pub(crate) fn expand_tilde<P: AsRef<Path>>(path_user_input: P) -> Option<PathBuf> {
     let p = path_user_input.as_ref();

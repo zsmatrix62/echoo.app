@@ -23,10 +23,7 @@ where
 
     println!("{:?}", output);
     if !output.status.success() {
-        let err_msg = match std::str::from_utf8(&output.stderr) {
-            Ok(v) => v,
-            Err(_) => "compressing error",
-        };
+        let err_msg = std::str::from_utf8(&output.stderr).unwrap_or("compressing error");
         Err(err_msg.into())
     } else {
         Ok(())
@@ -101,7 +98,7 @@ pub(crate) fn compress_image_file_bytes(
 /// Try PIO binary command and return validation
 pub(crate) fn try_pio() -> bool {
     let exe = get_pio_binary();
-    Command::new(format!("{}", exe.to_str().unwrap()))
+    Command::new(exe.to_str().unwrap())
         .arg("-V")
         .ok()
         .is_ok()
@@ -175,10 +172,10 @@ mod tests {
 
     #[tokio::test]
     async fn test_try_pio() {
-        if try_pio() == false {
+        if !try_pio() {
             println!("downloading pio ...");
             download_pio_bin().await;
         }
-        assert!(try_pio() == true)
+        assert!(try_pio())
     }
 }
