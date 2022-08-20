@@ -10,15 +10,6 @@ jobs:
       fail-fast: false
       matrix:
         platform: [macos-latest, ubuntu-latest, windows-latest]
-        include:
-          - os: ubuntu-latest
-            rust_target: x86_64-unknown-linux-gnu
-          - os: macos-latest
-            rust_target: x86_64-apple-darwin
-          - os: macos-latest
-            rust_target: aarch64-apple-darwin
-          - os: windows-latest
-            rust_target: x86_64-pc-windows-msvc
 
     runs-on: ${{ matrix.platform }}
     
@@ -57,7 +48,6 @@ jobs:
        CI: false
       with:
        tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version
-       target: ${{ matrix.rust_target }}
        releaseName: "v__VERSION__"
        releaseBody: "See the assets to download this version and install."
        releaseDraft: true
