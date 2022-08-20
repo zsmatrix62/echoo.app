@@ -235,18 +235,6 @@ export const JsonFormatterBlock = () => {
     setInputValue("");
   }
 
-  // TODO
-  function onTestAPICliecked() {
-    const api = NewProperAPIClient();
-    const _ = api?.tryPioBinary(new InTryPioBinary(), {}, (err, tryRes) => {
-      if (err || !tryRes?.getOk()) {
-        api?.downloadPioBinary(new InDownloadPioBinary(), {}, (err, resp) => {
-          console.log(err, resp);
-        });
-      }
-    });
-  }
-
   function onIndentSelectionChanged(
     value: string | number | any[] | Record<string, any> | undefined
   ) {
@@ -286,7 +274,6 @@ export const JsonFormatterBlock = () => {
                 <Space>
                   <Button onClick={setRandomJson}>Sample</Button>
                   <Button onClick={onClearClicked}>Clear</Button>
-                  <Button onClick={onTestAPICliecked}>Test API</Button>
                 </Space>
               </Row>
               <Row style={{ height: "100%" }}>
