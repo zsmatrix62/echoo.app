@@ -1,9 +1,9 @@
 <div align="center">
-<img height=500 src="https://github.com/zsmatrix62/echoo.app/blob/doc/docs/img/gh-head.png?raw=true" />
+<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/doc/docs/img/gh-head.png?raw=true" />
 </div>
 
 <div align="center">
-
+<br>
 <!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
 
 [![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
