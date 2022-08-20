@@ -1,12 +1,9 @@
 <div align="center">
-<img height=150 src="https://raw.githubusercontent.com/zsmatrix62/echoo-app/main/src-tauri/icons/128x128.png" />
+<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/doc/docs/img/gh-head.png?raw=true" />
 </div>
 
-<p align="center"><span>A cross-platform desktop application of tools for developers
-</span></p>
-
 <div align="center">
-
+<br>
 <!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
 
 [![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
