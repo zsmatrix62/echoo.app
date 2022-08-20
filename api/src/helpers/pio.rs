@@ -1,7 +1,9 @@
+#[cfg(target_family = "unix")]
+use std::os::unix::prelude::PermissionsExt;
+
 use std::{
     error::Error,
     io::{BufReader, Read, Write},
-    os::unix::prelude::PermissionsExt,
     path::{Path, PathBuf},
 };
 
@@ -98,10 +100,7 @@ pub(crate) fn compress_image_file_bytes(
 /// Try PIO binary command and return validation
 pub(crate) fn try_pio() -> bool {
     let exe = get_pio_binary();
-    Command::new(exe.to_str().unwrap())
-        .arg("-V")
-        .ok()
-        .is_ok()
+    Command::new(exe.to_str().unwrap()).arg("-V").ok().is_ok()
 }
 
 pub(crate) async fn download_pio_bin() -> Result<(), Box<dyn Error>> {
