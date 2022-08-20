@@ -8,55 +8,55 @@ import {
   Notification,
   Toast,
   Typography,
-} from "@douyinfe/semi-ui";
-import Textarea from "@douyinfe/semi-ui/lib/es/input/textarea";
-import { RadioChangeEvent } from "@douyinfe/semi-ui/lib/es/radio";
-import { ArrowDown, ArrowUp, Copy, CornerLeftUp } from "@icon-park/react";
-import { type } from "os";
-import { useEffect, useState } from "react";
-import useClipboard from "use-clipboard-hook";
-import { isTauriAppContext } from "../../App";
-import { AutoFitTextAreaWithRef } from "../wigetds/autofit-textarea";
-import "./url-encode.scss";
+} from '@douyinfe/semi-ui'
+import Textarea from '@douyinfe/semi-ui/lib/es/input/textarea'
+import { RadioChangeEvent } from '@douyinfe/semi-ui/lib/es/radio'
+import { ArrowDown, ArrowUp, Copy, CornerLeftUp } from '@icon-park/react'
+import { type } from 'os'
+import { useEffect, useState } from 'react'
+import useClipboard from 'use-clipboard-hook'
+import { isTauriAppContext } from '../../App'
+import { AutoFitTextAreaWithRef } from '../wigetds/autofit-textarea'
+import './url-encode.scss'
 
-const exampleString = "abc 0123 !@#$%^&*()|+?<>',.;:`";
-const inputPlaceholder = `Input`;
-const outputPlaceholder = `Output`;
+const exampleString = "abc 0123 !@#$%^&*()|+?<>',.;:`"
+const inputPlaceholder = `Input`
+const outputPlaceholder = `Output`
 
 export const UrlEncodePage = () => {
   const typeRadios = [
-    "Encode",
-    "Decode",
-    "Encode Component",
-    "Decode Component",
-  ];
-  const [curType, setCurType] = useState("Encode");
-  const [outputValue, setOutputValue] = useState<string>("");
-  const [inputValue, setInputValue] = useState<string>("");
+    'Encode',
+    'Decode',
+    'Encode Component',
+    'Decode Component',
+  ]
+  const [curType, setCurType] = useState('Encode')
+  const [outputValue, setOutputValue] = useState<string>('')
+  const [inputValue, setInputValue] = useState<string>('')
   const { copy } = useClipboard({
     onSuccess: (_) => {
-      Toast.success("copied content!");
+      Toast.success('copied content!')
     },
-  });
+  })
   const inputChange = (type: string, value: string) => {
     try {
-      if (type === "Encode") {
-        setOutputValue(encodeURI(value));
-      } else if (type === "Decode") {
-        setOutputValue(decodeURI(value));
-      } else if (type === "Encode Component") {
-        setOutputValue(encodeURIComponent(value));
-      } else if (type === "Decode Component") {
-        setOutputValue(decodeURIComponent(value));
+      if (type === 'Encode') {
+        setOutputValue(encodeURI(value))
+      } else if (type === 'Decode') {
+        setOutputValue(decodeURI(value))
+      } else if (type === 'Encode Component') {
+        setOutputValue(encodeURIComponent(value))
+      } else if (type === 'Decode Component') {
+        setOutputValue(decodeURIComponent(value))
       }
     } catch (err: any) {
-      Toast.error({ content: err.toString(), duration: 3 });
-      setOutputValue("");
+      Toast.error({ content: err.toString(), duration: 3 })
+      setOutputValue('')
     }
-  };
+  }
   useEffect(() => {
-    inputChange(curType, inputValue);
-  }, [inputValue, curType]);
+    inputChange(curType, inputValue)
+  }, [inputValue, curType])
   return (
     <isTauriAppContext.Consumer>
       {(isTauri) => (
@@ -67,14 +67,14 @@ export const UrlEncodePage = () => {
                 <Typography.Text>Input:</Typography.Text>
                 <Button
                   onClick={() => {
-                    setInputValue(exampleString);
+                    setInputValue(exampleString)
                   }}
                 >
                   Sample
                 </Button>
                 <Button
                   onClick={() => {
-                    setInputValue("");
+                    setInputValue('')
                   }}
                 >
                   Clear
@@ -84,7 +84,7 @@ export const UrlEncodePage = () => {
             <div>
               <RadioGroup
                 onChange={(e) => {
-                  setCurType(e.target.value);
+                  setCurType(e.target.value)
                 }}
                 value={curType}
               >
@@ -93,7 +93,7 @@ export const UrlEncodePage = () => {
                     <Radio key={index} value={item}>
                       {item}
                     </Radio>
-                  );
+                  )
                 })}
               </RadioGroup>
             </div>
@@ -103,14 +103,19 @@ export const UrlEncodePage = () => {
               placeholder={inputPlaceholder}
               value={inputValue}
               onChange={(value) => {
-                setInputValue(value);
+                setInputValue(value)
               }}
             ></AutoFitTextAreaWithRef>
           </div>
           <div className="action-bar">
             <Space>
               <Typography.Text>Output:</Typography.Text>
-              <Button icon={<CornerLeftUp theme="outline" />}>
+              <Button
+                icon={<CornerLeftUp theme="outline" />}
+                onClick={() => {
+                  setInputValue(outputValue)
+                }}
+              >
                 Use as input
               </Button>
             </Space>
@@ -118,7 +123,7 @@ export const UrlEncodePage = () => {
               icon={<Copy theme="outline" />}
               onClick={() => {
                 if (outputValue) {
-                  copy(outputValue);
+                  copy(outputValue)
                 }
               }}
             >
@@ -134,5 +139,5 @@ export const UrlEncodePage = () => {
         </div>
       )}
     </isTauriAppContext.Consumer>
-  );
-};
+  )
+}
