@@ -141,7 +141,7 @@ mod tests {
         let mut reader = BufReader::new(&in_file);
         let mut buf = Vec::new();
         reader.read_to_end(&mut buf);
-        msg.content = buf.into();
+        msg.content = buf;
         msg.quality = 50;
         msg.format = "jpg".to_string();
 

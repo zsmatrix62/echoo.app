@@ -9,9 +9,10 @@ pub(crate) mod helpers;
 pub mod tools;
 
 pub fn random_port() -> u16 {
-    let listener = TcpListener::bind("[::1]:0").unwrap();
-    let addr = listener.local_addr().unwrap();
-    addr.port()
+    // let listener = TcpListener::bind("[::1]:0").unwrap();
+    // let addr = listener.local_addr().unwrap();
+    // addr.port()
+    64288
 }
 
 pub async fn run_services(port: u16) -> Result<(), Box<dyn std::error::Error>> {
