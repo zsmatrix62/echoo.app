@@ -18,7 +18,7 @@
 
 </div>
 
-## 💻 Win / Mac / Linux
+## 💻 Native/Offline Client
 
 Client provides full `offline` features without any remote API calls on your Mac or PC.
 
