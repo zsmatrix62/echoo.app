@@ -6,6 +6,7 @@
 <br>
 <!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
 
+[![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases)
 [![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
 [![Issues Count](https://img.shields.io/github/issues/zsmatrix62/echoo-app.svg?style=flat)](https://github.com/zsmatrix62/echoo-app/issues)
 
@@ -33,7 +34,7 @@ Client provides full `offline` features without any remote API calls on your Mac
 Download them from
 the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windows` and `Linux`.
 
-## 🌏 Online Web
+## 🌏 Web Browser
 
 **[web.echoo.app](https://web.echoo.app)** hosts the same functionalities of client version.
 
