@@ -43,16 +43,21 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
 
 ## 🎉 Features / Todos
 
-Click link to check screenshots
+### Encode/Decoder
 
-### Formatters
+- [x] Base64 / Image Encoder and Decoder _(v0.22.0)_
+- [x] URL Parser, Encoder and Decoder \*(v0.23.0)
+- [x] Cron Job Parser _(v0.27.0)_
+- [x] URL Encoder/Decoder _(v0.28.0)_
 
-- [x] [JSON Formatter Validator](docs/json-formatter.md)
-- [x] [Base64 (Image) Encoder and Decoder](docs/base64-ende.md)
-- [x] [URL Parser, Encoder and Decoder](docs/url-parser.md)
-- [x] Cron Job Parser
+### Validator / Tester
+
 - [ ] JWT Debugger
 - [ ] RegExp Tester
+
+### Formatter
+
+- [x] JSON Formatter Validator _(v0.1.0)_
 - [ ] SQL Formatter
 
 ### Generators
@@ -63,24 +68,16 @@ Click link to check screenshots
 ### Converters
 
 - [ ] Number Base Converter
-- [ ] Unix Time Converter
+- [x] Unix Time Converter _(v0.28.0)_
 - [ ] JSON <- -> YAML
 
 ## LICENSE
 
 [AGPL-3.0](https://github.com/zsmatrix62/echoo-app/blob/main/LICENSE)
 
-## Support
+### Screenshots
 
-Please upvote us on:
-
-<a href="https://www.producthunt.com/posts/echoo-app?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-echoo&#0045;app" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=334856&theme=light" alt="Echoo&#0046;app - Open&#0045;source&#0032;&#0038;&#0032;cross&#0045;platform&#0032;app&#0032;of&#0032;tools&#0032;for&#0032;developers | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-
----
-
-## Examples
-
-  <table>
+<table>
   <tr>
     <td>
      <img src="docs/img/json-1.png" width=680px>
@@ -92,9 +89,23 @@ Please upvote us on:
   <tr> <td> <img src="docs/img/base64-img.png" width=680px></td>
     <td> <img src="docs/img/base64-str.png" width=680px></td>
   </tr>
+</table>
+
+<details>
+<summary>More Screenshots</summary>
+  <table>
   <tr>
     <td>
       <img src="docs/img/url-parser.png" width=680px>
       </td>
   </tr>
 </table>
+</details>
+
+---
+
+## Love our work?
+
+Please upvote us on:
+
+<a href="https://www.producthunt.com/posts/echoo-app?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-echoo&#0045;app" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=334856&theme=light" alt="Echoo&#0046;app - Open&#0045;source&#0032;&#0038;&#0032;cross&#0045;platform&#0032;app&#0032;of&#0032;tools&#0032;for&#0032;developers | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
