@@ -20,11 +20,13 @@ anyhow = "1.0.55"
 base64 = "0.13.0"
 # fake data generator
 fake = { version = "2.5.0", features = ['derive', 'chrono', 'http', 'uuid'] }
-jsonprima = "0.3.0" # json lint
+jsonprima = "0.3.0"                                                           # json lint
 getrandom = { version = "0.2.5", features = ["js"] }
 
 # crontab
 cron_clock = "0.8.0"
+
+pio = { git = "https://github.com/siiptuo/pio.git" }
 
 console_error_panic_hook = { version = "0.1.6", optional = true }
 wee_alloc = { version = "0.4.5", optional = true }

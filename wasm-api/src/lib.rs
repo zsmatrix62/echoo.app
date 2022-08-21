@@ -2,6 +2,7 @@
 #![allow(dead_code)]
 
 mod crontab_parser;
+mod img_compressor;
 mod json_formatter;
 mod utils;
 
