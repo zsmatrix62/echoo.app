@@ -5,6 +5,8 @@
   "dependencies": {
     "@codemirror/lang-json": "0.20.0",
     "@tauri-apps/api": "^1.0.0-rc.6",
+    "ace-builds": "^1.9.6",
+    "react-ace": "^10.1.0",
     "react-app-rewired": "^2.2.1"
   },
   "scripts": {

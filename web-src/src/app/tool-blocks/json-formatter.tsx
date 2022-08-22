@@ -25,10 +25,14 @@ import useClipboard from 'use-clipboard-hook'
 import { JSONPath } from 'jsonpath-plus'
 import { JsonPathGuide } from '../wigetds/json-path-guide'
 import { Pref } from '../context/pref'
-import CodeMirror from '@uiw/react-codemirror'
 import { isTauriAppContext } from '../../App'
 import { useWasmAPI } from '../libs/hooks/wasm-api'
 import { ValidationError } from 'wasm-api'
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-json'
+import 'ace-builds/src-noconflict/theme-github'
+import 'ace-builds/src-noconflict/theme-tomorrow_night'
+import 'ace-builds/src-noconflict/ext-language_tools'
 import { NewProperAPIClient } from '../../libs/api/client'
 import {
   InDownloadPioBinary,
@@ -345,22 +349,30 @@ export const JsonFormatterBlock = () => {
                     }
                   />
                 ) : (
-                  <Row
-                    className={`cm-block-group
-										${isTauri ? 'mod-cm-in-tauri' : 'mod-cm-in-browser'}
-										${isSidebarCollapsed ? 'mod-cm-sider-collapsed' : 'mod-cm-sider-expanded'}
-										`}
-                    type={'flex'}
-                    gutter={10}
-                  >
-                    <Row>
-                      <CodeMirror
+                  <Row className={`cm-block-group`} type={'flex'} gutter={10}>
+                    <Col span={1}>
+                      {/* <CodeMirror
                         value={outputValue}
                         // extensions={[json()]}
                         theme={editorTheme! as 'light' | 'dark'}
+                      /> */}
+                      <AceEditor
+                        mode="json"
+                        theme={
+                          editorTheme == 'dark' ? 'tomorrow_night' : 'github'
+                        }
+                        value={outputValue}
+                        name="UNIQUE_ID_OF_DIV"
+                        editorProps={{ $blockScrolling: true }}
+                        setOptions={{
+                          enableBasicAutocompletion: true,
+                          enableLiveAutocompletion: true,
+                          enableSnippets: true,
+                        }}
+                        readOnly={true}
                       />
-                    </Row>
-                    <Row>
+                    </Col>
+                    <Col>
                       <Space style={{ width: '100%' }}>
                         <Input
                           type="text"
@@ -391,7 +403,7 @@ export const JsonFormatterBlock = () => {
                           }}
                         />
                       </Space>
-                    </Row>
+                    </Col>
                   </Row>
                 )}
               </Row>
