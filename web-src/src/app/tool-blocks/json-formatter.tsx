@@ -8,96 +8,96 @@ import {
   SideSheet,
   Space,
   Toast,
-} from "@douyinfe/semi-ui";
-import "./json-formatter.scss";
+} from '@douyinfe/semi-ui'
+import './json-formatter.scss'
 import {
   IconArrowUp,
   IconCopy,
   IconHelpCircle,
   IconLayers,
-} from "@douyinfe/semi-icons";
-import { useEffect, useRef, useState } from "react";
-import { useObservableState } from "observable-hooks";
-import { useMount } from "react-use";
-import { AutoFitTextAreaWithRef } from "../wigetds/autofit-textarea";
-import Text from "@douyinfe/semi-ui/lib/es/typography/text";
-import useClipboard from "use-clipboard-hook";
-import { JSONPath } from "jsonpath-plus";
-import { JsonPathGuide } from "../wigetds/json-path-guide";
-import { Pref } from "../context/pref";
-import CodeMirror from "@uiw/react-codemirror";
-import { isTauriAppContext } from "../../App";
-import { useWasmAPI } from "../libs/hooks/wasm-api";
-import { ValidationError } from "wasm-api";
-import { NewProperAPIClient } from "../../libs/api/client";
+} from '@douyinfe/semi-icons'
+import { useEffect, useRef, useState } from 'react'
+import { useObservableState } from 'observable-hooks'
+import { useMount } from 'react-use'
+import { AutoFitTextAreaWithRef } from '../wigetds/autofit-textarea'
+import Text from '@douyinfe/semi-ui/lib/es/typography/text'
+import useClipboard from 'use-clipboard-hook'
+import { JSONPath } from 'jsonpath-plus'
+import { JsonPathGuide } from '../wigetds/json-path-guide'
+import { Pref } from '../context/pref'
+import CodeMirror from '@uiw/react-codemirror'
+import { isTauriAppContext } from '../../App'
+import { useWasmAPI } from '../libs/hooks/wasm-api'
+import { ValidationError } from 'wasm-api'
+import { NewProperAPIClient } from '../../libs/api/client'
 import {
   InDownloadPioBinary,
   InTryPioBinary,
-} from "../../libs/api/proto/tools_pb";
+} from '../../libs/api/proto/tools_pb'
 
 const ErrorDisplay = ({
   input,
   errors,
   onFirstErrorRange,
 }: {
-  input?: string;
-  errors: Array<ValidationError>;
-  onFirstErrorRange?: (start: number, end: number) => void;
+  input?: string
+  errors: Array<ValidationError>
+  onFirstErrorRange?: (start: number, end: number) => void
 }) => {
-  const [errorTags, setErrorTags] = useState<Array<JSX.Element>>([]);
+  const [errorTags, setErrorTags] = useState<Array<JSX.Element>>([])
   useEffect(() => {
     if (errors.length === 0) {
-      return;
+      return
     }
     if (!input) {
-      return;
+      return
     }
 
-    const prefixCount = 10;
-    const ellipsePlaceHolderStart = "... ";
-    const ellipsePlaceHolderEnd = " ...";
+    const prefixCount = 10
+    const ellipsePlaceHolderStart = '... '
+    const ellipsePlaceHolderEnd = ' ...'
     let tags = errors.map((vErr, idx) => {
-      let errAtGreaterThan = Number(vErr.index_start) - prefixCount > 0;
+      let errAtGreaterThan = Number(vErr.index_start) - prefixCount > 0
       let errHasLeftContent =
-        Number(vErr.index_end) + prefixCount < input.length;
+        Number(vErr.index_end) + prefixCount < input.length
 
       let startAt = errAtGreaterThan
         ? Number(vErr.index_start) - prefixCount
-        : 0;
+        : 0
       let endAt = errHasLeftContent
         ? Number(vErr.index_end) + prefixCount
-        : Number(vErr.index_end);
+        : Number(vErr.index_end)
 
       const errorHintText = `${
-        errAtGreaterThan ? ellipsePlaceHolderStart : ""
+        errAtGreaterThan ? ellipsePlaceHolderStart : ''
       } ${input.slice(startAt, endAt)}${
-        errHasLeftContent ? ellipsePlaceHolderEnd : ""
-      }`;
+        errHasLeftContent ? ellipsePlaceHolderEnd : ''
+      }`
 
       let cursorPositionStart = errAtGreaterThan
         ? startAt - ellipsePlaceHolderStart.length
-        : startAt;
-      let cursorPositionEnd = Number(vErr.index_start);
+        : startAt
+      let cursorPositionEnd = Number(vErr.index_start)
 
       if (endAt === input.length) {
-        cursorPositionStart = endAt - errorHintText.length;
-        cursorPositionEnd = endAt - 1;
+        cursorPositionStart = endAt - errorHintText.length
+        cursorPositionEnd = endAt - 1
       }
 
       if (onFirstErrorRange) {
-        onFirstErrorRange!(startAt, endAt);
+        onFirstErrorRange!(startAt, endAt)
       }
 
       return (
         <div key={idx}>
-          <Space vertical align={"start"} spacing={10}>
-            <Text type={"danger"}>
+          <Space vertical align={'start'} spacing={10}>
+            <Text type={'danger'}>
               <code>{errorHintText}</code>
             </Text>
-            <Text type={"danger"}>
+            <Text type={'danger'}>
               <code
                 style={{
-                  visibility: "hidden",
+                  visibility: 'hidden',
                   padding: 0,
                 }}
               >
@@ -112,141 +112,141 @@ const ErrorDisplay = ({
             </code>
           </Space>
         </div>
-      );
-    });
-    setErrorTags(tags);
-  }, [errors, input, onFirstErrorRange]);
-  return <Space>{errorTags}</Space>;
-};
+      )
+    })
+    setErrorTags(tags)
+  }, [errors, input, onFirstErrorRange])
+  return <Space>{errorTags}</Space>
+}
 
 export const JsonFormatterBlock = () => {
   let inputPlaceholder =
-    "Enter your text, Drag/drop files, Right click to load file";
+    'Enter your text, Drag/drop files, Right click to load file'
   const jsonIndentState = useObservableState<number>(
     Pref.getInstance().jsonFormatterDefaultIndentSpace.$
-  );
-  const [jsonPathValue, setJsonPathValue] = useState<string>("");
-  const [showJsonPathGuide, setShowJsonPathGuide] = useState<boolean>(false);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-  const jsonPathRef = useRef<HTMLInputElement>(null);
+  )
+  const [jsonPathValue, setJsonPathValue] = useState<string>('')
+  const [showJsonPathGuide, setShowJsonPathGuide] = useState<boolean>(false)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const jsonPathRef = useRef<HTMLInputElement>(null)
   const { copy } = useClipboard({
     onSuccess: (_) => {
-      Toast.success("JSON copied");
+      Toast.success('JSON copied')
     },
-  });
+  })
 
-  const wasmAPI = useWasmAPI();
+  const wasmAPI = useWasmAPI()
 
   const [inputValue, setInputValue] = useObservableState<string | undefined>(
     (obs) => {
       obs.subscribe((changedInput) => {
-        import("wasm-api").then((wasm) => {
-          let error = wasm?.validate_json(changedInput!);
+        import('wasm-api').then((wasm) => {
+          let error = wasm?.validate_json(changedInput!)
           if (error) {
-            if (error.code === "E100") {
-              return;
+            if (error.code === 'E100') {
+              return
             }
-            setValidationErrors([error]);
+            setValidationErrors([error])
           }
-        });
-      });
+        })
+      })
 
       const setOutput = (changed: string) => {
         Pref.getInstance().jsonFormatterDefaultIndentSpace.subscribe({
           next: (indent) => {
-            setValidationErrors([]);
-            setOutputJson(changed === "" ? "{}" : changed, indent);
+            setValidationErrors([])
+            setOutputJson(changed === '' ? '{}' : changed, indent)
           },
-        });
-      };
+        })
+      }
 
       obs.subscribe((changed) => {
-        setOutput(changed ?? "");
-      });
-      return obs;
+        setOutput(changed ?? '')
+      })
+      return obs
     },
     undefined
-  );
+  )
 
   const [outputValue, setOutputValue] = useObservableState<string | undefined>(
     (obs) => {
-      return obs;
+      return obs
     },
     undefined
-  );
+  )
 
   const [editorTheme, setEditorTheme] = useObservableState<string | undefined>(
     (obs) => {
-      return obs;
+      return obs
     },
     undefined
-  );
+  )
 
   const [validationErrors, setValidationErrors] = useObservableState<
     Array<any>
   >((obs) => {
-    return obs;
-  }, []);
+    return obs
+  }, [])
 
   useMount(() => {
     Pref.getInstance().darkModeEnabled.subscribe({
       next: (enabled) => {
-        setEditorTheme(enabled ? "dark" : "light");
+        setEditorTheme(enabled ? 'dark' : 'light')
       },
-    });
-  });
+    })
+  })
 
   const setOutputJson = (val?: string, indent?: number | string) => {
-    let outObj = {};
-    let content = "";
+    let outObj = {}
+    let content = ''
     try {
       if (val) {
-        outObj = JSON.parse(val);
+        outObj = JSON.parse(val)
         if (indent === 91) {
-          indent = "\t";
+          indent = '\t'
         }
-        content = JSON.stringify(outObj, null, indent);
+        content = JSON.stringify(outObj, null, indent)
       }
     } catch (e) {
     } finally {
-      setOutputValue(content);
+      setOutputValue(content)
     }
-  };
+  }
 
   const onInputChanged = (val: string) => {
-    setInputValue(val);
-    setJsonPathValue("");
-  };
+    setInputValue(val)
+    setJsonPathValue('')
+  }
 
   const onCopy = () => {
-    copy(outputValue);
-  };
+    copy(outputValue)
+  }
 
   function setRandomJson() {
-    const inputVal = wasmAPI?.get_random_json();
-    setInputValue(inputVal);
+    const inputVal = wasmAPI?.get_random_json()
+    setInputValue(inputVal)
   }
 
   function onCompressClicked() {
-    onIndentSelectionChanged(0);
+    onIndentSelectionChanged(0)
   }
 
   function onClearClicked() {
-    setInputValue("");
+    setInputValue('')
   }
 
   function onIndentSelectionChanged(
     value: string | number | any[] | Record<string, any> | undefined
   ) {
-    const indent = value as number;
-    console.debug(`setting output json as ${indent} spaces indent`);
-    setOutputJson(outputValue, indent);
-    Pref.getInstance().jsonFormatterDefaultIndentSpace.value = indent;
+    const indent = value as number
+    console.debug(`setting output json as ${indent} spaces indent`)
+    setOutputJson(outputValue, indent)
+    Pref.getInstance().jsonFormatterDefaultIndentSpace.value = indent
   }
 
   const isSidebarCollapsed = useObservableState(
     Pref.getInstance().toolsSiderCollapsed.$
-  );
+  )
 
   // noinspection RequiredAttributes
   return (
@@ -254,10 +254,10 @@ export const JsonFormatterBlock = () => {
       {(isTauri) => (
         <Row className="json-formatter-container">
           <SideSheet
-            size={"large"}
+            size={'large'}
             visible={showJsonPathGuide}
             onCancel={() => {
-              setShowJsonPathGuide(false);
+              setShowJsonPathGuide(false)
             }}
           >
             <JsonPathGuide />
@@ -267,16 +267,16 @@ export const JsonFormatterBlock = () => {
             <Col
               span={9}
               className={`input-block ${
-                isTauri ? "mod-input-block-is-tauri" : ""
+                isTauri ? 'mod-input-block-is-tauri' : ''
               }`}
             >
-              <Row style={{ padding: "10px 0" }}>
+              <Row style={{ padding: '10px 0' }}>
                 <Space>
                   <Button onClick={setRandomJson}>Sample</Button>
                   <Button onClick={onClearClicked}>Clear</Button>
                 </Space>
               </Row>
-              <Row style={{ height: "100%" }}>
+              <Row style={{ height: '100%' }}>
                 <AutoFitTextAreaWithRef
                   value={inputValue}
                   onChange={onInputChanged}
@@ -289,12 +289,12 @@ export const JsonFormatterBlock = () => {
             <Col
               span={15}
               className={`input-block ${
-                isTauri ? "mod-input-block-is-tauri" : ""
+                isTauri ? 'mod-input-block-is-tauri' : ''
               }`}
             >
               <Row
-                style={{ padding: "10px 0", flexDirection: "row-reverse" }}
-                type={"flex"}
+                style={{ padding: '10px 0', flexDirection: 'row-reverse' }}
+                type={'flex'}
               >
                 <Space>
                   <Button
@@ -347,47 +347,47 @@ export const JsonFormatterBlock = () => {
                 ) : (
                   <Row
                     className={`cm-block-group
-										${isTauri ? "mod-cm-in-tauri" : "mod-cm-in-browser"}
-										${isSidebarCollapsed ? "mod-cm-sider-collapsed" : "mod-cm-sider-expanded"}
+										${isTauri ? 'mod-cm-in-tauri' : 'mod-cm-in-browser'}
+										${isSidebarCollapsed ? 'mod-cm-sider-collapsed' : 'mod-cm-sider-expanded'}
 										`}
-                    type={"flex"}
+                    type={'flex'}
                     gutter={10}
                   >
                     <Row>
                       <CodeMirror
                         value={outputValue}
                         // extensions={[json()]}
-                        theme={editorTheme! as "light" | "dark"}
+                        theme={editorTheme! as 'light' | 'dark'}
                       />
                     </Row>
                     <Row>
-                      <Space style={{ width: "100%" }}>
+                      <Space style={{ width: '100%' }}>
                         <Input
                           type="text"
                           disabled={!validationErrors || !outputValue}
-                          placeholder={"JSON Path"}
+                          placeholder={'JSON Path'}
                           ref={jsonPathRef}
                           value={jsonPathValue}
                           onChange={(val) => {
-                            setJsonPathValue(val);
+                            setJsonPathValue(val)
                             if (val) {
                               let res = JSONPath({
                                 path: val,
                                 json: JSON.parse(inputValue!),
-                              });
+                              })
                               setOutputJson(
                                 JSON.stringify(res),
                                 jsonIndentState
-                              );
+                              )
                             } else {
-                              setInputValue(inputValue);
+                              setInputValue(inputValue)
                             }
                           }}
                         />
                         <Button
                           icon={<IconHelpCircle />}
                           onClick={() => {
-                            setShowJsonPathGuide(true);
+                            setShowJsonPathGuide(true)
                           }}
                         />
                       </Space>
@@ -400,5 +400,5 @@ export const JsonFormatterBlock = () => {
         </Row>
       )}
     </isTauriAppContext.Consumer>
-  );
-};
+  )
+}
