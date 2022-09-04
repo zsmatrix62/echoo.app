@@ -30,12 +30,6 @@ Client provides full `offline` features without any remote API calls on your Mac
 <img height=40 src="./docs/img/mac-app-store-badge.svg" />
 </a>
 
-#### Brew
-
-```shell
-brew tab zsmatrix62/echoo.app && brew install --cask echoo
-```
-
 ### Windows / Linux
 
 Download them from
