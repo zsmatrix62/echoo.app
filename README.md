@@ -25,6 +25,7 @@ Client provides full `offline` features without any remote API calls on your Mac
 
 ### MacOS
 
+#### AppStore
 <a href="https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12" target="_blank">
 <img height=40 src="./docs/img/mac-app-store-badge.svg" />
 </a>
