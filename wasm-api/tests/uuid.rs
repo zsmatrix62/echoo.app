@@ -6,7 +6,7 @@ extern crate wasm_bindgen_test;
 
 use std::{assert, assert_ne};
 
-use wasm_api::uuid::{gen_uuid_v1, gen_uuid_v3};
+use wasm_api::uuid::{decode_uuid, gen_uuid_v1, gen_uuid_v3};
 use wasm_bindgen_test::{wasm_bindgen_test, *};
 
 wasm_bindgen_test_configure!(run_in_browser);
@@ -16,8 +16,8 @@ fn test_uuid_gen_v1() {
     let _: String = (1..=10)
         .map(|_| {
             let uuid = gen_uuid_v1();
-            assert_ne!(uuid, "");
-            uuid
+            assert_ne!(uuid.std_string, "");
+            ""
         })
         .collect();
 }
@@ -42,4 +42,19 @@ fn test_uuid_gen_v3_err() {
             ""
         })
         .collect();
+}
+
+#[wasm_bindgen_test]
+fn test_decode_uuid() {
+    let uuid = decode_uuid("8cbdc22b-0dca-49c3-bb5f-4a71286834fc");
+    assert!(uuid.is_ok());
+    if let Ok(uid) = uuid {
+        assert_eq!(uid.std_string, "8cbdc22b-0dca-49c3-bb5f-4a71286834fc");
+        assert_eq!(uid.simple_string, "8cbdc22b0dca49c3bb5f4a71286834fc");
+        assert_eq!(uid.urn_string, "urn:uuid:8cbdc22b-0dca-49c3-bb5f-4a71286834fc");
+        assert_eq!(uid.version_num, 4);
+        assert_eq!(uid.version, "Random");
+        assert_eq!(uid.variant, "Standard (DCE 1.1, ISO/IEC 11578:1996)");
+        assert_eq!(uid.integer_value, "187077201714693257652363591436535870716");
+    }
 }
