@@ -39,6 +39,7 @@
 		"observable-hooks": "^4.2.0",
 		"parse-url": "^6.0.1",
 		"react": "^17.0.2",
+		"react-ace": "^10.1.0",
 		"react-dom": "^17.0.2",
 		"react-hotkeys": "^2.0.0-pre9",
 		"react-router-dom": "^6.2.1",
