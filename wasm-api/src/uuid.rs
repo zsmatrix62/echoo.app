@@ -1,9 +1,5 @@
-use mac_address::{get_mac_address, MacAddress};
-use std::time::SystemTime;
-use uuid::{
-    v1::{Context, Timestamp},
-    Uuid,
-};
+use fake::{uuid::UUIDv1, Fake};
+use uuid::{uuid, Uuid};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen(getter_with_clone)]
@@ -11,33 +7,32 @@ use wasm_bindgen::prelude::wasm_bindgen;
 pub struct UUIDRes {}
 
 #[wasm_bindgen]
-/// Generate UUID v1
+/// Generate UUID v1 using faker, mac address is not used.
 pub fn gen_uuid_v1() -> String {
-    let ctx = Context::new_random();
-    let now = SystemTime::now();
-    let epoch = now.duration_since(SystemTime::UNIX_EPOCH).unwrap();
-    let ts = Timestamp::from_unix(ctx, epoch.as_secs(), epoch.subsec_nanos());
-    let default_mac = MacAddress::new([0u8; 6]);
-    let mac_bytes = get_mac_address()
-        .map_or(default_mac, |mac| mac.unwrap_or(default_mac))
-        .bytes();
-    let uuid = Uuid::new_v1(ts, &mac_bytes);
-    uuid.to_string()
+    let uuidv1 = UUIDv1.fake();
+    uuidv1
 }
 
-#[cfg(test)]
-mod tests {
-    #[allow(unused_imports)]
-    use super::*;
-
-    #[test]
-    fn test_uuid_gen_v1() {
-        let _: String = (1..=10)
-            .map(|_| {
-                let uuid = gen_uuid_v1();
-                println!("{:?}", uuid);
-                uuid
-            })
-            .collect();
-    }
+#[wasm_bindgen]
+/// Generate UUID Version-3
+///
+/// * `ns`: namspace: use one of below or customized UUID in foramt: 00000000-0000-0000-0000-000000000000:
+///
+/// pre-defined UUIDs:
+/// - ns:dns
+/// - ns:url
+/// - ns:oid
+/// - ns:x500
+/// * `name`: anything
+pub fn gen_uuid_v3(ns: &str, name: &str) -> Result<String, String> {
+    let ns = match ns {
+        "ns:dns" => Ok(Uuid::NAMESPACE_DNS),
+        "ns:url" => Ok(Uuid::NAMESPACE_URL),
+        "ns:oid" => Ok(Uuid::NAMESPACE_OID),
+        "ns:x500" => Ok(Uuid::NAMESPACE_X500),
+        _ => Uuid::parse_str(ns)
+            .map_err(|_| "incorrect uuid format, shall be in format: 00000000-0000-0000-0000-000000000000".to_string()),
+    }?;
+    let uuid = Uuid::new_v3(&ns, name.as_bytes()).to_string();
+    Ok(uuid)
 }
