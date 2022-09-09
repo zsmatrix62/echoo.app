@@ -1,20 +1,38 @@
 use fake::{uuid::UUIDv1, Fake};
+use nanoid::nanoid;
 use uuid::{Uuid, Version};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen(getter_with_clone)]
 #[derive(Clone, Default, Debug)]
-pub struct Timestamp(f64, f32);
+/// UUIDV1 only: (nanoseconds,random-clock)
+pub struct RFC4122(String, String); // originally be type of (u64,u32)
 
 #[wasm_bindgen(getter_with_clone)]
 #[derive(Default, Debug)]
+/// Example Data:
+///
+/// ```rust
+/// UUIDRes {
+///   std_string: "1acb259e-4a60-133f-8fc1-83ba07d9470f",
+///   integer_value: "35614727142913433572590996256676464399",
+///   version_num: 1,
+///   version: "Mac Address",
+///   variant: "Standard (DCE 1.1, ISO/IEC 11578:1996)",
+///   rfc4122: RFC4122("233987482273392030", "4033"),
+///   raw_content: "1a:cb:25:9e:4a:60:13:3f:8f:c1:83:ba:7:d9:47:f",
+///   simple_string: "1acb259e4a60133f8fc183ba07d9470f",
+///   urn_string: "urn:uuid:1acb259e-4a60-133f-8fc1-83ba07d9470f"
+/// }
+/// ```
+/// * `rfc4122`: UUIDV1 only: (nanoseconds,random-clock)
 pub struct UUIDRes {
     pub std_string: String,
     pub integer_value: String,
     pub version_num: usize,
     pub version: String,
     pub variant: String,
-    pub ts: Timestamp,
+    pub rfc4122: RFC4122,
     pub raw_content: String,
 
     pub simple_string: String,
@@ -28,10 +46,12 @@ impl UUIDRes {
             uuid::Variant::RFC4122 => "Standard (DCE 1.1, ISO/IEC 11578:1996)".to_string(),
             _ => var.to_string(),
         };
-        let ts = uuid.get_timestamp().map_or(Timestamp(0f64, 0f32), |t| {
-            let unix = t.to_unix();
-            Timestamp(unix.0 as f64, unix.1 as f32)
-        });
+        let rfc4122 = uuid
+            .get_timestamp()
+            .map_or(RFC4122("0".to_string(), "0".to_string()), |t| {
+                let unix = t.to_rfc4122();
+                RFC4122(unix.0.to_string(), unix.1.to_string())
+            });
         let version_num = uuid.get_version_num();
         let version = match uuid.get_version().unwrap_or(uuid::Version::Nil) {
             Version::Random => "Random",
@@ -57,7 +77,7 @@ impl UUIDRes {
             version_num,
             version,
             variant,
-            ts,
+            rfc4122,
             raw_content,
 
             simple_string,
@@ -66,7 +86,7 @@ impl UUIDRes {
     }
 }
 
-fn gen_uuid_v3_or_v5(version: u8, ns: &str, name: &str) -> Result<String, String> {
+fn _gen_uuid_v3_or_v5(version: u8, ns: &str, name: &str) -> Result<String, String> {
     let ns = match ns {
         "ns:dns" => Ok(Uuid::NAMESPACE_DNS),
         "ns:url" => Ok(Uuid::NAMESPACE_URL),
@@ -101,7 +121,7 @@ pub fn gen_uuid_v1() -> UUIDRes {
 /// - ns:x500
 /// * `name`: anything
 pub fn gen_uuid_v3(ns: &str, name: &str) -> Result<String, String> {
-    gen_uuid_v3_or_v5(3, ns, name)
+    _gen_uuid_v3_or_v5(3, ns, name)
 }
 
 #[wasm_bindgen]
@@ -122,7 +142,12 @@ pub fn gen_uuid_v4() -> String {
 /// - ns:x500
 /// * `name`: anything
 pub fn gen_uuid_v5(ns: &str, name: &str) -> Result<String, String> {
-    gen_uuid_v3_or_v5(5, ns, name)
+    _gen_uuid_v3_or_v5(5, ns, name)
+}
+
+#[wasm_bindgen]
+pub fn gen_nanoid() -> String {
+    nanoid!()
 }
 
 #[wasm_bindgen]
@@ -133,7 +158,7 @@ pub fn decode_uuid(uuid: &str) -> Result<UUIDRes, String> {
 
 #[cfg(test)]
 mod test {
-    use crate::uuid::decode_uuid;
+    use crate::uuid::*;
 
     #[test]
     fn test_decode_uuid() {
@@ -148,5 +173,16 @@ mod test {
             assert_eq!(uid.variant, "Standard (DCE 1.1, ISO/IEC 11578:1996)");
             assert_eq!(uid.integer_value, "187077201714693257652363591436535870716");
         }
+    }
+
+    #[test]
+    fn test_gen_uuid_v1() {
+        let _: String = (1..=109)
+            .map(|_| {
+                let uuid = gen_uuid_v1();
+                println!("{:?}\n", uuid);
+                ""
+            })
+            .collect();
     }
 }
