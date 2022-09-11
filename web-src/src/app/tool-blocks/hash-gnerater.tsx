@@ -31,14 +31,15 @@ const LeftBlock = (props: {
 }) => {
 	return <>
 
-		<Space vertical style={{ width: "100%" }} align="start">
+		<Space vertical style={{ width: "100%",height:'100%',display:'flex',flexDirection:'column' }} align="start">
 			<Space>
 				<Typography.Text>Input</Typography.Text>
 				<Button>Sample</Button>
 				<Button>Loadfile...</Button>
 				<Button>Clear</Button>
 			</Space>
-			<TextArea onChange={props.onTextChanged}></TextArea>
+			
+			<TextArea style={{flex:1,marginBottom:'10px'}} onChange={props.onTextChanged}></TextArea>
 		</Space>
 	</>
 }
@@ -95,8 +96,8 @@ export const HashGeneratorBlock = () => {
 	const [input, setInput] = useState<Uint8Array>(new Uint8Array())
 
 	return <>
-		<Row>
-			<Col span={8} style={{ padding: "10px 0 0 10px" }}>
+		<Row style={{height:'100%'}}>
+			<Col span={8} style={{ padding: "10px 0 0 10px",height:'100%' }}>
 				<LeftBlock onTextChanged={(v) => setInput(new Uint8Array(convertFromStringToBuffer(v)))}></LeftBlock>
 			</Col>
 			<Col span={16} style={{ padding: "10px 0 0 10px" }}><RightBlock source={input}></RightBlock> </Col>
