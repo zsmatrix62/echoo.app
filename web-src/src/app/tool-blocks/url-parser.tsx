@@ -18,9 +18,14 @@ import { AutoFitTextAreaWithRef } from "../wigetds/autofit-textarea";
 import { Pref } from "../context/pref";
 import { IconCopy } from "@douyinfe/semi-icons";
 import parseUrl from "parse-url";
+
 import useClipboard from "use-clipboard-hook";
-import CodeMirror from "@uiw/react-codemirror";
-import { json } from "@codemirror/lang-json";
+
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/theme-tomorrow_night";
+import "ace-builds/src-noconflict/ext-language_tools";
 
 export const UrlParser = () => {
   // noinspection DuplicatedCode
@@ -127,6 +132,19 @@ export const UrlParserBlock = () => {
     });
     return obs;
   }, "");
+  const [editorTheme, setEditorTheme] = useObservableState<string | undefined>(
+    (obs) => {
+      return obs;
+    },
+    undefined
+  );
+  useMount(() => {
+    Pref.getInstance().darkModeEnabled.subscribe({
+      next: (enabled) => {
+        setEditorTheme(enabled ? "dark" : "light");
+      },
+    });
+  });
 
   return (
     <Row className={"parser-block-container"}>
@@ -198,8 +216,9 @@ export const UrlParserBlock = () => {
             </Descriptions.Item>
           </Descriptions>
         </Col>
-        <Col span={14} style={{ paddingLeft: 10 }}>
+        <Col span={14} style={{height:'100%', paddingLeft: 10,display:'flex',flexDirection:'column'}}>
           <Row>
+            <Space style={{padding:'10px 0' }}>
             <Button
               icon={<IconCopy />}
               onClick={() => {
@@ -209,13 +228,23 @@ export const UrlParserBlock = () => {
             >
               Copy
             </Button>
+            </Space>
           </Row>
-          <Row>
-            <CodeMirror
-              editable={false}
+          <Row style={{flex:1}}>
+            <AceEditor
+              mode="json"
+              width="100%"
+              height="100%"
+              theme={editorTheme == "dark" ? "tomorrow_night" : "github"}
               value={outValue}
-              className="query-json"
-              lang="json"
+              name="UNIQUE_ID_OF_Col"
+              editorProps={{ $blockScrolling: true }}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+              }}
+              readOnly={true}
             />
           </Row>
         </Col>

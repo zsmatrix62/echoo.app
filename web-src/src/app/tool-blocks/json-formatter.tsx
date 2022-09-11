@@ -290,14 +290,14 @@ export const JsonFormatterBlock = () => {
                 />
               </Row>
             </Col>
-            <Col
-              span={15}
+            <div
               className={`input-block ${
                 isTauri ? 'mod-input-block-is-tauri' : ''
               }`}
+              style={{display:'flex',flexDirection:'column',flex:1}}
             >
               <Row
-                style={{ padding: '10px 0', flexDirection: 'row-reverse' }}
+                style={{ padding: '10px 0', flexDirection: 'row-reverse', }}
                 type={'flex'}
               >
                 <Space>
@@ -329,7 +329,7 @@ export const JsonFormatterBlock = () => {
                   </Button>
                 </Space>
               </Row>
-              <Row className="cm-block">
+              <Row className="cm-block" style={{flex:1}}>
                 {validationErrors.length > 0 ? (
                   <Banner
                     className="validation-error"
@@ -349,8 +349,8 @@ export const JsonFormatterBlock = () => {
                     }
                   />
                 ) : (
-                  <Row className={`cm-block-group`} type={'flex'} gutter={10}>
-                    <Col span={1}>
+                  <Row className={`cm-block-group`} style={{flex:'1',display:'flex',flexDirection:'column'}} gutter={10}>
+                    <Col style={{width:'100%', flex:1}}>
                       {/* <CodeMirror
                         value={outputValue}
                         // extensions={[json()]}
@@ -358,11 +358,13 @@ export const JsonFormatterBlock = () => {
                       /> */}
                       <AceEditor
                         mode="json"
+                        width='100%'
+                        height='100%'
                         theme={
                           editorTheme == 'dark' ? 'tomorrow_night' : 'github'
                         }
                         value={outputValue}
-                        name="UNIQUE_ID_OF_DIV"
+                        name="UNIQUE_ID_OF_Col"
                         editorProps={{ $blockScrolling: true }}
                         setOptions={{
                           enableBasicAutocompletion: true,
@@ -373,7 +375,7 @@ export const JsonFormatterBlock = () => {
                       />
                     </Col>
                     <Col>
-                      <Space style={{ width: '100%' }}>
+                      <Space style={{ width: '100%',padding:'10px 0' }}>
                         <Input
                           type="text"
                           disabled={!validationErrors || !outputValue}
@@ -407,7 +409,7 @@ export const JsonFormatterBlock = () => {
                   </Row>
                 )}
               </Row>
-            </Col>
+            </div>
           </Row>
         </Row>
       )}
