@@ -11,16 +11,16 @@ use wasm_bindgen_test::{wasm_bindgen_test, *};
 
 wasm_bindgen_test_configure!(run_in_browser);
 
-#[wasm_bindgen_test]
-fn test_uuid_gen_v1() {
-    let _: String = (1..=10)
-        .map(|_| {
-            let uuid = gen_uuid_v1();
-            assert_ne!(uuid.std_string, "");
-            ""
-        })
-        .collect();
-}
+// #[wasm_bindgen_test]
+// fn test_uuid_gen_v1() {
+//     let _: String = (1..=10)
+//         .map(|_| {
+//             let uuid = gen_uuid_v1();
+//             assert_ne!(uuid.std_string, "");
+//             ""
+//         })
+//         .collect();
+// }
 
 #[wasm_bindgen_test]
 fn test_uuid_gen_v3_ok() {
