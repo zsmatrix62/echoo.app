@@ -1,19 +1,13 @@
-import { Row, Col, Space, Typography, Button, TextArea } from "@douyinfe/semi-ui"
-import { stringToArrayBuffer } from "@improbable-eng/grpc-web/dist/typings/transports/http/xhr"
+import { Row, Col, Space, Typography, Button, TextArea, Input, Divider } from "@douyinfe/semi-ui"
+import { randSentence } from "@ngneat/falso"
 import { useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { useMount, useStateList } from "react-use"
 import { BehaviorSubject } from "rxjs"
 import { convertToObject } from "typescript"
+import { isTauriAppContext } from "../../App"
 import { useWasmAPI } from "../libs/hooks/wasm-api"
 import { CopyableInput } from "../shared/copyableInput"
-
-const VerCopyItem = (props: { title: string, content: string }) => {
-	return <Space vertical style={{ marginTop: '10px', width: '100%' }} align='start'>
-		<Typography.Text>{props.title}</Typography.Text>
-		<CopyableInput content={props.content} width="100%" ></CopyableInput>
-	</Space>
-}
 
 function convertFromStringToBuffer(value: string): ArrayBuffer {
 	// Encode with UTF-8
@@ -27,18 +21,65 @@ function convertFromBufferToString(value: ArrayBuffer): string {
 }
 
 const LeftBlock = (props: {
-	onTextChanged: (v: string) => void
+	onInputChanged: (v: Uint8Array) => void
 }) => {
-	return <>
 
+	const [inputValue, setInputValue] = useState("")
+
+	const onTextChanged = (v: string) => {
+		setInputValue(v)
+		props.onInputChanged(new Uint8Array(convertFromStringToBuffer(v)))
+	}
+
+	const fileReaderRef = useRef<HTMLInputElement>(null)
+	const handelInputChange = () => {
+		if (fileReaderRef?.current?.files) {
+			const selectedFile = fileReaderRef!.current!.files![0];
+			// setIsLoadingFile(true)
+			selectedFile.arrayBuffer().then((data) => {
+				props.onInputChanged(new Uint8Array(data))
+			}).finally(
+				() => {
+					// setIsLoadingFile(false)
+				}
+			)
+		}
+	}
+	const isTauri = useContext(isTauriAppContext)
+	const onLoadFileClicked = async () => {
+		if (fileReaderRef.current) {
+			// setIsLoadingFile(true)
+			if (isTauri) {
+				// @ts-ignore
+				const tauri = window.__TAURI__;
+				let filePath = await tauri.dialog.open();
+				if (filePath) {
+					tauri.invoke("read_binary_file", { "path": filePath }).then((invokeRes: [string, Uint8Array]) => {
+						let data = invokeRes[1]
+						props.onInputChanged(data)
+					});
+				}
+			} else {
+				fileReaderRef.current.click()
+			}
+			// setIsLoadingFile(false)
+		}
+	}
+
+	return <>
+		<input type={"file"} style={{ display: "none" }} ref={fileReaderRef}
+			onChange={handelInputChange} />
 		<Space vertical style={{ width: "100%" }} align="start">
 			<Space>
 				<Typography.Text>Input</Typography.Text>
-				<Button>Sample</Button>
-				<Button>Loadfile...</Button>
+				<Button onClick={() => {
+					onTextChanged(randSentence({ length: 1 })[0])
+				}}>Sample</Button>
+				<Button onClick={onLoadFileClicked}>Loadfile...</Button>
 				<Button>Clear</Button>
 			</Space>
-			<TextArea onChange={props.onTextChanged}></TextArea>
+			<TextArea value={inputValue}
+				onChange={onTextChanged}></TextArea>
 		</Space>
 	</>
 }
@@ -51,10 +92,14 @@ const RightBlock = (props: { source: Uint8Array }) => {
 	const algoItems = (wasm?: any) => {
 		return {
 			"md5": wasm?.digest_md5,
+			"sha224": wasm?.digest_sha224,
 			"sha256": wasm?.digest_sha256,
-			"sha512": wasm?.digest_sha512,
 			"sha348": wasm?.digest_sha348,
-			"sha224": wasm?.digest_sha224
+			"sha512": wasm?.digest_sha512,
+			"sha3-224": wasm?.digest_sha3_224,
+			"sha3-256": wasm?.digest_sha3_256,
+			"sha3-384": wasm?.digest_sha3_384,
+			"sha3-512": wasm?.digest_sha3_512,
 		}
 	}
 
@@ -68,6 +113,10 @@ const RightBlock = (props: { source: Uint8Array }) => {
 		resetFields();
 	})
 	useEffect(() => {
+		if (props.source.length == 0) {
+			resetFields()
+			return
+		}
 		import("wasm-api").then(wasm => {
 			const _items = algoItems(wasm);
 			setHashFields(Object.keys(_items).map(algo => {
@@ -78,17 +127,31 @@ const RightBlock = (props: { source: Uint8Array }) => {
 		})
 	}, [props])
 
-	return <Row gutter={4} >
-		{hashFields.map((f, idx) => {
+	return <Row gutter={4} style={{ width: "100%" }}>
+		<Col span={20} style={{ width: "100%", paddingRight: "20px" }} >
+			<Space vertical align="start" style={{ width: "100%" }} >
+				<Typography.Text>Match hash:</Typography.Text>
+				<Input placeholder={"Input hash string to match below calculated"} style={{ width: "100%" }} />
+			</Space>
+		</Col>
 
-			return <Col span={12} style={{ padding: "10px", }} key={idx}>
-				<Space key={idx} vertical align="start" style={{ width: "100%" }}>
-					<Typography.Text>{f.title}:</Typography.Text>
-					<CopyableInput content={f.content} width="100%"></CopyableInput>
-				</Space>
-			</Col>
-		})}
-	</Row>
+		<Col span={20} style={{ width: "100%" }}>
+			<Divider style={{ paddingTop: "15px" }}></Divider>
+		</Col>
+
+		<Col span={20} style={{ width: "100%" }}>
+			<Row gutter={4}>
+				{hashFields.map((f, idx) => {
+					return <Col span={12} style={{ padding: "10px", }} key={idx}>
+						<Space key={idx} vertical align="start" style={{ width: "100%" }}>
+							<Typography.Text>{f.title}:</Typography.Text>
+							<CopyableInput content={f.content} width="100%"></CopyableInput>
+						</Space>
+					</Col>
+				})}
+			</Row>
+		</Col>
+	</Row >
 }
 
 export const HashGeneratorBlock = () => {
@@ -97,7 +160,7 @@ export const HashGeneratorBlock = () => {
 	return <>
 		<Row>
 			<Col span={8} style={{ padding: "10px 0 0 10px" }}>
-				<LeftBlock onTextChanged={(v) => setInput(new Uint8Array(convertFromStringToBuffer(v)))}></LeftBlock>
+				<LeftBlock onInputChanged={(v) => setInput(v)}></LeftBlock>
 			</Col>
 			<Col span={16} style={{ padding: "10px 0 0 10px" }}><RightBlock source={input}></RightBlock> </Col>
 		</Row>
