@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Input, InputNumber, Row, Select, Space, TabPane, Tabs, TextArea, Toast, Typography } from "@douyinfe/semi-ui"
+import { Button, Card, Checkbox, Col, Input, InputNumber, Row, Select, Space, TabPane, Tabs, TextArea, Toast, Typography } from "@douyinfe/semi-ui"
 import { CheckboxEvent } from "@douyinfe/semi-ui/lib/es/checkbox"
 import { useObservable, useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
 import { useCallback, useRef, useState } from "react"
@@ -80,7 +80,7 @@ const LeftBlock = () => {
 	}
 
 	return <>
-		<Row style={{ padding: '10px 0' }}>
+		<Row style={{ padding: '0 0 20px 0' }}>
 			<Space spacing={'medium'}>
 				<Space>
 					<Typography.Text>Input:</Typography.Text>
@@ -375,8 +375,16 @@ const RightBlock = () => {
 export const UUIDGeneratorBlock = () => {
 	return (
 		<Row>
-			<Col span={8} style={{ padding: '0 10px' }}> <LeftBlock /> </Col>
-			<Col span={16} style={{ padding: "16px 10px 0 10px" }}><RightBlock /> </Col>
+			<Col span={8} style={{ padding: "16px 10px 0 10px" }}>
+				<Card title="Decoder">
+					<LeftBlock />
+				</Card>
+			</Col>
+			<Col span={16} style={{ padding: "16px 10px 0 10px" }}>
+				<Card title="Generater">
+					<RightBlock />
+				</Card>
+			</Col>
 		</Row >
 	)
 }
