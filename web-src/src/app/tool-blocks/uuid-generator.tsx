@@ -1,9 +1,8 @@
 import { Button, Card, Checkbox, Col, Input, InputNumber, Row, Select, Space, TabPane, Tabs, TextArea, Toast, Typography } from "@douyinfe/semi-ui"
 import { CheckboxEvent } from "@douyinfe/semi-ui/lib/es/checkbox"
-import { useObservable, useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
-import { useCallback, useRef, useState } from "react"
-import { useMount, useSetState } from "react-use"
-import { BehaviorSubject, lastValueFrom, map, mapTo, Subject, SubjectLike } from "rxjs"
+import { useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
+import { useRef, useState } from "react"
+import { BehaviorSubject, map } from "rxjs"
 import useClipboard from "use-clipboard-hook"
 import { UUIDRes } from "wasm-api"
 import { CopyableInput } from "../shared/copyableInput"
@@ -363,7 +362,7 @@ const RightBlock = () => {
 				<Checkbox style={{ padding: '7px 0' }} value={uppercase} onChange={onUppercaseChanged}>Uppercase</Checkbox>
 			</Col>
 		</Row >
-		<Row  style={{ paddingTop: '10px'}}>
+		<Row style={{ paddingTop: '10px' }}>
 			<Tabs tabPosition="left" ref={tabRef} onChange={setActiveIndex}>
 				{Object.keys(tabKeyMap).map((k) => {
 					return (
@@ -380,14 +379,14 @@ const RightBlock = () => {
 
 export const UUIDGeneratorBlock = () => {
 	return (
-		<Row style={{height:'100%'}}>
-			<Col span={8} style={{ padding: "16px 10px 10px 10px",height:'100%' }}>
-				<Card title="Decoder" style={{height:'100%',overflow:'auto'}}>
+		<Row style={{ height: '100%' }}>
+			<Col span={8} style={{ padding: "16px 10px 10px 10px", height: '100%' }}>
+				<Card title={"Decoder"} headerStyle={{ padding: "10px 10px" }} style={{ height: '100%', overflow: 'auto', scrollbarWidth: 'none' }}>
 					<LeftBlock />
 				</Card>
 			</Col>
-			<Col span={16} style={{ padding: "16px 10px 10px 10px",height:'100%' }}>
-				<Card title="Generator" style={{height:'100%'}}>
+			<Col span={16} style={{ padding: "16px 10px 10px 10px", height: '100%' }}>
+				<Card title="Generator" headerStyle={{ padding: "10px 10px" }} style={{ height: '100%' }}>
 					<RightBlock />
 				</Card>
 			</Col>

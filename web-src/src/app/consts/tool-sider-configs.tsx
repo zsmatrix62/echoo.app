@@ -7,6 +7,7 @@ import {
 	PayCode,
 	Percentage,
 	Time,
+	WavesRight,
 } from '@icon-park/react'
 import { ReactNode } from 'react'
 import { JsonFormatterBlock } from '../tool-blocks/json-formatter'
@@ -17,6 +18,7 @@ import { CrontabParserBlock } from '../tool-blocks/crontab-parser'
 import { UnixTimeConverterPage } from '../tool-blocks/unix-time-converter'
 import { UrlEncodePage } from '../tool-blocks/url-encode'
 import { UUIDGeneratorBlock } from '../tool-blocks/uuid-generator'
+import { HashGeneratorBlock } from '../tool-blocks/hash-gnerater'
 
 type ToolSiderItem = {
 	navItemProps: NavItemProps
@@ -79,6 +81,14 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
 			icon: <Icon svg={<FingerprintThree theme="outline" />} />,
 		},
 		node: <UUIDGeneratorBlock />,
+	},
+	'hash-generator': {
+		navItemProps: {
+			itemKey: 'hash-generator',
+			text: 'Hash Generator',
+			icon: <Icon svg={<WavesRight theme="outline" />} />,
+		},
+		node: <HashGeneratorBlock />,
 	},
 }
 
