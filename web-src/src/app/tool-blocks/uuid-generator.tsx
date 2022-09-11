@@ -387,7 +387,7 @@ export const UUIDGeneratorBlock = () => {
 				</Card>
 			</Col>
 			<Col span={16} style={{ padding: "16px 10px 0 10px" }}>
-				<Card title="Generater">
+				<Card title="Generator">
 					<RightBlock />
 				</Card>
 			</Col>
