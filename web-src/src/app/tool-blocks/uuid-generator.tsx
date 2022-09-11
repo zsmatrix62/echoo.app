@@ -183,10 +183,10 @@ const Uuid35Input = (props: { cb: (uuid: string, name: string) => void }) => {
 }
 
 const RightBlock = () => {
-	const IDsTextArea = (props: { rows: number, content: string }) => {
+	const IDsTextArea = (props: { rows: number | string, content: string }) => {
 		return <TextArea
 			contentEditable={false}
-			style={{ overflow: "scroll", height: "400px" }} rows={props.rows} value={props.content}></TextArea>
+			style={{ overflow: "scroll", height: "400px" }} rows={props.rows as number} value={props.content}></TextArea>
 	}
 
 	const tabRef = useRef<Tabs>(null)
@@ -198,7 +198,13 @@ const RightBlock = () => {
 	}
 	const [visibleTabs, setVisibleTabs] = useObservableState<string>(obs => obs, "123")
 	const [uuidCount, setUuidCount] = useObservableState(obs => {
-		obs.subscribe(_ => { setUuids([]) })
+		obs.subscribe(c => {
+			if (!!!c) { return }
+			setUuids([])
+			if (c <= 9999) {
+				onGenerateClicked(c)
+			}
+		})
 		return obs
 	}, 100)
 
@@ -252,9 +258,9 @@ const RightBlock = () => {
 		}
 	}
 
-	const onGenerateClicked = () => {
+	const onGenerateClicked = (c?: number) => {
 		import("wasm-api").then(wasm => {
-			const genRange = new Array(uuidCount).fill(0);
+			const genRange = new Array(c || uuidCount || 0).fill(0);
 			const [ns, n] = nsName;
 			switch (genVersion) {
 				case "uuidv1":
@@ -334,7 +340,7 @@ const RightBlock = () => {
 					<Typography.Text>X</Typography.Text>
 					<InputNumber
 						disabled={!enableUuidCount}
-						style={{ width: "70px" }} min={1} defaultValue={uuidCount} value={uuidCount} hideButtons onChange={v => {
+						style={{ width: "70px" }} min={1} max={9999} defaultValue={uuidCount} value={uuidCount} hideButtons onChange={v => {
 							setUuidCount(v as number)
 						}} />
 				</Space>
@@ -348,7 +354,7 @@ const RightBlock = () => {
 		<Row type='flex' justify="space-between" style={{ paddingTop: '10px' }} >
 			<Col>
 				<Space>
-					<Button onClick={onGenerateClicked}>Generate</Button>
+					<Button onClick={() => { onGenerateClicked() }}>Generate</Button>
 					<Button disabled={uuidString.length == 0} onClick={() => { onCopy() }}>Copy</Button>
 					<Button disabled={uuidString.length == 0} onClick={() => { setUuids([]) }}>Clear</Button>
 				</Space>
