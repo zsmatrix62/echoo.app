@@ -1,9 +1,10 @@
 import { Input, Space, Typography } from "@douyinfe/semi-ui";
+import { ValidateStatus } from "@douyinfe/semi-ui/lib/es/timePicker";
 import { Copy, Correct } from "@icon-park/react";
 import { useState } from "react";
 import useClipboard from "use-clipboard-hook";
 
-export const CopyableInput = (props: { content: string | number, width?: string }) => {
+export const CopyableInput = (props: { content: string | number, width?: string, state?: ValidateStatus }) => {
 	const [copiedOk, setCopiedOk] = useState(false);
 	const { copy } = useClipboard({
 		onSuccess: (_) => {
@@ -25,6 +26,7 @@ export const CopyableInput = (props: { content: string | number, width?: string 
 			<Input
 				style={{ paddingLeft: "0", width: `${props.width ? props.width : '300px'}` }}
 				contentEditable={false}
+				validateStatus={props.state}
 				value={props.content}
 			/>
 			<Typography.Text
