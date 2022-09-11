@@ -199,8 +199,8 @@ const RightBlock = () => {
 	const [visibleTabs, setVisibleTabs] = useObservableState<string>(obs => obs, "123")
 	const [uuidCount, setUuidCount] = useObservableState(obs => {
 		obs.subscribe(c => {
-			if (!!!c) { return }
 			setUuids([])
+			if (!!!c) { return }
 			if (c <= 9999) {
 				onGenerateClicked(c)
 			}
