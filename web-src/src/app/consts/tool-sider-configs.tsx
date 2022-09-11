@@ -2,6 +2,7 @@ import { NavItemProps } from '@douyinfe/semi-ui/lib/es/navigation'
 import {
   Calendar,
   CodeBrackets,
+  FingerprintThree,
   LinkOne,
   PayCode,
   Percentage,
@@ -15,6 +16,7 @@ import { UrlParser } from '../tool-blocks/url-parser'
 import { CrontabParserBlock } from '../tool-blocks/crontab-parser'
 import { UnixTimeConverterPage } from '../tool-blocks/unix-time-converter'
 import { UrlEncodePage } from '../tool-blocks/url-encode'
+import { UUIDGeneratorBlock } from '../tool-blocks/uuid-generator'
 
 type ToolSiderItem = {
   navItemProps: NavItemProps
@@ -69,6 +71,14 @@ const ToolSiderConfigs: { [key: string]: ToolSiderItem } = {
       icon: <Icon svg={<Percentage theme="outline" />} />,
     },
     node: <UrlEncodePage />,
+  },
+  'uuid-generator': {
+    navItemProps: {
+      itemKey: 'uuid-generator',
+      text: 'UUID Generator/Decoder',
+      icon: <Icon svg={<FingerprintThree theme="outline" />} />,
+    },
+    node: <UUIDGeneratorBlock />,
   },
 }
 

@@ -4,6 +4,7 @@
 mod crontab_parser;
 mod json_formatter;
 mod utils;
+pub mod uuid;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
