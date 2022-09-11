@@ -73,7 +73,7 @@ const LeftBlock = (props: {
 					onTextChanged(randSentence({ length: 1 })[0], true)
 				}}>Sample</Button>
 				<Button onClick={onLoadFileClicked}>Loadfile...</Button>
-				<Button>Clear</Button>
+				<Button onClick={() => { onTextChanged("") }}>Clear</Button>
 			</Space >
 			<TextArea style={{ flex: 1, marginBottom: '10px' }} value={inputValue}
 				onChange={(v) => { onTextChanged(v) }} ></TextArea >
