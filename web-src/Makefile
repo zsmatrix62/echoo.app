@@ -10,7 +10,7 @@ build-gh-web: install
 deploy: build-gh-web
 	echo 'web.echoo.app' > ./build/CNAME && yarn gh-pages -d build
 
-install: 
+install:
 	yarn install
 
 protobuf-src-dir = ../api/proto

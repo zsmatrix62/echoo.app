@@ -363,7 +363,7 @@ const RightBlock = () => {
 				<Checkbox style={{ padding: '7px 0' }} value={uppercase} onChange={onUppercaseChanged}>Uppercase</Checkbox>
 			</Col>
 		</Row >
-		<Row style={{ paddingTop: '10px' }}>
+		<Row  style={{ paddingTop: '10px'}}>
 			<Tabs tabPosition="left" ref={tabRef} onChange={setActiveIndex}>
 				{Object.keys(tabKeyMap).map((k) => {
 					return (
@@ -380,14 +380,14 @@ const RightBlock = () => {
 
 export const UUIDGeneratorBlock = () => {
 	return (
-		<Row>
-			<Col span={8} style={{ padding: "16px 10px 0 10px" }}>
-				<Card title="Decoder">
+		<Row style={{height:'100%'}}>
+			<Col span={8} style={{ padding: "16px 10px 10px 10px",height:'100%' }}>
+				<Card title="Decoder" style={{height:'100%',overflow:'auto'}}>
 					<LeftBlock />
 				</Card>
 			</Col>
-			<Col span={16} style={{ padding: "16px 10px 0 10px" }}>
-				<Card title="Generator">
+			<Col span={16} style={{ padding: "16px 10px 10px 10px",height:'100%' }}>
+				<Card title="Generator" style={{height:'100%'}}>
 					<RightBlock />
 				</Card>
 			</Col>
