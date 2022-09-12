@@ -1,10 +1,11 @@
-import { IconLoading } from "@douyinfe/semi-icons"
+import { IconLoading, } from "@douyinfe/semi-icons"
 import { Row, Col, Space, Typography, Button, TextArea, Input, Divider, Spin } from "@douyinfe/semi-ui"
 import { ValidateStatus } from "@douyinfe/semi-ui/lib/es/timePicker"
 import { randSentence } from "@ngneat/falso"
 import { useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
 import { useContext, useEffect, useRef, useState } from "react"
 import { useMount, } from "react-use"
+import { Subject, toArray } from "rxjs"
 import { isTauriAppContext } from "../../App"
 import { CopyableInput } from "../shared/copyableInput"
 
@@ -14,22 +15,27 @@ function convertFromStringToBuffer(value: string): ArrayBuffer {
 	return encoder.encode(value);
 }
 
-function convertFromBufferToString(value: ArrayBuffer): string {
-	// Decode with UTF-8
-	const decoder = new TextDecoder();
-	return decoder.decode(value);
-}
+// function convertFromBufferToString(value: ArrayBuffer): string {
+// 	// Decode with UTF-8
+// 	const decoder = new TextDecoder();
+// 	return decoder.decode(value);
+// }
+
+type isFileLoadingType = { loading: boolean, tip: string }
 
 const LeftBlock = (props: {
 	onInputChanged: (v: Uint8Array, is_sample: boolean) => void,
-	fileLoading?: (yes: boolean) => void
+	fileLoading?: (sts: isFileLoadingType) => void
 }) => {
 
 	const [inputValue, setInputValue] = useState("")
-	const [isLoadingFile, setIsLoadingFile] = useState(false)
+	const [isLoadingFile, setIsLoadingFile] = useState<isFileLoadingType>({ loading: false, tip: "" })
 	useEffect(() => {
 		if (props.fileLoading) {
 			props.fileLoading(isLoadingFile)
+			if (!isLoadingFile.loading) {
+				onTextChanged("")
+			}
 		}
 	}, [isLoadingFile])
 
@@ -42,10 +48,12 @@ const LeftBlock = (props: {
 	const handelInputChange = () => {
 		if (fileReaderRef?.current?.files) {
 			const selectedFile = fileReaderRef!.current!.files![0];
-			setIsLoadingFile(true)
+			setIsLoadingFile({ loading: true, tip: "loading & hashing" })
 			selectedFile.arrayBuffer().then((data) => {
 				props.onInputChanged(new Uint8Array(data), false)
-			}).finally(() => { setIsLoadingFile(false) })
+			}).finally(() => {
+				setIsLoadingFile({ loading: false, tip: "" })
+			})
 		}
 	}
 
@@ -53,7 +61,7 @@ const LeftBlock = (props: {
 
 	const onLoadFileClicked = async () => {
 		if (fileReaderRef.current) {
-			setIsLoadingFile(true)
+			setIsLoadingFile({ loading: true, tip: "loading & hashing" })
 			if (isTauri) {
 				// @ts-ignore
 				const tauri = window.__TAURI__;
@@ -67,7 +75,7 @@ const LeftBlock = (props: {
 			} else {
 				fileReaderRef.current.click()
 			}
-			setIsLoadingFile(false)
+			setIsLoadingFile({ loading: false, tip: "" })
 		}
 	}
 
@@ -89,7 +97,13 @@ const LeftBlock = (props: {
 		</Space>
 	</>
 }
-const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
+
+const RightBlock = (
+	props: {
+		source: Uint8Array, selectSample: boolean,
+	}
+) => {
+
 	type hashField = {
 		title: string,
 		content: string,
@@ -98,11 +112,16 @@ const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
 
 	const hilightInputMatch = (m: string) => {
 		hashFields.forEach(f => { f.state = m == f.content ? "warning" : "default" })
-		setHashFields(hashFields)
-		console.log(hashFields)
+		setHashFields$(hashFields)
 	}
 
-	const [hashFields, setHashFields] = useObservableState<hashField[]>(obs => obs, [])
+	const [hashFields, _setHashFields] = useObservableState<hashField[]>(obs => obs, [])
+	const [setHashFields$, hashFields$] = useObservableCallback<hashField[], hashField[]>(e$ => e$,)
+	useSubscription(hashFields$, (res) => {
+		_setHashFields(res)
+	})
+
+	const [hashFieldsLoading, setHashFieldsLoading] = useObservableState<{ [key: string]: boolean }>(obs => obs, { "": false })
 
 	const [matchField, _setMatchField] = useState<string>("")
 	const [setMatchField$, matchField$] = useObservableCallback<string, string>(e$ => e$,)
@@ -126,7 +145,7 @@ const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
 	}
 
 	const resetFields = () => {
-		setHashFields(Object.keys(algoItems()).map(algo => {
+		setHashFields$(Object.keys(algoItems()).map(algo => {
 			return { title: algo.toUpperCase(), content: "", state: "default" }
 		}))
 	}
@@ -137,25 +156,35 @@ const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
 
 	useEffect(() => {
 		if (props.source.length == 0) {
-			resetFields()
+			// resetFields()
 			return
 		}
+
 		import("wasm-api").then(wasm => {
 			const _items = algoItems(wasm);
-			let found = false
-			const fields = Object.keys(_items).map(algo => {
+			Object.keys(_items).forEach(algo => {
+				hashFieldsLoading[algo] = true
+			})
+			setHashFieldsLoading(hashFieldsLoading)
+
+			const genHashField = (algo: string) => {
 				//@ts-ignore
-				const genFunc = _items[algo];
-				const content = genFunc ? genFunc(props.source) : ""
-				found = content == matchField && content != ""
-				return {
-					title: algo.toUpperCase(), content: content,
+				const gen_hash_func = _items[algo];
+				const content = gen_hash_func ? gen_hash_func(props.source) : ""
+
+				const found = content == matchField && content != ""
+				const f: hashField = {
+					title: algo.toUpperCase(),
+					content: content,
 					state: found ? 'warning' : "default"
 				}
-			})
-			//@ts-ignore
-			setHashFields(fields)
+
+				return f
+			}
+
+			setHashFields$(Object.keys(_items).map(algo => { return genHashField(algo) }))
 		})
+
 	}, [props,])
 
 	useEffect(() => {
@@ -191,17 +220,21 @@ const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
 		<Col span={20} style={{ width: "100%" }}>
 			<Row gutter={4}>
 				{hashFields.map((f, idx) => {
+
 					const matched = f.state == "warning" ? "warning" : undefined;
 					const weight = f.state == "warning" ? "bold" : undefined;
-					return <Col span={12} style={{ padding: "10px", }} key={idx}>
-						<Space key={idx} vertical align="start" style={{ width: "100%" }}>
-							<Typography.Text type={matched} style={{ fontWeight: weight }}>{f.title}:{f.state == 'warning' ? ' ✅' : ''}</Typography.Text>
-							<CopyableInput
-								state={f.state}
-								content={f.content}
-								width="100%" />
-						</Space>
-					</Col>
+
+					return (
+						<Col span={12} style={{ padding: "10px", }} key={idx}>
+							<Space key={idx} vertical align="start" style={{ width: "100%" }}>
+								<Typography.Text type={matched} style={{ fontWeight: weight }}>{f.title}:{f.state == 'warning' ? ' ✅' : ''}</Typography.Text>
+								<CopyableInput
+									state={f.state}
+									content={f.content}
+									width="100%" />
+							</Space>
+						</Col>
+					)
 				})}
 			</Row>
 		</Col>
@@ -211,23 +244,23 @@ const RightBlock = (props: { source: Uint8Array, selectSample: boolean }) => {
 export const HashGeneratorBlock = () => {
 	const [input, setInput] = useState<Uint8Array>(new Uint8Array())
 	const [isSample, setIsSample] = useState<boolean>(false)
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState<isFileLoadingType>({ loading: false, tip: "" })
 
 	return <Spin
 		indicator={<IconLoading />}
-		tip="Hashing file ..."
+		tip={isLoading.tip}
 		size='large'
-		spinning={isLoading}>
+		spinning={isLoading.loading}>
 		<Row style={{ height: '100%' }}>
 			<Col span={8} style={{ padding: "10px 0 0 10px" }}>
 				<LeftBlock
-					fileLoading={(yes) => { setIsLoading(yes) }}
+					fileLoading={(res) => { setIsLoading(res) }}
 					onInputChanged={(v, is_sample) => {
 						setInput(v)
 						setIsSample(is_sample)
 					}} />
 			</Col>
-			<Col span={16} style={{ padding: "20px 0 0 10px" }}><RightBlock source={input} selectSample={isSample}></RightBlock> </Col>
+			<Col span={16} style={{ padding: "20px 0 0 10px" }}><RightBlock source={input} selectSample={isSample} ></RightBlock> </Col>
 		</Row>
 	</Spin>
 }

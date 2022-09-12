@@ -67,15 +67,15 @@ export const UnixTimeConverterPage = () => {
 		type = dateType
 	) => {
 		let t = timestamp;
-		if (curField == "timestamp" && type == "s") {
+		if (curField === "timestamp" && type === "s") {
 			t = Number((t * 1000).toFixed(0));
 		}
 		const date = new Date(t);
 		if (isValidDate(date)) {
-			const setField = curField == "timestamp" ? "date" : "timestamp";
+			const setField = curField === "timestamp" ? "date" : "timestamp";
 			const setValue =
-				setField == "timestamp"
-					? type == "s"
+				setField === "timestamp"
+					? type === "s"
 						? (t / 1000).toFixed(0)
 						: String(t)
 					: date;

@@ -35,7 +35,7 @@ const LeftBlock = () => {
 					const uuid = wasm.decode_uuid(inputChange);
 					decodeUuidUpperCased$.subscribe(yes => {
 						setDecodeUuidRes(transUUIDResCase(uuid, yes))
-						if (uuid.version_num == 1) {
+						if (uuid.version_num === 1) {
 							let clock = uuid.rfc4122.clock;
 							setDecodeUuidResV1Tm([uuid.rfc4122.epcho, clock])
 						}
