@@ -8,7 +8,7 @@ build-gh-web: install
 	yarn build-gh
 
 deploy: build-gh-web
-	echo 'web.echoo.app' > ./build/CNAME && yarn gh-pages -d build
+	echo 'web.echoo.app' > ./build/CNAME && gh-pages build -d ./build --repo https://github.com/zsmatrix62/echoo.app.git
 
 install:
 	yarn install
