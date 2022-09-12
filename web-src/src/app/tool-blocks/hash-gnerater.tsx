@@ -251,6 +251,7 @@ export const HashGeneratorBlock = () => {
 	const [isSample, setIsSample] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<isFileLoadingType>({ loading: false, tip: "" })
 
+	// FIXME: Spin does not work in MacOS - Safari
 	return <Spin
 		indicator={<IconLoading />}
 		tip={isLoading.tip}
