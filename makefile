@@ -17,7 +17,7 @@ wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && yarn install --force && cd ..
 
 c:
-	cargo clippy --fix --allow-dirty --allow-staged
+	# cargo clippy --fix --allow-dirty --allow-staged
 
 icon:
 	yarn global add git+https://github.com/tauri-apps/tauricon.git
