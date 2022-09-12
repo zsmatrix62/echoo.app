@@ -276,6 +276,14 @@ const RightBlock = () => {
 					if (!!!ns || !!!n) { break }
 					setUuids(genRange.map(_ => { return wasm.gen_uuid_v5(ns, n) }))
 					break;
+				case "ulid":
+					setUuids(genRange.map(_ => {
+						const nanoid = wasm.gen_ulid();
+						// @ts-ignore
+						let uuidRes: UUIDRes = { std_string: nanoid, };
+						return uuidRes;
+					}))
+					break;
 				case "nanoid":
 					setUuids(genRange.map(_ => {
 						const nanoid = wasm.gen_nanoid();
@@ -301,7 +309,7 @@ const RightBlock = () => {
 		} else {
 			setEnableUuidCount(true)
 		}
-		if (ver == "nanoid") {
+		if (["nanoid", "ulid"].includes(ver)) {
 			setVisibleTabs("1")
 		}
 	}
@@ -334,6 +342,7 @@ const RightBlock = () => {
 						<Select.Option value='uuidv3'>UUID v3</Select.Option>
 						<Select.Option value='uuidv4'>UUID v4</Select.Option>
 						<Select.Option value='uuidv5'>UUID v5</Select.Option>
+						<Select.Option value='ulid'>ULID</Select.Option>
 						<Select.Option value='nanoid'>Nano ID</Select.Option>
 					</Select>
 					<Typography.Text>X</Typography.Text>

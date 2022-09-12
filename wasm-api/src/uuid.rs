@@ -1,6 +1,7 @@
 use chrono::{DateTime, Local, NaiveDateTime, TimeZone, Utc};
 use fake::{uuid::UUIDv1, Fake};
 use nanoid::nanoid;
+use rusty_ulid::generate_ulid_string;
 use serde::{Deserialize, Serialize};
 use uuid::{Uuid, Version};
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -174,6 +175,10 @@ pub fn gen_uuid_v5(ns: &str, name: &str) -> Result<UUIDRes, String> {
 #[wasm_bindgen]
 pub fn gen_nanoid() -> String {
     nanoid!()
+}
+#[wasm_bindgen]
+pub fn gen_ulid() -> String {
+    generate_ulid_string()
 }
 
 #[wasm_bindgen]

@@ -19,6 +19,7 @@ nanoid = "0.4.0"
 regex = "1.5.4"
 anyhow = "1.0.55"
 base64 = "0.13.0"
+rusty_ulid = "1.0.0"
 rust-crypto-wasm = "0.3.1"
 # fake data generator
 fake = { version = "2.5.0", features = ['derive', 'chrono', 'http', 'uuid'] }
