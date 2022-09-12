@@ -63,7 +63,7 @@
 				"title": "Echoo",
 				"width": 1250,
 				"height": 900,
-				"minWidth": 900,
+				"minWidth": 630,
 				"minHeight": 800,
 				"resizable": true,
 				"fullscreen": false
