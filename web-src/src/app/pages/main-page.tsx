@@ -64,7 +64,11 @@ export const MainPage = () => {
               <MainNav />
             </Header>
           )}
-          <Layout className="central-layout">
+          <Layout
+            className={`central-layout ${
+              isTauri ? "main-view-tauri" : "main-view-web"
+            }`}
+          >
             <Sider children={<ToolsSider />} />
             <Content children={activeToolNode} />
           </Layout>
