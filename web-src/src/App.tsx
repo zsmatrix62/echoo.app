@@ -8,7 +8,9 @@ import { Pref } from "./app/context/pref";
 import { useLocalStore } from "./app/libs/hooks/localstore";
 import { EchooSettings, EchooSettingsDefault } from "./app/shared/setting";
 import { FirstLanchingModal } from "./app/shared/first-lanching-dialog";
-
+import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
+import en_GB from '@douyinfe/semi-ui/lib/es/locale/source/en_GB';
+import { LocaleProvider } from '@douyinfe/semi-ui';
 export const isTauriAppContext = createContext(false);
 
 function App() {
@@ -160,7 +162,9 @@ function App() {
 					setShowFirstLanchingDialog(false)
 				}} />}
 			<isTauriAppContext.Provider value={isTauri}>
-				<MainPage />
+				<LocaleProvider locale={en_GB}>
+					<MainPage />
+				</LocaleProvider>
 			</isTauriAppContext.Provider>
 		</>
 	);
