@@ -64,8 +64,8 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
 
 ### Generators
 
-- [ ] UUID/ULID Generator/Decoder
-- [ ] Hash Generator
+- [x] UUID/ULID Generator/Decoder _(v0.29.0)_
+- [x] Hash Generator _(v0.29.0)_
 
 ### Converters
 

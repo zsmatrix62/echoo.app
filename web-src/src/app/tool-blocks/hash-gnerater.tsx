@@ -161,6 +161,7 @@ const RightBlock = (
 			// resetFields()
 			return
 		}
+
 		setIsLoadingFile({ loading: true, tip: "" })
 		import("wasm-api").then(wasm => {
 			const _items = algoItems(wasm);
@@ -251,7 +252,7 @@ export const HashGeneratorBlock = () => {
 	const [isSample, setIsSample] = useState<boolean>(false)
 	const [isLoading, setIsLoading] = useState<isFileLoadingType>({ loading: false, tip: "" })
 
-	// FIXME: Spin does not work in MacOS - Safari
+	// FIXME: Spin does not work in MacOS - Safari on state changing
 	return <Spin
 		indicator={<IconLoading />}
 		tip={isLoading.tip}
