@@ -6,7 +6,8 @@
 
 .json-formatter-container {
   height: 100%;
-  padding: 0 10px;
+  box-sizing: border-box;
+  padding: 0 10px 10px 10px;
   min-height: 0;
 
   .json-formatter-container-child {
@@ -20,11 +21,9 @@
     }
 
     .input-block {
-      height: calc(100vh - 109px);
-
+      height:100%;
       display: flex;
       flex-direction: column;
-      padding-bottom: 10px;
 
       .text-area {
         height: 100%;
