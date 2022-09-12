@@ -101,8 +101,9 @@ const LeftBlock = (props: {
 const RightBlock = (
 	props: {
 		source: Uint8Array, selectSample: boolean,
-	}
-) => {
+	}) => {
+
+	const [isLoadingFile, setIsLoadingFile] = useState<isFileLoadingType>({ loading: false, tip: "" })
 
 	type hashField = {
 		title: string,
@@ -119,6 +120,7 @@ const RightBlock = (
 	const [setHashFields$, hashFields$] = useObservableCallback<hashField[], hashField[]>(e$ => e$,)
 	useSubscription(hashFields$, (res) => {
 		_setHashFields(res)
+		setIsLoadingFile({ tip: "", loading: false })
 	})
 
 	const [hashFieldsLoading, setHashFieldsLoading] = useObservableState<{ [key: string]: boolean }>(obs => obs, { "": false })
@@ -159,7 +161,7 @@ const RightBlock = (
 			// resetFields()
 			return
 		}
-
+		setIsLoadingFile({ loading: true, tip: "" })
 		import("wasm-api").then(wasm => {
 			const _items = algoItems(wasm);
 			Object.keys(_items).forEach(algo => {
@@ -183,6 +185,7 @@ const RightBlock = (
 			}
 
 			setHashFields$(Object.keys(_items).map(algo => { return genHashField(algo) }))
+			setIsLoadingFile({ loading: false, tip: "" })
 		})
 
 	}, [props,])
@@ -226,13 +229,15 @@ const RightBlock = (
 
 					return (
 						<Col span={12} style={{ padding: "10px", }} key={idx}>
-							<Space key={idx} vertical align="start" style={{ width: "100%" }}>
-								<Typography.Text type={matched} style={{ fontWeight: weight }}>{f.title}:{f.state == 'warning' ? ' ✅' : ''}</Typography.Text>
-								<CopyableInput
-									state={f.state}
-									content={f.content}
-									width="100%" />
-							</Space>
+							<Spin spinning={isLoadingFile.loading}>
+								<Space key={idx} vertical align="start" style={{ width: "100%" }}>
+									<Typography.Text type={matched} style={{ fontWeight: weight }}>{f.title}:{f.state == 'warning' ? ' ✅' : ''}</Typography.Text>
+									<CopyableInput
+										state={f.state}
+										content={f.content}
+										width="100%" />
+								</Space>
+							</Spin>
 						</Col>
 					)
 				})}
@@ -260,7 +265,11 @@ export const HashGeneratorBlock = () => {
 						setIsSample(is_sample)
 					}} />
 			</Col>
-			<Col span={16} style={{ padding: "20px 0 0 10px" }}><RightBlock source={input} selectSample={isSample} ></RightBlock> </Col>
+			<Col span={16} style={{ padding: "20px 0 0 10px" }}>
+				<RightBlock
+					source={input}
+					selectSample={isSample}
+				></RightBlock> </Col>
 		</Row>
 	</Spin>
 }
