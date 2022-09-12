@@ -1,11 +1,12 @@
 import { Button, Card, Checkbox, Col, Input, InputNumber, Row, Select, Space, TabPane, Tabs, TextArea, Toast, Typography } from "@douyinfe/semi-ui"
 import { CheckboxEvent } from "@douyinfe/semi-ui/lib/es/checkbox"
 import { useObservableCallback, useObservableState, useSubscription } from "observable-hooks"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { BehaviorSubject, map } from "rxjs"
 import useClipboard from "use-clipboard-hook"
 import { UUIDRes } from "wasm-api"
 import { CopyableInput } from "../shared/copyableInput"
+import './uuid-generator.scss'
 
 const VerCopyItem = (props: { title: string, content: string }) => {
 	return <Space vertical style={{ marginTop: '10px', width: '100%' }} align='start'>
@@ -78,9 +79,9 @@ const LeftBlock = () => {
 		return res
 	}
 
-	return <>
+	return <div style={{height:'100%',display:'flex',flexDirection:'column'}}>
 		<Row style={{ padding: '0 0 20px 0' }}>
-			<Space spacing={'medium'}>
+			<Space style={{display:'flex',flexWrap:'wrap',justifyContent:'space-between'}}>
 				<Space>
 					<Typography.Text>Input:</Typography.Text>
 					<Button onClick={sampleUUID}>Sample</Button>
@@ -93,6 +94,9 @@ const LeftBlock = () => {
 				}}>Uppercase</Checkbox>
 			</Space>
 		</Row>
+		<div className="hide-scroll-bar" style={{flex:1,overflow:'auto',scrollbarWidth:'none'}}>
+
+		<div>
 		<Row style={{ width: "100%" }}>
 			<Input
 				style={{ paddingLeft: "0" }}
@@ -116,8 +120,10 @@ const LeftBlock = () => {
 				<Row> <VerCopyItem title="Content - Node" content={decodeUuidRes?.raw_content.split(":").reverse().slice(0, 6).reverse().join(":") ?? ''}></VerCopyItem> </Row>
 			</>
 			: null}
+			</div>
+			</div>
 
-	</>
+	</div>
 }
 
 const Uuid35Input = (props: { cb: (uuid: string, name: string) => void }) => {
@@ -182,11 +188,28 @@ const Uuid35Input = (props: { cb: (uuid: string, name: string) => void }) => {
 }
 
 const RightBlock = () => {
+	const [inputHeight,setInputHeight] = useState(0)
 	const IDsTextArea = (props: { rows: number | string, content: string }) => {
+
 		return <TextArea
 			contentEditable={false}
-			style={{ overflow: "scroll", height: "400px" }} rows={props.rows as number} value={props.content}></TextArea>
+			style={{height:inputHeight+'px',overflow:'auto'}} rows={props.rows as number} value={props.content}></TextArea>
 	}
+	let otherHeight = 0
+	useEffect(()=>{
+		const parent = document.getElementsByClassName('input-tab')[0]
+		setInputHeight(parent?.clientHeight)
+        const winHeight = window.innerHeight;
+		otherHeight = winHeight - parent.clientHeight
+        window.addEventListener('resize', resizeUpdate);
+        return () => {
+            window.removeEventListener('resize', resizeUpdate);
+		}
+	},[])
+	const resizeUpdate = (e:any) => {
+        let h = e.target.innerHeight;
+		setInputHeight(h-otherHeight)
+    };
 
 	const tabRef = useRef<Tabs>(null)
 
@@ -327,7 +350,7 @@ const RightBlock = () => {
 		copy(uppercase ? uuidString.toUpperCase() : uuidString.toLowerCase())
 	};
 
-	return <Row>
+	return <Row style={{height:'100%',display:'flex',flexDirection:'column'}}>
 		<Row type="flex" style={{ justifyContent: 'space-between' }}>
 			<Col > <Typography.Text>Generate new IDs</Typography.Text> </Col>
 			<Col >
@@ -359,7 +382,7 @@ const RightBlock = () => {
 				<Uuid35Input cb={(ns, n) => { setNsName([ns, n]) }}></Uuid35Input>
 			</Row>
 		}
-		<Row type='flex' justify="space-between" style={{ paddingTop: '10px' }} >
+		<Row type='flex' justify="space-between" style={{ paddingTop: '10px',flexWrap:'wrap' }} >
 			<Col>
 				<Space>
 					<Button onClick={() => { onGenerateClicked() }}>Generate</Button>
@@ -371,12 +394,12 @@ const RightBlock = () => {
 				<Checkbox style={{ padding: '7px 0' }} value={uppercase} onChange={onUppercaseChanged}>Uppercase</Checkbox>
 			</Col>
 		</Row >
-		<Row style={{ paddingTop: '10px' }}>
-			<Tabs tabPosition="left" ref={tabRef} onChange={setActiveIndex}>
+		<Row style={{ paddingTop: '10px',flex:1,boxSizing:'border-box' }} className="input-tab" >
+			<Tabs tabPosition="left" ref={tabRef} onChange={setActiveIndex} style={{height:'100%',}}>
 				{Object.keys(tabKeyMap).map((k) => {
 					return (
 						//@ts-ignore
-						<TabPane tab={tabKeyMap[k]} itemKey={k} key={k} disabled={!visibleTabs.includes(k)}>
+						<TabPane tab={tabKeyMap[k]} itemKey={k} key={k} disabled={!visibleTabs.includes(k)}style={{height:'100%'}}>
 							<IDsTextArea rows={uuidCount} content={uuidString}></IDsTextArea>
 						</TabPane>
 					)
@@ -388,14 +411,14 @@ const RightBlock = () => {
 
 export const UUIDGeneratorBlock = () => {
 	return (
-		<Row style={{ height: '100%' }}>
+		<Row style={{ height: '100%' }} className="uuid-generator-container">
 			<Col span={8} style={{ padding: "16px 10px 10px 10px", height: '100%' }}>
-				<Card title={"Decoder"} headerStyle={{ padding: "10px 10px" }} style={{ height: '100%', overflow: 'auto', scrollbarWidth: 'none' }}>
+				<Card title={"Decoder"} headerStyle={{ padding: "10px 10px" }} style={{ height: '100%',display:'flex',flexDirection:'column' }}  bodyStyle={{flex:1,boxSizing:'border-box',overflow:'hidden'}}>
 					<LeftBlock />
 				</Card>
 			</Col>
 			<Col span={16} style={{ padding: "16px 10px 10px 10px", height: '100%' }}>
-				<Card title="Generator" headerStyle={{ padding: "10px 10px" }} style={{ height: '100%' }}>
+				<Card title="Generator" headerStyle={{ padding: "10px 10px" }} style={{ height: '100%',display:'flex',flexDirection:'column' }} bodyStyle={{flex:1,boxSizing:'border-box'}}>
 					<RightBlock />
 				</Card>
 			</Col>
