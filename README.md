@@ -64,8 +64,8 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
 
 ### Generators
 
-- [ ] UUID/ULID Generator/Decoder
-- [ ] Hash Generator
+- [x] UUID/ULID Generator/Decoder _(v0.29.0)_
+- [x] Hash Generator _(v0.29.0)_
 
 ### Converters
 
@@ -88,8 +88,13 @@ the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windo
       <img src="docs/img/json-2.png" width=680px>
     </td>
   </tr>
-  <tr> <td> <img src="docs/img/base64-img.png" width=680px></td>
+  <tr>
+	<td> <img src="docs/img/base64-img.png" width=680px></td>
     <td> <img src="docs/img/base64-str.png" width=680px></td>
+  </tr>
+  <tr>
+	<td> <img src="docs/img/uuid.png" width=680px></td>
+    <td> <img src="docs/img/hash.png" width=680px></td>
   </tr>
 </table>
 

@@ -1,9 +1,11 @@
 .main-layout {
-  max-height: 100vh;
-  min-height: 100vh;
-
-  .central-layout {
+  .main-view-tauri {
     height: 100vh;
+  }
+  .main-view-web {
+    height: calc(100vh - 100px);
+  }
+  .central-layout {
     width: 100%;
 
     background-color: var(--semi-color-bg-1);

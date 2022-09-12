@@ -16,6 +16,9 @@ build-debug-bundle: c wasm
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && yarn install --force && cd ..
 
+test-wasm:
+	cd wasm-api && sudo cargo watch -s "wasm-pack test --headless --chrome"
+
 c:
 	# cargo clippy --fix --allow-dirty --allow-staged
 
