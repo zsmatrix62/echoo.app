@@ -253,7 +253,7 @@ export const JsonFormatterBlock = () => {
   const isSidebarCollapsed = useObservableState(
     Pref.getInstance().toolsSiderCollapsed.$
   );
-  const editorDidMount = (editor:any, monaco:any) => {
+  const editorDidMount = (editor: any, monaco: any) => {
     console.log("editorDidMount", editor);
     editor.focus();
   };
@@ -396,12 +396,14 @@ export const JsonFormatterBlock = () => {
                         height="100%"
                         value={outputValue}
                         language="json"
-                        theme="vs"
+                        theme="vs-dark"
                         options={{
-                          
-                          scrollbar:{vertical:'hidden',horizontal:'hidden'},
-                          readOnly:true,
-                          minimap:{enabled:false}
+                          scrollbar: {
+                            vertical: "hidden",
+                            horizontal: "hidden",
+                          },
+                          readOnly: true,
+                          minimap: { enabled: false },
                         }}
                         editorDidMount={editorDidMount}
                       ></MonacoEditor>

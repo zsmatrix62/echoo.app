@@ -27,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@tauri-apps/cli": "1.0.0-rc.12",
-		"cross-env": "^7.0.3"
+		"cross-env": "^7.0.3",
+		"postcss-loader": "^7.0.1"
 	}
 }

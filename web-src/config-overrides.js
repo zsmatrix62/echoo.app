@@ -1,35 +1,41 @@
-const SemiWebpackPlugin = require('@douyinfe/semi-webpack-plugin').default
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-const path = require('path')
+const SemiWebpackPlugin = require("@douyinfe/semi-webpack-plugin").default;
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+const path = require("path");
 
 module.exports = function override(config, _) {
   config.plugins.push(
     new SemiWebpackPlugin({
-      theme: '@semi-bot/semi-theme-universedesign',
+      theme: "@semi-bot/semi-theme-universedesign",
+    }),
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/microsoft/monaco-editor/blob/main/webpack-plugin/README.md#options
+      languages: ["json"],
     })
-  )
-  console.log(config)
+  );
 
   //region WASM Support
-  const wasmExtensionRegExp = /\.wasm$/
-  config.resolve.extensions.push('.wasm')
+  const wasmExtensionRegExp = /\.wasm$/;
+  config.resolve.extensions.push(".wasm");
 
   config.module.rules.forEach((rule) => {
-    ;(rule.oneOf || []).forEach((oneOf) => {
-      if (oneOf.loader && oneOf.loader.indexOf('file-loader') >= 0) {
+    (rule.oneOf || []).forEach((oneOf) => {
+      if (oneOf.loader && oneOf.loader.indexOf("file-loader") >= 0) {
         // make file-loader ignore WASM files
-        oneOf.exclude.push(wasmExtensionRegExp)
+        oneOf.exclude.push(wasmExtensionRegExp);
       }
-    })
-  })
+    });
+  });
+  config.module.rules.push(
+    ...[
+      {
+        test: /\.wasm$/,
+        type: "webassembly/sync",
+      },
+    ]
+  );
+  config.experiments = {
+    syncWebAssembly: true,
+  };
 
-  // add a dedicated loader for WASM
-  config.module.rules.push({
-    test: wasmExtensionRegExp,
-    include: path.resolve(__dirname, 'src'),
-    use: [{ loader: require.resolve('wasm-loader'), options: {} }],
-  })
-  //endregion
-
-  return config
-}
+  return config;
+};
