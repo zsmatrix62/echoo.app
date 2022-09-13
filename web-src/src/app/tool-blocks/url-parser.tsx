@@ -21,11 +21,13 @@ import parseUrl from "parse-url";
 
 import useClipboard from "use-clipboard-hook";
 
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/theme-tomorrow_night";
-import "ace-builds/src-noconflict/ext-language_tools";
+// import AceEditor from "react-ace";
+// import "ace-builds/src-noconflict/mode-json";
+// import "ace-builds/src-noconflict/theme-github";
+// import "ace-builds/src-noconflict/theme-tomorrow_night";
+// import "ace-builds/src-noconflict/ext-language_tools";
+
+import MonacoEditor from "react-monaco-editor";
 
 export const UrlParser = () => {
   // noinspection DuplicatedCode
@@ -145,7 +147,10 @@ export const UrlParserBlock = () => {
       },
     });
   });
-
+  const editorDidMount = (editor:any, monaco:any) => {
+    console.log("editorDidMount", editor);
+    editor.focus();
+  };
   return (
     <Row className={"parser-block-container"}>
       <Row className={"url-input-container"}>
@@ -231,7 +236,7 @@ export const UrlParserBlock = () => {
             </Space>
           </Row>
           <Row style={{flex:1}}>
-            <AceEditor
+            {/* <AceEditor
               mode="json"
               width="100%"
               height="100%"
@@ -245,7 +250,23 @@ export const UrlParserBlock = () => {
                 enableSnippets: true,
               }}
               readOnly={true}
-            />
+            /> */}
+            <div style={{width:'100%',height:'100%',border:'1px solid #eee',borderRadius:'4px',overflow:'hidden',boxSizing:'border-box'}}>
+            <MonacoEditor
+                        width="100%"
+                        height="100%"
+                        value={outValue}
+                        language="json"
+                        theme="vs"
+                        options={{
+                          scrollbar:{vertical:'hidden',horizontal:'hidden'},
+                          readOnly:true,
+                          minimap:{enabled:false}
+                        
+                        }}
+                        editorDidMount={editorDidMount}
+                      ></MonacoEditor>
+                      </div>
           </Row>
         </Col>
       </Row>

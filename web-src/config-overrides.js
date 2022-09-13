@@ -1,16 +1,17 @@
 const SemiWebpackPlugin = require('@douyinfe/semi-webpack-plugin').default
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const path = require('path')
 
 module.exports = function override(config, _) {
   config.plugins.push(
     new SemiWebpackPlugin({
       theme: '@semi-bot/semi-theme-universedesign',
-    }),
+    })
   )
+  console.log(config)
 
   //region WASM Support
   const wasmExtensionRegExp = /\.wasm$/
-
   config.resolve.extensions.push('.wasm')
 
   config.module.rules.forEach((rule) => {
