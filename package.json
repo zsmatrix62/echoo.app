@@ -3,7 +3,6 @@
 	"version": "0.29.0",
 	"private": true,
 	"dependencies": {
-		"@codemirror/lang-json": "0.20.0",
 		"@tauri-apps/api": "^1.0.0-rc.6",
 		"react-app-rewired": "^2.2.1"
 	},
@@ -28,6 +27,7 @@
 	},
 	"devDependencies": {
 		"@tauri-apps/cli": "1.0.0-rc.12",
-		"cross-env": "^7.0.3"
+		"cross-env": "^7.0.3",
+		"postcss-loader": "^7.0.1"
 	}
 }
