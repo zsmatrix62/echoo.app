@@ -663,8 +663,8 @@ const RightBlock = () => {
         >
           {Object.keys(tabKeyMap).map((k) => {
             return (
-              //@ts-ignore
               <TabPane
+                //@ts-ignore
                 tab={tabKeyMap[k]}
                 itemKey={k}
                 key={k}

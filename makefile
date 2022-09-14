@@ -20,7 +20,7 @@ test-wasm:
 	cd wasm-api && sudo cargo watch -s "wasm-pack test --headless --chrome"
 
 c:
-	cargo clippy --fix --allow-dirty --allow-staged
+	# cargo clippy --fix --allow-dirty --allow-staged
 
 icon:
 	yarn global add git+https://github.com/tauri-apps/tauricon.git

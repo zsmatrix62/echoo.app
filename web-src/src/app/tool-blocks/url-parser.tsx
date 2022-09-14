@@ -21,11 +21,13 @@ import parseUrl from "parse-url";
 
 import useClipboard from "use-clipboard-hook";
 
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/theme-tomorrow_night";
-import "ace-builds/src-noconflict/ext-language_tools";
+// import AceEditor from "react-ace";
+// import "ace-builds/src-noconflict/mode-json";
+// import "ace-builds/src-noconflict/theme-github";
+// import "ace-builds/src-noconflict/theme-tomorrow_night";
+// import "ace-builds/src-noconflict/ext-language_tools";
+
+import MonacoEditor from "react-monaco-editor";
 
 export const UrlParser = () => {
   // noinspection DuplicatedCode
@@ -145,7 +147,10 @@ export const UrlParserBlock = () => {
       },
     });
   });
-
+  const editorDidMount = (editor: any, monaco: any) => {
+    console.log("editorDidMount", editor);
+    editor.focus();
+  };
   return (
     <Row className={"parser-block-container"}>
       <Row className={"url-input-container"}>
@@ -216,22 +221,30 @@ export const UrlParserBlock = () => {
             </Descriptions.Item>
           </Descriptions>
         </Col>
-        <Col span={14} style={{height:'100%', paddingLeft: 10,display:'flex',flexDirection:'column'}}>
+        <Col
+          span={14}
+          style={{
+            height: "100%",
+            paddingLeft: 10,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Row>
-            <Space style={{padding:'10px 0' }}>
-            <Button
-              icon={<IconCopy />}
-              onClick={() => {
-                copy(outValue);
-              }}
-              disabled={!outValue}
-            >
-              Copy
-            </Button>
+            <Space style={{ padding: "10px 0" }}>
+              <Button
+                icon={<IconCopy />}
+                onClick={() => {
+                  copy(outValue);
+                }}
+                disabled={!outValue}
+              >
+                Copy
+              </Button>
             </Space>
           </Row>
-          <Row style={{flex:1}}>
-            <AceEditor
+          <Row style={{ flex: 1 }}>
+            {/* <AceEditor
               mode="json"
               width="100%"
               height="100%"
@@ -245,7 +258,27 @@ export const UrlParserBlock = () => {
                 enableSnippets: true,
               }}
               readOnly={true}
-            />
+            /> */}
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <MonacoEditor
+                width="100%"
+                height="100%"
+                value={outValue}
+                language="json"
+                theme={editorTheme == "dark" ? "vs-dark" : "vs"}
+                options={{
+                  scrollbar: { vertical: "hidden", horizontal: "hidden" },
+                  readOnly: true,
+                  minimap: { enabled: false },
+                }}
+                editorDidMount={editorDidMount}
+              ></MonacoEditor>
+            </div>
           </Row>
         </Col>
       </Row>
