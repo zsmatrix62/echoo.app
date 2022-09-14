@@ -8,10 +8,10 @@ build-web:wasm
 	cd web-src && make build
 
 build-bundle: c wasm
-	cd web-src && make build-web && cd .. && npm tauri build
+	cd web-src && make build-web && cd .. && npm run tauri build
 
 build-debug-bundle: c wasm
-	cd web-src && make build-web && cd .. && npm tauri build --debug
+	cd web-src && make build-web && cd .. && npm run tauri build --debug
 
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && npm install --force && cd ..

@@ -1,11 +1,11 @@
 dev: install
-	npm start
+	npm run start
 
 build-web: install
-	npm build
+	npm run build
 
 build-gh-web: install
-	npm build-gh
+	npm run build-gh
 
 deploy: build-gh-web
 	echo 'web.echoo.app' > ./build/CNAME && gh-pages build -d ./build --repo https://github.com/zsmatrix62/echoo.app.git
