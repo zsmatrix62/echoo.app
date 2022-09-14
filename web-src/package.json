@@ -3,6 +3,13 @@
   "version": "0.29.0",
   "private": false,
   "homepage": "https://zsmatrix62.github.io/echoo-app/",
+  "resolutions": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2",
+    "@douyinfe/semi-theme-default": "^2.11.1",
+    "typescript": "^4.4.2",
+    "normalize-url": "^7.0.1"
+  },
   "dependencies": {
     "@douyinfe/semi-icons": "^2.4.1",
     "@douyinfe/semi-theme-default": "2.11.1",
@@ -26,11 +33,10 @@
     "jsonpath-plus": "^6.0.1",
     "monaco-editor": "^0.34.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "normalize-url": "^7",
     "observable-hooks": "^4.2.0",
     "parse-url": "^6.0.1",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-hotkeys": "^2.0.0-pre9",
     "react-monaco-editor": "^0.50.1",
     "react-router-dom": "^6.2.1",
@@ -43,13 +49,13 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "cross-env PUBLIC_URL=/ PORT=3001 react-app-rewired start",
-    "build": "cross-env PUBLIC_URL=/ react-app-rewired build",
-    "build-gh": "cross-env PUBLIC_URL=/ react-app-rewired build",
+    "start": "yarn re-link && cross-env PUBLIC_URL=/ PORT=3001 react-app-rewired start",
+    "build": "yarn re-link && cross-env PUBLIC_URL=/  react-app-rewired build",
+    "build-gh": "yarn re-link && cross-env PUBLIC_URL=/ react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "predeploy": "npm run build",
-    "re-link": ""
+    "predeploy": "yarn build",
+    "re-link": "find ./node_modules -name 'normalize-url' | while read fname; do rm -rf $fname;cp -r ./ext_libs/normalize-url $fname; done;"
   },
   "eslintConfig": {
     "extends": [
