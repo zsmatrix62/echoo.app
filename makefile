@@ -8,10 +8,10 @@ build-web:wasm
 	cd web-src && make build
 
 build-bundle: c wasm
-	cd web-src && make build-web && cd .. && npm run tauri build
+	cd web-src && make build-web && cd .. && cargo tauri build
 
 build-debug-bundle: c wasm
-	cd web-src && make build-web && cd .. && npm run tauri build --debug
+	cd web-src && make build-web && cd .. && cargo tauri build --debug
 
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && npm install --force && cd ..
@@ -20,7 +20,8 @@ test-wasm:
 	cd wasm-api && sudo cargo watch -s "wasm-pack test --headless --chrome"
 
 c:
-	# cargo clippy --fix --allow-dirty --allow-staged
+	cargo install tauri-cli
+	cargo clippy --fix --allow-dirty --allow-staged
 
 icon:
 	npm global add git+https://github.com/tauri-apps/tauricon.git
