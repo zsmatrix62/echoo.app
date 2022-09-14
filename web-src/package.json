@@ -33,6 +33,7 @@
     "jsonpath-plus": "^6.0.1",
     "monaco-editor": "^0.34.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
+    "normalize-url": "^7.0.1",
     "observable-hooks": "^4.2.0",
     "parse-url": "^6.0.1",
     "react": "^17.0.2",
@@ -50,12 +51,12 @@
   },
   "scripts": {
     "start": "cross-env PUBLIC_URL=/ PORT=3001 react-app-rewired start",
-    "build": "yarn re-link && cross-env PUBLIC_URL=/  react-app-rewired build",
-    "build-gh": "yarn re-link && cross-env PUBLIC_URL=/ react-app-rewired build",
+    "build": "npm run re-link && cross-env PUBLIC_URL=/  react-app-rewired build",
+    "build-gh": "npm run re-link && cross-env PUBLIC_URL=/ react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "predeploy": "yarn build",
-    "re-link": "rm -rf ./node_modules/normalize-url &&  cp -r ./ext_libs/normalize-url ./node_modules/normalize-url"
+    "predeploy": "npm run build",
+    "re-link": ""
   },
   "eslintConfig": {
     "extends": [
@@ -85,7 +86,6 @@
     "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1",
     "ts-proto": "^1.122.0",
-    "webpack": "^5.74.0",
-    "yarn": "^1.22.19"
+    "webpack": "^5.74.0"
   }
 }

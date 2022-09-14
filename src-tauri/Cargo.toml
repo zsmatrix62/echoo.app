@@ -10,11 +10,10 @@ edition = "2021"
 rust-version = "1.57"
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.10", features = [] }
+tauri-build = { version = "1.0.4", features = [] }
 
 [dependencies.tauri]
-git = "https://github.com/tauri-apps/tauri.git"
-branch = "dev"
+version = "1.0.4"
 features = ["api-all", "icon-ico", "icon-png", "system-tray"]
 
 [dependencies]
@@ -22,7 +21,7 @@ serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 base64 = "0.13.0"
 md5 = "0.7.0"
-api = { path = "../api/", features = ["tauri"] }
+api = { path = "../api/" }
 
 [features]
 # by default Tauri runs in production mode

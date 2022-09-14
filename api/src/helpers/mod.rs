@@ -1,12 +1,6 @@
 pub(crate) mod dir;
 pub(crate) mod pio;
 
-use bytes::{
-    BufMut,
-    Bytes,
-    BytesMut,
-};
-
 const GRPC_HEADER_SIZE: usize = 5;
 
 #[cfg(debug_assertions)]
@@ -68,10 +62,7 @@ pub(crate) async fn call_service<T: prost::Message, R: Default + prost::Message>
     port: u16,
     in_msg: T,
 ) -> R {
-    use http::header::{
-        ACCEPT,
-        CONTENT_TYPE,
-    };
+    use http::header::{ACCEPT, CONTENT_TYPE};
 
     let addr = format!("http://localhost:{}/{}/{}", port, service, method);
 
