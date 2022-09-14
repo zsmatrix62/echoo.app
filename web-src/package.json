@@ -50,7 +50,7 @@
   },
   "scripts": {
     "start": "yarn re-link && cross-env PUBLIC_URL=/ PORT=3001 react-app-rewired start",
-    "build": "yarn re-link && cross-env PUBLIC_URL=/  react-app-rewired build",
+    "build": "yarn re-link && cross-env GENERATE_SOURCEMAP=false PUBLIC_URL=/  react-app-rewired build",
     "build-gh": "yarn re-link && cross-env PUBLIC_URL=/ react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
