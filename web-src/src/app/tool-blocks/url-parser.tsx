@@ -147,7 +147,7 @@ export const UrlParserBlock = () => {
       },
     });
   });
-  const editorDidMount = (editor:any, monaco:any) => {
+  const editorDidMount = (editor: any, monaco: any) => {
     console.log("editorDidMount", editor);
     editor.focus();
   };
@@ -221,21 +221,29 @@ export const UrlParserBlock = () => {
             </Descriptions.Item>
           </Descriptions>
         </Col>
-        <Col span={14} style={{height:'100%', paddingLeft: 10,display:'flex',flexDirection:'column'}}>
+        <Col
+          span={14}
+          style={{
+            height: "100%",
+            paddingLeft: 10,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Row>
-            <Space style={{padding:'10px 0' }}>
-            <Button
-              icon={<IconCopy />}
-              onClick={() => {
-                copy(outValue);
-              }}
-              disabled={!outValue}
-            >
-              Copy
-            </Button>
+            <Space style={{ padding: "10px 0" }}>
+              <Button
+                icon={<IconCopy />}
+                onClick={() => {
+                  copy(outValue);
+                }}
+                disabled={!outValue}
+              >
+                Copy
+              </Button>
             </Space>
           </Row>
-          <Row style={{flex:1}}>
+          <Row style={{ flex: 1 }}>
             {/* <AceEditor
               mode="json"
               width="100%"
@@ -251,22 +259,26 @@ export const UrlParserBlock = () => {
               }}
               readOnly={true}
             /> */}
-            <div style={{width:'100%',height:'100%',border:'1px solid #eee',borderRadius:'4px',overflow:'hidden',boxSizing:'border-box'}}>
-            <MonacoEditor
-                        width="100%"
-                        height="100%"
-                        value={outValue}
-                        language="json"
-                        theme="vs"
-                        options={{
-                          scrollbar:{vertical:'hidden',horizontal:'hidden'},
-                          readOnly:true,
-                          minimap:{enabled:false}
-                        
-                        }}
-                        editorDidMount={editorDidMount}
-                      ></MonacoEditor>
-                      </div>
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <MonacoEditor
+                width="100%"
+                height="100%"
+                value={outValue}
+                language="json"
+                theme={editorTheme == "dark" ? "vs-dark" : "vs"}
+                options={{
+                  scrollbar: { vertical: "hidden", horizontal: "hidden" },
+                  readOnly: true,
+                  minimap: { enabled: false },
+                }}
+                editorDidMount={editorDidMount}
+              ></MonacoEditor>
+            </div>
           </Row>
         </Col>
       </Row>

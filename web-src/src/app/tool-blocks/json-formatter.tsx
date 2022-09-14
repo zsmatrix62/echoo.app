@@ -368,7 +368,14 @@ export const JsonFormatterBlock = () => {
                     }}
                     gutter={10}
                   >
-                    <div style={{ width: "100%", flex: 1 }}>
+                    <div
+                      style={{
+                        width: "100%",
+                        flex: 1,
+                        padding: "2px",
+                        boxSizing: "border-box",
+                      }}
+                    >
                       {/* <CodeMirror
                         value={outputValue}
                         // extensions={[json()]}
@@ -396,7 +403,7 @@ export const JsonFormatterBlock = () => {
                         height="100%"
                         value={outputValue}
                         language="json"
-                        theme="vs-dark"
+                        theme={editorTheme == "dark" ? "vs-dark" : "vs"}
                         options={{
                           scrollbar: {
                             vertical: "hidden",
@@ -409,7 +416,7 @@ export const JsonFormatterBlock = () => {
                       ></MonacoEditor>
                     </div>
                     <Col>
-                      <Space style={{ width: "100%", padding: "10px 0" }}>
+                      <Space style={{ width: "100%", padding: "10px 0 0 0" }}>
                         <Input
                           type="text"
                           disabled={!validationErrors || !outputValue}
