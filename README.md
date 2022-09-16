@@ -25,7 +25,6 @@ Client provides full `offline` features without any remote API calls on your Mac
 
 ### MacOS
 
-#### AppStore
 <a href="https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12" target="_blank">
 <img height=40 src="./docs/img/mac-app-store-badge.svg" />
 </a>
@@ -34,6 +33,14 @@ Client provides full `offline` features without any remote API calls on your Mac
 
 Download them from
 the [Github Release](https://github.com/echoo-app/echoo-app/releases) for `Windows` and `Linux`.
+
+### 🛠️ Build from source
+
+Run below commands to build your own on your system:
+
+```shell
+make build-bundle
+```
 
 ## 🌏 Web Browser
 
