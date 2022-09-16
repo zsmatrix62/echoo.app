@@ -8,10 +8,10 @@ build-web:wasm
 	cd web-src && make build
 
 build-bundle: c wasm
-	cd web-src && make build-web && cd .. && cargo tauri build
+	cd web-src && make build-web && cd .. && cargo tauri build --target universal-apple-darwin
 
 build-debug-bundle: c wasm
-	cd web-src && make build-web && cd .. && cargo tauri build --debug
+	cd web-src && make build-web && cd .. && cargo tauri build --debug --target universal-apple-darwin
 
 wasm:
 	cd wasm-api && wasm-pack build && cd ../web-src && npm install --force && cd ..
@@ -29,7 +29,7 @@ icon:
 gh: wasm
 	cd ./web-src && make deploy
 
-TARGET_PATH_BASE = target/release/bundle/macos/Echoo
+TARGET_PATH_BASE = target/universal-apple-darwin/release/bundle/macos/Echoo
 APP_SIGN_IDENTITY = "3rd Party Mac Developer Application: Chiang Hwang (6T8X94ZY3T)"
 INSTALLER_SIGN_IDENTITY = "3rd Party Mac Developer Installer: Chiang Hwang (6T8X94ZY3T)"
 ENTITLEMENTS_PLIST = ./entitlements.plist
