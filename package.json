@@ -1,33 +1,32 @@
 {
-	"name": "devutils-rs",
-	"version": "0.29.0",
-	"private": true,
-	"dependencies": {
-		"@tauri-apps/api": "^1.0.0-rc.6",
-		"react-app-rewired": "^2.2.1"
-	},
-	"scripts": {
-		"tauri": "tauri",
-		"icon": "node ./node_modules/@tauri-apps/tauricon/bin/tauricon.js --target=src-tauri/icons"
-	},
-	"eslintConfig": {
-		"extends": []
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	},
-	"devDependencies": {
-		"@tauri-apps/cli": "1.0.0-rc.12",
-		"cross-env": "^7.0.3",
-		"postcss-loader": "^7.0.1"
-	}
+  "name": "devutils-rs",
+  "version": "0.29.0",
+  "private": true,
+  "dependencies": {
+    "@tauri-apps/api": "^1.0.0-rc.6",
+    "react-app-rewired": "^2.2.1"
+  },
+  "scripts": {
+    "tauri": "tauri",
+    "icon": "node ./node_modules/@tauri-apps/tauricon/bin/tauricon.js --target=src-tauri/icons"
+  },
+  "eslintConfig": {
+    "extends": []
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "postcss-loader": "^7.0.1"
+  }
 }

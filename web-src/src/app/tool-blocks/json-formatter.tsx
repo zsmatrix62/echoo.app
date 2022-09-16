@@ -262,7 +262,7 @@ export const JsonFormatterBlock = () => {
   return (
     <isTauriAppContext.Consumer>
       {(isTauri) => (
-        <Row className="json-formatter-container">
+        <Row className="json-formatter-container" style={{ height: "100%" }}>
           <SideSheet
             size={"large"}
             visible={showJsonPathGuide}
@@ -304,11 +304,17 @@ export const JsonFormatterBlock = () => {
               className={`input-block ${
                 isTauri ? "mod-input-block-is-tauri" : ""
               }`}
-              style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                flex: 1,
+              }}
             >
               <Row
-                style={{ padding: "10px 0", flexDirection: "row-reverse" }}
+                style={{ padding: "10px 0", flexDirection: "row-reverse",overflow:'auto' }}
                 type={"flex"}
+                
               >
                 <Space>
                   <Button
@@ -398,6 +404,7 @@ export const JsonFormatterBlock = () => {
                         }}
                         readOnly={true}
                       /> */}
+
                       <MonacoEditor
                         width="100%"
                         height="100%"
@@ -409,6 +416,7 @@ export const JsonFormatterBlock = () => {
                             vertical: "hidden",
                             horizontal: "hidden",
                           },
+                          automaticLayout: true,
                           readOnly: true,
                           minimap: { enabled: false },
                         }}

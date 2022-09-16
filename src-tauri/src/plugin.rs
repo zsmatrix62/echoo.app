@@ -11,6 +11,7 @@ pub(crate) struct EchooAPIPluginBuilder<R: Runtime> {
 }
 
 impl<R: Runtime> EchooAPIPluginBuilder<R> {
+    #[allow(clippy::new_ret_no_self)]
     pub fn new() -> EchooAPIPlugin<R> {
         let port = random_port();
         EchooAPIPlugin {
