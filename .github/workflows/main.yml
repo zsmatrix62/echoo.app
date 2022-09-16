@@ -47,7 +47,7 @@ jobs:
         rustup target add x86_64-apple-darwin
       
     - name: install app dependencies and build it
-      run: yarn && cd wasm-api && cargo install wasm-pack && wasm-pack build && cd ../web-src && yarn install --force && cd ../web-src && yarn build
+      run: npm install && cd wasm-api && cargo install wasm-pack && wasm-pack build && cd ../web-src && npm install --force && cd ../web-src && npm build
       env:
         CI: false
         
