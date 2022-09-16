@@ -274,6 +274,7 @@ export const UrlParserBlock = () => {
                 options={{
                   scrollbar: { vertical: "hidden", horizontal: "hidden" },
                   readOnly: true,
+                  automaticLayout: true,
                   minimap: { enabled: false },
                 }}
                 editorDidMount={editorDidMount}

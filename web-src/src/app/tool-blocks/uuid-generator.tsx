@@ -703,6 +703,7 @@ export const UUIDGeneratorBlock = () => {
           headerStyle={{ padding: "10px 10px" }}
           style={{ height: "100%", display: "flex", flexDirection: "column" }}
           bodyStyle={{ flex: 1, boxSizing: "border-box" }}
+
         >
           <RightBlock />
         </Card>
