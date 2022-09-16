@@ -1,3 +1,4 @@
+#![allow(non_upper_case_globals)]
 use chrono::{DateTime, NaiveDateTime, Utc};
 use fake::{uuid::UUIDv1, Fake};
 use nanoid::nanoid;

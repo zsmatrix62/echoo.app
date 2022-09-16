@@ -18,8 +18,12 @@ import {
   IconLayers,
 } from "@douyinfe/semi-icons";
 import { useEffect, useRef, useState } from "react";
-import { useObservableState } from "observable-hooks";
-import { useMount } from "react-use";
+import {
+  useObservableCallback,
+  useObservableState,
+  useSubscription,
+} from "observable-hooks";
+import { useMount, useSetState } from "react-use";
 import { AutoFitTextAreaWithRef } from "../wigetds/autofit-textarea";
 import Text from "@douyinfe/semi-ui/lib/es/typography/text";
 import useClipboard from "use-clipboard-hook";
@@ -174,12 +178,28 @@ export const JsonFormatterBlock = () => {
     undefined
   );
 
-  const [outputValue, setOutputValue] = useObservableState<string | undefined>(
-    (obs) => {
-      return obs;
-    },
-    undefined
+  const [monacoM, setMonacoM] = useSetState<any>();
+
+  const editorDidMount = (editor: any, monaco: any) => {
+    setMonacoM([editor, monaco]);
+  };
+
+  const [outValue, _setOutValue] = useObservableState<string>((obs) => {
+    return obs;
+  }, "");
+
+  const [setOutValue$, outValue$] = useObservableCallback<string, string>(
+    (e$) => e$
   );
+
+  useSubscription(outValue$, (obs) => {
+    _setOutValue(obs);
+    const editor = monacoM[0];
+    const monaco = monacoM[1];
+    setTimeout(() => {
+      editor.setSelection(new monaco.Selection(0, 0, 0, 0));
+    }, 50);
+  });
 
   const [editorTheme, setEditorTheme] = useObservableState<string | undefined>(
     (obs) => {
@@ -215,7 +235,7 @@ export const JsonFormatterBlock = () => {
       }
     } catch (e) {
     } finally {
-      setOutputValue(content);
+      setOutValue$(content);
     }
   };
 
@@ -225,7 +245,7 @@ export const JsonFormatterBlock = () => {
   };
 
   const onCopy = () => {
-    copy(outputValue);
+    copy(outValue);
   };
 
   function setRandomJson() {
@@ -246,23 +266,19 @@ export const JsonFormatterBlock = () => {
   ) {
     const indent = value as number;
     console.debug(`setting output json as ${indent} spaces indent`);
-    setOutputJson(outputValue, indent);
+    setOutputJson(outValue, indent);
     Pref.getInstance().jsonFormatterDefaultIndentSpace.value = indent;
   }
 
   const isSidebarCollapsed = useObservableState(
     Pref.getInstance().toolsSiderCollapsed.$
   );
-  const editorDidMount = (editor: any, monaco: any) => {
-    console.log("editorDidMount", editor);
-    editor.focus();
-  };
 
   // noinspection RequiredAttributes
   return (
     <isTauriAppContext.Consumer>
       {(isTauri) => (
-        <Row className="json-formatter-container">
+        <Row className="json-formatter-container" style={{ height: "100%" }}>
           <SideSheet
             size={"large"}
             visible={showJsonPathGuide}
@@ -304,22 +320,31 @@ export const JsonFormatterBlock = () => {
               className={`input-block ${
                 isTauri ? "mod-input-block-is-tauri" : ""
               }`}
-              style={{ display: "flex", flexDirection: "column", flex: 1 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                flex: 1,
+              }}
             >
               <Row
-                style={{ padding: "10px 0", flexDirection: "row-reverse" }}
+                style={{
+                  padding: "10px 0",
+                  flexDirection: "row-reverse",
+                  overflow: "auto",
+                }}
                 type={"flex"}
               >
                 <Space>
                   <Button
-                    disabled={!outputValue}
+                    disabled={!outValue}
                     onClick={onCompressClicked}
                     icon={<IconLayers />}
                   >
                     Compress
                   </Button>
                   <Select
-                    disabled={!outputValue}
+                    disabled={!outValue}
                     value={jsonIndentState}
                     defaultValue={jsonIndentState}
                     style={{ width: 120 }}
@@ -331,7 +356,7 @@ export const JsonFormatterBlock = () => {
                     <Select.Option value={0}>minified</Select.Option>
                   </Select>
                   <Button
-                    disabled={!outputValue}
+                    disabled={!outValue}
                     onClick={onCopy}
                     icon={<IconCopy />}
                   >
@@ -377,7 +402,7 @@ export const JsonFormatterBlock = () => {
                       }}
                     >
                       {/* <CodeMirror
-                        value={outputValue}
+                        value={outValue}
                         // extensions={[json()]}
                         theme={editorTheme! as 'light' | 'dark'}
                       /> */}
@@ -388,7 +413,7 @@ export const JsonFormatterBlock = () => {
                         theme={
                           editorTheme == 'dark' ? 'tomorrow_night' : 'github'
                         }
-                        value={outputValue}
+                        value={outValue}
                         name="UNIQUE_ID_OF_Col"
                         editorProps={{ $blockScrolling: true }}
                         setOptions={{
@@ -398,10 +423,11 @@ export const JsonFormatterBlock = () => {
                         }}
                         readOnly={true}
                       /> */}
+
                       <MonacoEditor
                         width="100%"
                         height="100%"
-                        value={outputValue}
+                        value={outValue}
                         language="json"
                         theme={editorTheme == "dark" ? "vs-dark" : "vs"}
                         options={{
@@ -409,6 +435,7 @@ export const JsonFormatterBlock = () => {
                             vertical: "hidden",
                             horizontal: "hidden",
                           },
+                          automaticLayout: true,
                           readOnly: true,
                           minimap: { enabled: false },
                         }}
@@ -419,7 +446,7 @@ export const JsonFormatterBlock = () => {
                       <Space style={{ width: "100%", padding: "10px 0 0 0" }}>
                         <Input
                           type="text"
-                          disabled={!validationErrors || !outputValue}
+                          disabled={!validationErrors || !outValue}
                           placeholder={"JSON Path"}
                           ref={jsonPathRef}
                           value={jsonPathValue}

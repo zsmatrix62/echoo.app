@@ -7,9 +7,13 @@ import {
   Tabs,
   Toast,
 } from "@douyinfe/semi-ui";
-import { useObservableState } from "observable-hooks";
+import {
+  useObservableCallback,
+  useObservableState,
+  useSubscription,
+} from "observable-hooks";
 import { useSearchParams } from "react-router-dom";
-import { useMount } from "react-use";
+import { useMount, useSetState } from "react-use";
 import "../shared/styles/h-layout.scss";
 import { isTauriAppContext } from "../../App";
 import { Percentage } from "@icon-park/react";
@@ -113,17 +117,40 @@ export const UrlParserBlock = () => {
     (obs) => {
       obs.subscribe((d) => {
         if (!d) {
-          setOutValue("");
+          setOutValue$("");
           return;
         }
-        setOutValue(JSON.stringify(d?.query ?? {}, null, "\t"));
+        setOutValue$(JSON.stringify(d?.query ?? {}, null, "\t"));
       });
       return obs;
     },
     null
   );
-  const [outValue, setOutValue] = useObservableState<string>((obs) => obs, "");
-  const [inValue, setInValue] = useObservableState<string>((obs) => {
+
+  const [monacoM, setMonacoM] = useSetState<any>();
+
+  const editorDidMount = (editor: any, monaco: any) => {
+    setMonacoM([editor, monaco]);
+  };
+
+  const [outValue, _setOutValue] = useObservableState<string>((obs) => {
+    return obs;
+  }, "");
+
+  const [setOutValue$, outValue$] = useObservableCallback<string, string>(
+    (e$) => e$
+  );
+
+  useSubscription(outValue$, (obs) => {
+    _setOutValue(obs);
+    const editor = monacoM[0];
+    const monaco = monacoM[1];
+    setTimeout(() => {
+      editor.setSelection(new monaco.Selection(0, 0, 0, 0));
+    }, 50);
+  });
+
+  const [inValue, setInValue$] = useObservableState<string>((obs) => {
     obs.subscribe((changed) => {
       if (!changed) {
         setParsedUrl(null);
@@ -147,10 +174,7 @@ export const UrlParserBlock = () => {
       },
     });
   });
-  const editorDidMount = (editor: any, monaco: any) => {
-    console.log("editorDidMount", editor);
-    editor.focus();
-  };
+
   return (
     <Row className={"parser-block-container"}>
       <Row className={"url-input-container"}>
@@ -158,14 +182,14 @@ export const UrlParserBlock = () => {
           <Space>
             <Button
               onClick={() => {
-                setInValue(SAMPLE_URL);
+                setInValue$(SAMPLE_URL);
               }}
             >
               Sample
             </Button>
             <Button
               onClick={() => {
-                setInValue("");
+                setInValue$("");
               }}
             >
               Clear
@@ -176,7 +200,7 @@ export const UrlParserBlock = () => {
           <AutoFitTextAreaWithRef
             value={inValue.valueOf()}
             onChange={(v) => {
-              setInValue(v);
+              setInValue$(v);
             }}
             placeholder="Input/Paste URL here ..."
           />
@@ -274,7 +298,9 @@ export const UrlParserBlock = () => {
                 options={{
                   scrollbar: { vertical: "hidden", horizontal: "hidden" },
                   readOnly: true,
+                  automaticLayout: true,
                   minimap: { enabled: false },
+                  contextmenu: false,
                 }}
                 editorDidMount={editorDidMount}
               ></MonacoEditor>
