@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@tauri-apps/api": "^1.0.0-rc.6",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "tauri": "^0.14.1"
   },
   "scripts": {
     "tauri": "tauri",
