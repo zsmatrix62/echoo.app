@@ -1,18 +1,13 @@
 <div align="center">
-<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/main/docs/img/gh-head.png?raw=true" />
+	<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/main/docs/img/gh-head.png?raw=true" />
+	<h1>Echoo</h1>
+	<h3>🛠 Toolbox for Developers</h3>
 </div>
 
 <div align="center">
 <br>
-<!-- [![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases) -->
 
-[![Download Counts](https://img.shields.io/github/downloads/zsmatrix62/echoo-app/total?style=flat)](https://github.com/zsmatrix62/echoo-app/releases)
-[![Stars Count](https://img.shields.io/github/stars/zsmatrix62/echoo-app?style=flat)](https://github.com/zsmatrix62/echoo-app/stargazers)
-[![Issues Count](https://img.shields.io/github/issues/zsmatrix62/echoo-app.svg?style=flat)](https://github.com/zsmatrix62/echoo-app/issues)
-
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/github/release/echoo-app/echoo-app.svg?style=flat-square)](https://github.com/zsmatrix62/echoo-app/releases)
-
 [![Windows Support](https://img.shields.io/badge/Windows-0078D6?style=flat&logo=windows&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
 [![macOS Support](https://img.shields.io/badge/MACOS-adb8c5?style=flat&logo=macos&logoColor=white)](https://apps.apple.com/cn/app/echoo-app/id1612383544?mt=12)
 [![Linux Support](https://img.shields.io/badge/linux-1793D1?style=flat&logo=linux&logoColor=white)](https://github.com/zsmatrix62/echoo-app/releases)
