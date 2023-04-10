@@ -17,9 +17,17 @@
         "tsConfig": "apps/client-web/tsconfig.app.json",
         "assets": [
           "apps/client-web/src/favicon.ico",
-          "apps/client-web/src/assets"
+          "apps/client-web/src/assets",
+          {
+            "glob": "**/*",
+            "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+            "output": "/assets/"
+          }
         ],
-        "styles": ["apps/client-web/src/styles.scss"],
+        "styles": [
+          "apps/client-web/src/styles.scss",
+          "./node_modules/ng-zorro-antd/ng-zorro-antd.css"
+        ],
         "scripts": []
       },
       "configurations": {

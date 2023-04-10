@@ -1,0 +1,16 @@
+.main-content-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.tools-block-wrapper {
+  height: inherit;
+
+  .sider {
+    overflow-y: scroll;
+  }
+
+  .inner-layout-wrapper {
+    height: inherit;
+  }
+}
