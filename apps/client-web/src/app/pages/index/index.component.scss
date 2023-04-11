@@ -8,7 +8,9 @@
 	height: inherit;
 
 	.tool-content-wrapper {
+		min-width: 900px;
 		height: inherit;
 		padding: 10px;
+		overflow-x: scroll;
 	}
 }

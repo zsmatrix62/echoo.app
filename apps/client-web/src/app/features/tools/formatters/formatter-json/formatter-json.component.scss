@@ -17,8 +17,18 @@
 	padding-left: 10px;
 
 	.output-actions {
-		justify-content: end;
+		align-items: center;
+		justify-content: start;
 		margin-bottom: 10px;
+
+		nz-select {
+			width: 90px;
+			margin: 0 10px;
+		}
+
+		.copy-btn {
+			margin-left: auto;
+		}
 	}
 
 	.output-editor-wrapper {

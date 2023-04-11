@@ -23,16 +23,22 @@
 	</nz-col>
 
 	<nz-col class="output-wrapper" [nzSpan]="14">
-		<nz-space class="output-actions" nz-row>
-			<button *nzSpaceItem nz-button nzSize="large">
+		<nz-row class="output-actions">
+			<button [disabled]="indention == 'mini'" (click)="onCompressClicked()" nz-button nzSize="large">
 				<span nz-icon nzType="compress" nzTheme="outline"></span>
 				<span>Compress</span>
 			</button>
-			<button *nzSpaceItem nz-button nzSize="large">
+			<nz-select [(ngModel)]="indention">
+				<nz-option nzValue="4s" nzLabel="4 spaces"></nz-option>
+				<nz-option nzValue="2s" nzLabel="2 spaces"></nz-option>
+				<nz-option nzValue="1t" nzLabel="1 tab"></nz-option>
+				<nz-option nzValue="mini" nzLabel="minified"></nz-option>
+			</nz-select>
+			<button class="copy-btn" nz-button nzSize="large">
 				<span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
 				<span>Copy</span>
 			</button>
-		</nz-space>
+		</nz-row>
 		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
 			<ngx-monaco-editor class="editor" [options]="editorOptions" [ngModel]="code"></ngx-monaco-editor>
 			<input class="json-path-input" nz-input placeholder="JSON Path" />

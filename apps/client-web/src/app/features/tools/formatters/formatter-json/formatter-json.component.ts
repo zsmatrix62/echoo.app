@@ -10,6 +10,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
 import { FitterElementDirective, SyncStyleWithElementDirective } from '@echoo/fitter-element';
 import { WindowEventsService } from '../../../../core/services/window-events.service';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @UntilDestroy()
 @Component({
@@ -19,6 +20,7 @@ import { WindowEventsService } from '../../../../core/services/window-events.ser
 		CommonModule,
 		FormsModule,
 		NzGridModule,
+		NzSelectModule,
 		NzInputModule,
 		NzButtonModule,
 		NzSpaceModule,
@@ -41,4 +43,10 @@ export class FormatterJsonComponent {
 		scrollBeyondLastLine: false,
 	};
 	code = 'function x() {\nconsole.log("Hello world!");\n}';
+
+	indention = '1t';
+
+	onCompressClicked() {
+		this.indention = 'mini';
+	}
 }
