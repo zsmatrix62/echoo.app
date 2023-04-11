@@ -1,6 +1,6 @@
-import type {IconDefinition} from '@ant-design/icons-angular';
+import type { IconDefinition } from '@ant-design/icons-angular';
 
-export type EchooIconNames = 'seperate-vertial' | 'file-json' | 'file-html' | 'css-file' | 'nginx-config';
+export type EchooIconNames = 'seperate-vertical' | 'file-json' | 'file-html' | 'css-file' | 'nginx-config';
 
 export type EchooIconDefinitionOutline = IconDefinition & {
 	name: EchooIconNames;
@@ -9,7 +9,7 @@ export type EchooIconDefinitionOutline = IconDefinition & {
 
 export const outlineIcons: EchooIconDefinitionOutline[] = [
 	{
-		name: 'seperate-vertial',
+		name: 'seperate-vertical',
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18M8 8l-4 4l4 4m8 0l4-4l-4-4"/></svg>`,
 		theme: 'outline',
 	},

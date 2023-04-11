@@ -6,7 +6,11 @@
 		<ul
 			nz-menu
 			nzMode="inline">
-			<li
+			<ng-container *ngFor="let config of registeredTools">
+				<echoo-tool-menu-item [Config]="config" />
+			</ng-container>
+			<!--
+        <li
 				nz-submenu
 				nzOpen
 				nzIcon="seperate-vertial"
@@ -39,7 +43,7 @@
 						<span>Nginx</span>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 	</nz-sider>
 </ng-template>
