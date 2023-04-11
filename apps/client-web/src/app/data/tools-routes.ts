@@ -8,6 +8,18 @@ function appendRoute(parentRoutes: string[], configs: ToolConfig[]) {
 	for (const config of configs) {
 		const newRoutes = [...parentRoutes, ...config.routerLink];
 		if (config.children) {
+			if (config.component) {
+				ToolsRoutes.push({
+					path: newRoutes.join('/'),
+					component: config.component,
+				});
+			} else {
+				ToolsRoutes.push({
+					path: newRoutes.join('/'),
+					redirectTo: newRoutes.join('/') + '/' + config.children[0].routerLink.join('/'),
+				});
+			}
+
 			appendRoute(newRoutes, config.children);
 		} else {
 			ToolsRoutes.push({

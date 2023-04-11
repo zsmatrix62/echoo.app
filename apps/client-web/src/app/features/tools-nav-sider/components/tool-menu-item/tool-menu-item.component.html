@@ -1,25 +1,33 @@
-<ng-container *ngIf="(Config.children ?? []).length > 0">
-	<li
-		nz-submenu
-		nzOpen
-		[nzIcon]="Config.icon ?? null"
-		[nzTitle]="Config.title">
-		<ng-container *ngFor="let child of Config.children">
-			<echoo-tool-menu-item
-				[ParentConfig]="Config"
-				[Config]="child" />
-		</ng-container>
-	</li>
-</ng-container>
+<ng-template #template>
+	<ng-container *ngIf="(Config.children ?? []).length > 0">
+		<li
+			nz-submenu
+			[nzOpen]="true"
+			class="menu-group"
+			[nzIcon]="Config.icon ?? null"
+			[nzTitle]="Config.title">
+			<ng-container *ngIf="Config.children && Config.children.length > 0">
+				<ul>
+					<ng-container *ngFor="let child of Config.children">
+						<echoo-tool-menu-item
+							[ParentConfig]="Config"
+							[Config]="child" />
+					</ng-container>
+				</ul>
+			</ng-container>
+		</li>
+	</ng-container>
 
-<ng-container *ngIf="(Config.children ?? []).length == 0">
-	<li
-		nzOpen
-		[routerLink]="finalRouterLink"
-		nz-menu-item>
-		<span
-			nz-icon
-			[nzType]="Config.icon ?? ''"></span>
-		<span>{{ Config.title }}</span>
-	</li>
-</ng-container>
+	<ng-container *ngIf="(Config.children ?? []).length == 0">
+		<li
+			nzOpen
+			[routerLink]="finalRouterLink"
+			nzMatchRouter
+			nz-menu-item>
+			<span
+				nz-icon
+				[nzType]="Config.icon ?? ''"></span>
+			<span>{{ Config.title }} </span>
+		</li>
+	</ng-container>
+</ng-template>

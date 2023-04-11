@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { AsPureTemplateMixinComponent } from '../../mixins/as-pure-template';
+import { AsPureTemplateMixinComponent } from '@echoo/client-web/mixins';
 import { RegisterdTools } from '../../data/tools';
 import { ToolMenuItemComponent } from './components/tool-menu-item/tool-menu-item.component';
 

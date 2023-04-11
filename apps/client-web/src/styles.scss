@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '../../../node_modules/ng-zorro-antd/ng-zorro-antd.css';
+@import '../../../node_modules/ng-zorro-antd/ng-zorro-antd.compact.css';
 
 echoo-root {
-  height: 100%;
-  display: block;
+	display: block;
+	height: 100%;
 }

@@ -15,7 +15,8 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@echoo/echoo-icons": ["libs/angular/echoo-icons/src/index.ts"]
+			"@echoo/echoo-icons": ["libs/angular/echoo-icons/src/index.ts"],
+			"@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

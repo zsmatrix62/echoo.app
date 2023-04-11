@@ -2,48 +2,13 @@
 	<nz-sider
 		nzTheme="light"
 		nzWidth="200px"
-		[nzCollapsible]="true">
+		[nzCollapsible]="false">
 		<ul
 			nz-menu
 			nzMode="inline">
 			<ng-container *ngFor="let config of registeredTools">
 				<echoo-tool-menu-item [Config]="config" />
 			</ng-container>
-			<!--
-        <li
-				nz-submenu
-				nzOpen
-				nzIcon="seperate-vertial"
-				nzTitle="Formatters">
-				<ul>
-					<li
-						nz-menu-item
-						nzSelected>
-						<span
-							nz-icon
-							nzType="file-json"></span>
-						<span>JSON</span>
-					</li>
-					<li nz-menu-item>
-						<span
-							nz-icon
-							nzType="file-html"></span>
-						<span>HTML</span>
-					</li>
-					<li nz-menu-item>
-						<span
-							nz-icon
-							nzType="css-file"></span>
-						<span>CSS/LESS/SCSS</span>
-					</li>
-					<li nz-menu-item>
-						<span
-							nz-icon
-							nzType="nginx-config"></span>
-						<span>Nginx</span>
-					</li>
-				</ul>
-			</li> -->
 		</ul>
 	</nz-sider>
 </ng-template>
