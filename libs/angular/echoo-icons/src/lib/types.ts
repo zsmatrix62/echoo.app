@@ -1,6 +1,15 @@
 import type { IconDefinition } from '@ant-design/icons-angular';
 
-export type EchooIconNames = 'seperate-vertical' | 'file-json' | 'file-html' | 'css-file' | 'nginx-config';
+export type EchooIconNames =
+	| 'seperate-vertical'
+	| 'file-json'
+	| 'file-html'
+	| 'css-file'
+	| 'nginx-config'
+	| 'sandbox'
+	| 'compress'
+	| 'clipboard-copy'
+	| 'trash';
 
 export type EchooIconDefinitionOutline = IconDefinition & {
 	name: EchooIconNames;
@@ -31,6 +40,27 @@ export const outlineIcons: EchooIconDefinitionOutline[] = [
 	{
 		name: 'nginx-config',
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M7.62.102a.757.757 0 0 1 .76 0l6.246 3.625a.75.75 0 0 1 .374.648v7.25a.75.75 0 0 1-.374.648L8.38 15.898a.757.757 0 0 1-.76 0l-6.246-3.625A.75.75 0 0 1 1 11.625v-7.25a.75.75 0 0 1 .374-.648L7.62.102ZM2.508 4.806v6.388L8 14.382l5.492-3.188V4.806L8 1.618L2.508 4.806Zm2.475-.249a.757.757 0 0 1 .822.163l4.241 4.22V5.25c0-.414.338-.75.754-.75s.754.336.754.75v5.5a.75.75 0 0 1-.466.693a.757.757 0 0 1-.821-.163L6.026 7.06v3.69c0 .414-.338.75-.754.75a.752.752 0 0 1-.754-.75v-5.5a.75.75 0 0 1 .465-.693Z"/></svg>`,
+		theme: 'outline',
+	},
+
+	{
+		name: 'sandbox',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m7.5 4.21l4.5 2.6l4.5-2.6m-9 15.58V14.6L3 12m18 0l-4.5 2.6v5.19M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></g></svg>`,
+		theme: 'outline',
+	},
+	{
+		name: 'trash',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
+		theme: 'outline',
+	},
+	{
+		name: 'compress',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M4 9v2h16V9H4zm12-5l-1.41-1.41L13 4.17V1h-2v3.19L9.39 2.61L8 4l4 4l4-4zM4 14h16v-2H4v2zm4 5l1.39 1.39L11 18.81V22h2v-3.17l1.59 1.59L16 19l-4-4l-4 4z"/></svg>`,
+		theme: 'outline',
+	},
+	{
+		name: 'clipboard-copy',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M16 4h2a2 2 0 0 1 2 2v4m1 4H11"/><path d="m15 10l-4 4l4 4"/></g></svg>`,
 		theme: 'outline',
 	},
 ];

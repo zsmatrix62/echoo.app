@@ -15,7 +15,15 @@
 				"main": "apps/client-web/src/main.ts",
 				"polyfills": ["zone.js"],
 				"tsConfig": "apps/client-web/tsconfig.app.json",
-				"assets": ["apps/client-web/src/favicon.ico", "apps/client-web/src/assets"],
+				"assets": [
+					"apps/client-web/src/favicon.ico",
+					"apps/client-web/src/assets",
+					{
+						"glob": "**/*",
+						"input": "node_modules/monaco-editor",
+						"output": "assets/monaco-editor"
+					}
+				],
 				"styles": ["apps/client-web/src/styles.scss", "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.css"],
 				"scripts": []
 			},
