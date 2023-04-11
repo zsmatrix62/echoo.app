@@ -1,57 +1,12 @@
-<nz-layout class="main-content-wrapper">
+<nz-layout class="main-page-wrapper">
 	<nz-header nzTheme="dark">
 		<div class="logo"></div>
 	</nz-header>
 
-	<nz-layout class="tools-block-wrapper">
-		<nz-sider
-			nzTheme="light"
-			nzWidth="200px"
-			class="sider"
-			[nzCollapsible]="true">
-			<ul
-				nz-menu
-				nzMode="inline">
-				<li
-					nz-submenu
-					nzOpen
-					nzIcon="seperate-vertial"
-					nzTitle="Formatters">
-					<ul>
-						<li
-							nz-menu-item
-							nzSelected>
-							<span
-								nz-icon
-								nzType="file-json"></span>
-							<span>JSON</span>
-						</li>
-						<li nz-menu-item>
-							<span
-								nz-icon
-								nzType="file-html"></span>
-							<span>HTML</span>
-						</li>
-						<li nz-menu-item>
-							<span
-								nz-icon
-								nzType="css-file"></span>
-							<span>CSS/LESS/SCSS</span>
-						</li>
-						<li nz-menu-item>
-							<span
-								nz-icon
-								nzType="nginx-config"></span>
-							<span>Nginx</span>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</nz-sider>
-		<nz-layout class="inner-layout-wrapper">
-			<nz-content>
-				<router-outlet></router-outlet>
-			</nz-content>
-		</nz-layout>
+	<nz-layout class="main-content-wrapper">
+		<echoo-tools-nav-sider />
+		<nz-content class="tool-content-wrapper">
+			<router-outlet></router-outlet>
+		</nz-content>
 	</nz-layout>
 </nz-layout>

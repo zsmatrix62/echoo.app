@@ -1,70 +1,63 @@
 {
-  "root": true,
-  "ignorePatterns": ["**/*"],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@nrwl/nx", "@typescript-eslint"],
-  "env": {
-    "node": true
-  },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-  "rules": {
-    "@typescript-eslint/block-spacing": "error",
-    "@typescript-eslint/consistent-type-imports": "error",
-    "@typescript-eslint/member-ordering": "warn",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        "argsIgnorePattern": "_"
-      }
-    ],
-    "@typescript-eslint/array-type": "error"
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint", "@angular-eslint"],
-      "extends": [
-        "plugin:@nrwl/nx/typescript",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:prettier/recommended"
-      ]
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.html"],
-      "parser": "@angular-eslint/template-parser",
-      "plugins": ["@angular-eslint/template"],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended",
-        "plugin:prettier/recommended"
-      ],
-      "rules": {}
-    }
-  ]
+	"root": true,
+	"ignorePatterns": ["**/*"],
+	"parser": "@typescript-eslint/parser",
+	"plugins": ["@nrwl/nx", "@typescript-eslint", "prettier"],
+	"extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:prettier/recommended"],
+	"rules": {
+		"@typescript-eslint/block-spacing": "error",
+		"@typescript-eslint/consistent-type-imports": "error",
+		"@typescript-eslint/member-ordering": "warn",
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{
+				"argsIgnorePattern": "_"
+			}
+		],
+		"@typescript-eslint/array-type": "error"
+	},
+	"overrides": [
+		{
+			"files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+			"rules": {
+				"@nrwl/nx/enforce-module-boundaries": [
+					"error",
+					{
+						"enforceBuildableLibDependency": true,
+						"allow": [],
+						"depConstraints": [
+							{
+								"sourceTag": "*",
+								"onlyDependOnLibsWithTags": ["*"]
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"files": ["*.ts", "*.tsx"],
+			"parser": "@typescript-eslint/parser",
+			"plugins": ["@typescript-eslint", "@angular-eslint"],
+			"extends": [
+				"plugin:@nrwl/nx/typescript",
+				"eslint:recommended",
+				"plugin:@typescript-eslint/recommended",
+				"plugin:@angular-eslint/recommended",
+				"plugin:@angular-eslint/template/process-inline-templates"
+			]
+		},
+		{
+			"files": ["*.js", "*.jsx"],
+			"extends": ["plugin:@nrwl/nx/javascript"],
+			"rules": {}
+		},
+		{
+			"files": ["*.html"],
+			"parser": "@angular-eslint/template-parser",
+			"plugins": ["@angular-eslint/template"],
+			"extends": ["plugin:@angular-eslint/template/recommended"],
+			"rules": {}
+		}
+	]
 }

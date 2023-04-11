@@ -1,16 +1,13 @@
-.main-content-wrapper {
-  height: 100%;
-  width: 100%;
+.main-page-wrapper {
+	width: 100%;
+	height: 100%;
 }
 
-.tools-block-wrapper {
-  height: inherit;
+.main-content-wrapper {
+	flex-direction: row;
+	height: inherit;
 
-  .sider {
-    overflow-y: scroll;
-  }
-
-  .inner-layout-wrapper {
-    height: inherit;
-  }
+	.tool-content-wrapper {
+		height: inherit;
+	}
 }
