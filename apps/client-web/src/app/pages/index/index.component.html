@@ -1,18 +1,6 @@
 <nz-layout class="main-content-wrapper">
 	<nz-header nzTheme="dark">
 		<div class="logo"></div>
-		<ul
-			nz-menu
-			nzTheme="dark"
-			nzMode="horizontal">
-			<li
-				nz-menu-item
-				nzSelected>
-				nav 1
-			</li>
-			<li nz-menu-item>nav 2</li>
-			<li nz-menu-item>nav 3</li>
-		</ul>
 	</nz-header>
 
 	<nz-layout class="tools-block-wrapper">
@@ -27,17 +15,35 @@
 				<li
 					nz-submenu
 					nzOpen
-					nzIcon="file-json"
+					nzIcon="seperate-vertial"
 					nzTitle="Formatters">
 					<ul>
 						<li
 							nz-menu-item
 							nzSelected>
-							JSON
+							<span
+								nz-icon
+								nzType="file-json"></span>
+							<span>JSON</span>
 						</li>
-						<li nz-menu-item>HTML</li>
-						<li nz-menu-item>CSS/LESS/SCSS</li>
-						<li nz-menu-item>Nginx</li>
+						<li nz-menu-item>
+							<span
+								nz-icon
+								nzType="file-html"></span>
+							<span>HTML</span>
+						</li>
+						<li nz-menu-item>
+							<span
+								nz-icon
+								nzType="css-file"></span>
+							<span>CSS/LESS/SCSS</span>
+						</li>
+						<li nz-menu-item>
+							<span
+								nz-icon
+								nzType="nginx-config"></span>
+							<span>Nginx</span>
+						</li>
 					</ul>
 				</li>
 			</ul>
