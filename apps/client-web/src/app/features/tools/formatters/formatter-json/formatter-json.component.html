@@ -1,47 +1,41 @@
 <nz-row style="height: 100%">
-  <nz-col class="input-wrapper" nzSpan="10">
-    <nz-space class="input-actions" nz-row>
-      <button *nzSpaceItem nz-button nzSize="large">
-        <span nz-icon nzType="sandbox" nzTheme="outline"></span>
-        <span>Sample</span>
-      </button>
-      <button *nzSpaceItem nz-button nzSize="large">
-        <span nz-icon nzType="trash" nzTheme="outline"></span>
-        <span>Clear</span>
-      </button>
-    </nz-space>
+	<nz-col class="input-wrapper" nzSpan="10">
+		<nz-space class="input-actions" nz-row>
+			<button *nzSpaceItem nz-button nzSize="large">
+				<span nz-icon nzType="sandbox" nzTheme="outline"></span>
+				<span>Sample</span>
+			</button>
+			<button *nzSpaceItem nz-button nzSize="large">
+				<span nz-icon nzType="trash" nzTheme="outline"></span>
+				<span>Clear</span>
+			</button>
+		</nz-space>
 
-    <textarea
-      class="input-textarea"
-      #inputTextArea
-      nz-row
-      placeholder="Paste or type JSON here ..."
-      nz-col
-      nz-input
-    ></textarea>
-  </nz-col>
+		<textarea
+			class="input-textarea"
+			#inputTextArea
+			[fitHeight]="true"
+			nz-row
+			placeholder="Paste or type JSON here ..."
+			nz-col
+			fitterElement
+			nz-input></textarea>
+	</nz-col>
 
-  <nz-col class="output-wrapper" [nzSpan]="14">
-    <nz-space class="output-actions" nz-row>
-      <button *nzSpaceItem nz-button nzSize="large">
-        <span nz-icon nzType="compress" nzTheme="outline"></span>
-        <span>Compress</span>
-      </button>
-      <button *nzSpaceItem nz-button nzSize="large">
-        <span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
-        <span>Copy</span>
-      </button>
-    </nz-space>
-    <nz-row
-      class="output-editor-wrapper"
-      [ngStyle]="{ 'height.px': outputContentHeight }"
-    >
-      <ngx-monaco-editor
-        class="editor"
-        [options]="editorOptions"
-        [ngModel]="code"
-      ></ngx-monaco-editor>
-      <input class="json-path-input" nz-input placeholder="JSON Path" />
-    </nz-row>
-  </nz-col>
+	<nz-col class="output-wrapper" [nzSpan]="14">
+		<nz-space class="output-actions" nz-row>
+			<button *nzSpaceItem nz-button nzSize="large">
+				<span nz-icon nzType="compress" nzTheme="outline"></span>
+				<span>Compress</span>
+			</button>
+			<button *nzSpaceItem nz-button nzSize="large">
+				<span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
+				<span>Copy</span>
+			</button>
+		</nz-space>
+		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
+			<ngx-monaco-editor class="editor" [options]="editorOptions" [ngModel]="code"></ngx-monaco-editor>
+			<input class="json-path-input" nz-input placeholder="JSON Path" />
+		</nz-row>
+	</nz-col>
 </nz-row>

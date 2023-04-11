@@ -1,6 +1,4 @@
-import type { AfterViewInit, ElementRef } from '@angular/core';
-import { inject } from '@angular/core';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -10,6 +8,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
+import { FitterElementDirective, SyncStyleWithElementDirective } from '@echoo/fitter-element';
 import { WindowEventsService } from '../../../../core/services/window-events.service';
 
 @UntilDestroy()
@@ -24,17 +23,15 @@ import { WindowEventsService } from '../../../../core/services/window-events.ser
 		NzButtonModule,
 		NzSpaceModule,
 		NzIconModule,
+		FitterElementDirective,
+		SyncStyleWithElementDirective,
 		MonacoEditorModule,
 	],
 	templateUrl: './formatter-json.component.html',
 	styleUrls: ['./formatter-json.component.scss'],
 	providers: [WindowEventsService],
 })
-export class FormatterJsonComponent implements AfterViewInit {
-	@ViewChild('inputTextArea') textAreaRef?: ElementRef<HTMLTextAreaElement>;
-
-	outputContentHeight = 0;
-
+export class FormatterJsonComponent {
 	editorOptions = {
 		theme: 'vs-light',
 		language: 'javascript',
@@ -44,18 +41,4 @@ export class FormatterJsonComponent implements AfterViewInit {
 		scrollBeyondLastLine: false,
 	};
 	code = 'function x() {\nconsole.log("Hello world!");\n}';
-
-	private evt$ = inject(WindowEventsService);
-
-	ngAfterViewInit(): void {
-		this.evt$.WindowResize$.subscribe((_) => {
-			this.adjustManocoEditorHeight();
-		});
-		this.adjustManocoEditorHeight();
-	}
-
-	adjustManocoEditorHeight() {
-		const height = this.textAreaRef?.nativeElement.getBoundingClientRect().height ?? 0;
-		this.outputContentHeight = height;
-	}
 }
