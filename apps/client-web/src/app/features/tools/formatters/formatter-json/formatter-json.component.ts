@@ -22,6 +22,7 @@ import { NzMessageService, NzMessageServiceModule } from 'ng-zorro-antd/message'
 import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 @UntilDestroy()
 @Component({
@@ -36,6 +37,7 @@ import { JsonPathGuideComponent } from './json-path-guide.component';
 		NzButtonModule,
 		NzSpaceModule,
 		NzIconModule,
+		NzAlertModule,
 		FitterElementDirective,
 		SyncStyleWithElementDirective,
 		ClipboardModule,
@@ -62,6 +64,8 @@ export class FormatterJsonComponent implements OnInit {
 	drawer = inject(NzDrawerService);
 	notify = inject(NzMessageService);
 
+	error$ = new BehaviorSubject<string | undefined>(undefined);
+
 	@ViewChild('jsonPathHelp') jsonPathHelp?: TemplateRef<unknown>;
 
 	ngOnInit(): void {
@@ -70,7 +74,16 @@ export class FormatterJsonComponent implements OnInit {
 
 	listenSubjects() {
 		combineLatest([this.code$, this.indention$, this.jsonPath$]).subscribe(([code, indention, jsonPath]) => {
-			const jsonObj = JSON.parse(code ?? '{}');
+			let jsonObj: object;
+			try {
+				jsonObj = JSON.parse(code ?? '{}');
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			} catch (err: any) {
+				console.log(err);
+				this.codeOutput$.next(code);
+				this.error$.next(err.message);
+				return;
+			}
 
 			let indentionValue = '';
 			switch (indention) {
@@ -89,6 +102,7 @@ export class FormatterJsonComponent implements OnInit {
 			}
 			const result = JSONPath({ path: jsonPath || '$', json: jsonObj, wrap: false }) ?? {};
 			this.codeOutput$.next(JSON.stringify(result, null, indentionValue));
+			this.error$.next(undefined);
 		});
 
 		this.indention$.subscribe((indention) => {
@@ -120,6 +134,7 @@ export class FormatterJsonComponent implements OnInit {
 	onClearClicked() {
 		this.jsonPath$.next(undefined);
 		this.code$.next(undefined);
+		this.error$.next(undefined);
 	}
 
 	onJsonPathInutChanged(jsonPath: string) {

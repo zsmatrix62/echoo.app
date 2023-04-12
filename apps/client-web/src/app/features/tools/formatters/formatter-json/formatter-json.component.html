@@ -14,18 +14,19 @@
 				<span>Clear</span>
 			</button>
 		</nz-space>
-
-		<textarea
-			class="input-textarea"
-			#inputTextArea
-			[fitHeight]="true"
-			[ngModel]="code$ | async"
-			(ngModelChange)="onCodeChanged($event)"
-			nz-row
-			placeholder="Paste or type JSON here ..."
-			nz-col
-			fitterElement
-			nz-input></textarea>
+		<nz-row class="input-content-wrapper" #inputTextArea [fitHeight]="true" fitterElement>
+			<textarea
+				class="input-textarea"
+				[ngModel]="code$ | async"
+				(ngModelChange)="onCodeChanged($event)"
+				placeholder="Paste or type JSON here ..."
+				nz-input></textarea>
+			<nz-alert
+				class="error-alert"
+				*ngIf="error$ | async"
+				[nzMessage]="(error$ | async) ?? ''"
+				nzType="error"></nz-alert>
+		</nz-row>
 	</nz-col>
 
 	<nz-col class="output-wrapper" [nzSpan]="14">

@@ -5,11 +5,21 @@
 	.input-actions {
 		margin-bottom: 10px;
 	}
-
-	.input-textarea {
-		box-sizing: border-box;
+	.input-content-wrapper {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: nowrap;
 		height: 100%;
-		resize: none;
+
+		.error-alert {
+			margin-top: 10px;
+		}
+
+		.input-textarea {
+			box-sizing: border-box;
+			height: 100%;
+			resize: none;
+		}
 	}
 }
 

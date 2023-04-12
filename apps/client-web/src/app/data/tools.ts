@@ -14,9 +14,9 @@ export const RegisterdTools: ToolConfig[] = [
 				component: FormatterJsonComponent,
 			},
 			{
-				title: 'Nginx',
-				icon: 'nginx-config',
-				routerLink: ['nginx'],
+				title: 'HTML',
+				icon: 'file-html',
+				routerLink: ['html'],
 				component: FormatterJsonComponent,
 			},
 		],
