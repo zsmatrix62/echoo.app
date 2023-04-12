@@ -17,7 +17,7 @@ deploy:export-image
 	# stop container, remove old image, load new image
 	ssh $(ssh_target) "docker rm -f $(dockerImageTag) && docker rmi -f $(dockerImageTag) && docker image load -i $(dockerImageTag).tar && rm -f $(dockerImageTag).tar"
 	# start container by new image by user account 'app'
-  ssh -ttt $(ssh_target) "sh -c 'docker rm -f $(dockerImageTag) && docker run --rm --name $(dockerImageTag) -p 8900:80 -d $(dockerImageTag)'"
+  	ssh -ttt $(ssh_target) "sh -c 'docker rm -f $(dockerImageTag) && docker run --rm --name $(dockerImageTag) -p 8900:80 -d $(dockerImageTag)'"
 	# cleansing
 	rm $(dockerImageTag).tar
 	ssh $(ssh_target) "rm -f ~/$(dockerImageTag).tar"
