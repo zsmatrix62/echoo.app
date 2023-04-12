@@ -5,4 +5,9 @@ export const appRoutes: Route[] = [
 		path: 'tools',
 		loadChildren: () => import('./data/tools-routes').then((m) => m.ToolsRoutes),
 	},
+	{
+		path: '**',
+		pathMatch: 'full',
+		redirectTo: 'tools/formatters/json',
+	},
 ];

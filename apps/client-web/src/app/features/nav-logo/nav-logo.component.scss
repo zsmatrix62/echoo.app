@@ -1,0 +1,20 @@
+.logo-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	.logo-text {
+		box-sizing: border-box;
+		margin-left: 10px;
+		color: #fff;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 64px;
+		white-space: nowrap;
+	}
+
+	img {
+		width: 32px;
+		height: 32px;
+	}
+}

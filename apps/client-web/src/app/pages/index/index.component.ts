@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ToolsNavSiderComponent } from '../../features/tools-nav-sider/tools-nav-sider.component';
+import { NavLogoComponent } from '../../features/nav-logo/nav-logo.component';
 
 @Component({
 	selector: 'echoo-index',
@@ -20,6 +21,7 @@ import { ToolsNavSiderComponent } from '../../features/tools-nav-sider/tools-nav
 		NzIconModule,
 		NzInputModule,
 		ToolsNavSiderComponent,
+		NavLogoComponent,
 	],
 })
 export class IndexComponent {}
