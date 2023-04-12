@@ -24,16 +24,17 @@
 						"output": "assets/monaco-editor"
 					}
 				],
-				"styles": ["apps/client-web/src/styles.scss", "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.css"],
-				"scripts": []
+				"styles": ["apps/client-web/src/styles.scss", "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.min.css"],
+				"scripts": [],
+				"allowedCommonJsDependencies": ["seedrandom"]
 			},
 			"configurations": {
 				"production": {
 					"budgets": [
 						{
 							"type": "initial",
-							"maximumWarning": "500kb",
-							"maximumError": "1mb"
+							"maximumWarning": "5mb",
+							"maximumError": "10mb"
 						},
 						{
 							"type": "anyComponentStyle",

@@ -1,11 +1,11 @@
 <nz-row style="height: 100%">
 	<nz-col class="input-wrapper" nzSpan="10">
 		<nz-space class="input-actions" nz-row>
-			<button *nzSpaceItem nz-button nzSize="large">
+			<button *nzSpaceItem (click)="onSampleClicked()" nz-button nzSize="large">
 				<span nz-icon nzType="sandbox" nzTheme="outline"></span>
 				<span>Sample</span>
 			</button>
-			<button *nzSpaceItem nz-button nzSize="large">
+			<button *nzSpaceItem (click)="onClearClicked()" nz-button nzSize="large">
 				<span nz-icon nzType="trash" nzTheme="outline"></span>
 				<span>Clear</span>
 			</button>
@@ -15,6 +15,8 @@
 			class="input-textarea"
 			#inputTextArea
 			[fitHeight]="true"
+			[ngModel]="code$ | async"
+			(ngModelChange)="onCodeChanged($event)"
 			nz-row
 			placeholder="Paste or type JSON here ..."
 			nz-col
@@ -24,24 +26,44 @@
 
 	<nz-col class="output-wrapper" [nzSpan]="14">
 		<nz-row class="output-actions">
-			<button [disabled]="indention == 'mini'" (click)="onCompressClicked()" nz-button nzSize="large">
+			<button [disabled]="(indention$ | async) == 'mini'" (click)="onCompressClicked()" nz-button nzSize="large">
 				<span nz-icon nzType="compress" nzTheme="outline"></span>
 				<span>Compress</span>
 			</button>
-			<nz-select [(ngModel)]="indention">
+			<nz-select [ngModel]="indention" (ngModelChange)="onIndentionChanged($event)">
 				<nz-option nzValue="4s" nzLabel="4 spaces"></nz-option>
 				<nz-option nzValue="2s" nzLabel="2 spaces"></nz-option>
 				<nz-option nzValue="1t" nzLabel="1 tab"></nz-option>
 				<nz-option nzValue="mini" nzLabel="minified"></nz-option>
 			</nz-select>
-			<button class="copy-btn" nz-button nzSize="large">
+			<button
+				class="copy-btn"
+				[disabled]="!(codeOutput$ | async) || (codeOutput$ | async) == '{}'"
+				[cbContent]="(codeOutput$ | async) ?? ''"
+				(cbOnSuccess)="onCopied()"
+				ngxClipboard
+				nz-button
+				nzSize="large">
 				<span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
 				<span>Copy</span>
 			</button>
 		</nz-row>
 		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
-			<ngx-monaco-editor class="editor" [options]="editorOptions" [ngModel]="code"></ngx-monaco-editor>
-			<input class="json-path-input" nz-input placeholder="JSON Path" />
+			<ngx-monaco-editor class="editor" [options]="editorOptions" [ngModel]="codeOutput$ | async"></ngx-monaco-editor>
+			<nz-space class="json-path-input-wrapper">
+				<button *nzSpaceItem nz-button>
+					<span nz-icon nzType="help-circle" nzTheme="outline"></span>
+				</button>
+				<input
+					class="json-path-input"
+					#jsonPathInput
+					*nzSpaceItem
+					[ngModel]="jsonPath$ | async"
+					(keyup)="onJsonPathInutChanged(jsonPathInput.value)"
+					type="text"
+					nz-input
+					placeholder="JSON Path" />
+			</nz-space>
 		</nz-row>
 	</nz-col>
 </nz-row>

@@ -5,17 +5,17 @@ import { RouterModule } from '@angular/router';
 import { IndexComponent } from './pages/index/index.component';
 
 @Component({
-  standalone: true,
-  imports: [IndexComponent, RouterModule],
-  selector: 'echoo-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+	standalone: true,
+	imports: [IndexComponent, RouterModule],
+	selector: 'echoo-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Echoo.app';
-  titleService = inject(Title);
+	title = 'Echoo.app';
+	titleService = inject(Title);
 
-  ngOnInit(): void {
-    this.titleService.setTitle(this.title);
-  }
+	ngOnInit(): void {
+		this.titleService.setTitle(this.title);
+	}
 }

@@ -1,11 +1,7 @@
 <ng-template #template>
-	<nz-sider
-		nzTheme="light"
-		nzWidth="200px"
-		[nzCollapsible]="false">
-		<ul
-			nz-menu
-			nzMode="inline">
+	<nz-sider [nzCollapsible]="false" nzTheme="light" nzWidth="150px">
+		<!-- <input class="search-input" nz-input placeholder="Search ..." /> -->
+		<ul nz-menu nzMode="inline">
 			<ng-container *ngFor="let config of registeredTools">
 				<echoo-tool-menu-item [Config]="config" />
 			</ng-container>

@@ -1,16 +1,20 @@
 .main-page-wrapper {
 	width: 100%;
 	height: 100%;
-}
 
-.main-content-wrapper {
-	flex-direction: row;
-	height: inherit;
+	.web-page-header {
+		width: inherit;
+	}
 
-	.tool-content-wrapper {
-		min-width: 900px;
+	.main-content-wrapper {
+		flex-direction: row;
 		height: inherit;
-		padding: 10px;
-		overflow-x: scroll;
+
+		.tool-content-wrapper {
+			min-width: 400px;
+			height: inherit;
+			padding: 10px;
+			overflow-x: scroll;
+		}
 	}
 }

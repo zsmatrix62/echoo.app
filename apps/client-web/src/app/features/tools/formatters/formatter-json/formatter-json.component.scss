@@ -40,9 +40,13 @@
 			width: 100%;
 			height: 100%;
 		}
-
-		.json-path-input {
-			flex-grow: 0;
+		.json-path-input-wrapper {
+			::ng-deep {
+				json-path-input,
+				.ant-space-item:nth-of-type(2) {
+					width: 100% !important;
+				}
+			}
 		}
 	}
 }
