@@ -1,7 +1,8 @@
-import type { OnInit } from '@angular/core';
+import type { OnInit, TemplateRef } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { inject } from '@angular/core';
 import { Component } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -17,8 +18,10 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import { MonacoEditorOptions } from '../../../../data/monacoEditorOptions';
 import { randJSON } from '@ngneat/falso';
 import { ClipboardModule } from 'ngx-clipboard';
-import { NzMessageModule, NzMessageService, NzMessageServiceModule } from 'ng-zorro-antd/message';
+import { NzMessageService, NzMessageServiceModule } from 'ng-zorro-antd/message';
+import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { JSONPath } from 'jsonpath-plus';
+import { JsonPathGuideComponent } from './json-path-guide.component';
 
 @UntilDestroy()
 @Component({
@@ -38,10 +41,12 @@ import { JSONPath } from 'jsonpath-plus';
 		ClipboardModule,
 		NzMessageServiceModule,
 		MonacoEditorModule,
+		NzDrawerServiceModule,
+		JsonPathGuideComponent,
 	],
 	templateUrl: './formatter-json.component.html',
 	styleUrls: ['./formatter-json.component.scss'],
-	providers: [WindowEventsService, NzMessageService],
+	providers: [WindowEventsService, NzMessageService, NzDrawerService],
 })
 export class FormatterJsonComponent implements OnInit {
 	editorOptions = MonacoEditorOptions.ReadOnly('json');
@@ -54,8 +59,10 @@ export class FormatterJsonComponent implements OnInit {
 	indention = '1t';
 	indention$ = new BehaviorSubject(this.indention);
 
-	document = inject(DOCUMENT);
+	drawer = inject(NzDrawerService);
 	notify = inject(NzMessageService);
+
+	@ViewChild('jsonPathHelp') jsonPathHelp?: TemplateRef<unknown>;
 
 	ngOnInit(): void {
 		this.listenSubjects();
@@ -121,5 +128,21 @@ export class FormatterJsonComponent implements OnInit {
 
 	onCopied() {
 		this.notify.success('Copied to clipboard', {});
+	}
+
+	onJsonPathHelpClicked() {
+		if (this.jsonPathHelp) {
+			this.drawer.create({
+				nzTitle: 'JSON Path Syntax',
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				nzContent: this.jsonPathHelp,
+				nzWidth: '50%',
+				nzPlacement: 'right',
+				nzClosable: true,
+				nzMaskClosable: true,
+				nzMask: true,
+			});
+		}
 	}
 }

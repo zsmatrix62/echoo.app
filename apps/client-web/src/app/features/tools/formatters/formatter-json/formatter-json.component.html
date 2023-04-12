@@ -1,3 +1,7 @@
+<ng-template #jsonPathHelp>
+	<echoo-json-path-guide></echoo-json-path-guide>
+</ng-template>
+
 <nz-row style="height: 100%">
 	<nz-col class="input-wrapper" nzSpan="10">
 		<nz-space class="input-actions" nz-row>
@@ -51,7 +55,7 @@
 		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
 			<ngx-monaco-editor class="editor" [options]="editorOptions" [ngModel]="codeOutput$ | async"></ngx-monaco-editor>
 			<nz-space class="json-path-input-wrapper">
-				<button *nzSpaceItem nz-button>
+				<button *nzSpaceItem (click)="onJsonPathHelpClicked()" nz-button>
 					<span nz-icon nzType="help-circle" nzTheme="outline"></span>
 				</button>
 				<input
