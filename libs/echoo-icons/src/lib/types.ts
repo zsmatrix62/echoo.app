@@ -10,6 +10,8 @@ export type EchooIconNames =
 	| 'help-circle'
 	| 'compress'
 	| 'clipboard-copy'
+	| 'arrows-random'
+	| 'random'
 	| 'trash';
 
 export type EchooIconDefinitionOutline = IconDefinition & {
@@ -68,6 +70,16 @@ export const outlineIcons: EchooIconDefinitionOutline[] = [
 	{
 		name: 'help-circle',
 		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01"/></g></svg>`,
+		theme: 'outline',
+	},
+	{
+		name: 'arrows-random',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21h-4v-4m0 4l5-5M6.5 9.504l-3.5-2L5 4M3 7.504l6.83-1.87M4 16l4-1l1 4m-1-4l-3.5 6M21 5l-.5 4l-4-.5m4 .5L16 3.5"/></svg>`,
+		theme: 'outline',
+	},
+	{
+		name: 'random',
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="520" height="472" viewBox="0 0 520 472"><path fill="currentColor" d="M70 365q74 0 118-57q0-4-5-7l-19-38q-13 27-38.5 43.5T70 323H21q-8 0-14.5 6.5T0 344t6.5 14.5T21 365h49zM442 9q-16-14-30 0q-15 15 0 30l27 28h-83q-73 0-117 57q0 3 4 7l19 38q13-27 38.5-43.5T356 109h83l-27 28q-15 15 0 30q6 6 15 6q7 0 15-6l64-64q13-15 0-30zm0 256q-16-14-30 0q-15 15 0 30l27 28h-83q-30 0-56-16.5T260 263l-23-47l-24-47l-10-19q-18-38-54-60.5T70 67H21q-8 0-14.5 6.5T0 88t6.5 14.5T21 109h49q64 0 96 60l24 47l23 47l11 19q20 38 55.5 60.5T358 365h84l-28 28q-15 15 0 30q6 6 15 6q8 0 15-6l64-64q13-15 0-30z"/></svg>`,
 		theme: 'outline',
 	},
 ];
