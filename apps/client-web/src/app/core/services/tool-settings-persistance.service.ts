@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { inject, Injectable, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import type { ToolSettings } from '../../data/types/tool-config';
@@ -8,6 +8,7 @@ import { APP_CONFIGS } from '../config';
 /**
  * This service is used to persist settings for a tool.
  * Setting values can be accessed from query params or local storage.
+ * If setting item appears in query parames, it will be used and local storage will be updated, otherwise local storage will be used and query params will be updated.
  */
 @UntilDestroy({ checkProperties: true })
 @Injectable({
@@ -18,8 +19,10 @@ export class ToolSettingsPersistanceService<
   T extends ToolSettings = ToolSettings
 > {
   rt = inject(Router);
+  art = inject(ActivatedRoute);
   appConfigs = inject(APP_CONFIGS);
   storeService = inject(WebStorageServiceService);
+  vcr = inject(ViewContainerRef);
 
   settings?: T;
 
@@ -31,7 +34,19 @@ export class ToolSettingsPersistanceService<
   ): ToolSettingsPersistanceService<K> {
     const service = new ToolSettingsPersistanceService<K>();
     service.settings = settingValue;
+    service.listenToQueryParams();
+
     return service;
+  }
+
+  listenToQueryParams() {
+    if (this.settings?.asQueryParams) {
+      this.art.queryParams.subscribe((params) => {
+        Object.keys(params).forEach((key) => {
+          this.set(key as K, params[key]);
+        });
+      });
+    }
   }
 
   get appConfigKey() {
@@ -79,10 +94,19 @@ export class ToolSettingsPersistanceService<
     if (!Object.keys(this.settings?.payload || {}).includes(key as string)) {
       return;
     }
+
     if (!this.toolConfigKey) {
       return;
     }
+
     this.store[this.toolConfigKey][key] = value;
     this.storeService.set(this.appConfigKey, this.store);
+
+    if (this.settings?.asQueryParams) {
+      this.rt.navigate([], {
+        relativeTo: this.art,
+        queryParams: this.store[this.toolConfigKey],
+      });
+    }
   }
 }
