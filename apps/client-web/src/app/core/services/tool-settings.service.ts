@@ -2,16 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import type {
-  ToolSettingItem,
-  ToolSettings,
-} from '../../data/types/tool-config';
+import type { ToolSettings } from '../../data/types/tool-config';
 import { APP_CONFIGS } from '../config';
 
 /**
  * This service is used to persist settings for a tool.
  * Setting values can be accessed from query params or local storage.
- * If setting item appears in query parames, it will be used and local storage will be updated, otherwise local storage will be used and query params will be updated.
+ * If setting item appears in query parames, it will not be updated to local storage.
+ * Local storage will be used and query params will be updated if asQueryParams = true.
  */
 @UntilDestroy({ checkProperties: true })
 @Injectable({
@@ -36,27 +34,8 @@ export class ToolSettingsService<
   ): ToolSettingsService<K> {
     const service = new ToolSettingsService<K>();
     service.settings = settingValue;
-    service.listenToQueryParams();
 
     return service;
-  }
-
-  private listenToQueryParams() {
-    this.art.queryParams.subscribe((params) => {
-      Object.keys(params).forEach((queryKey) => {
-        const queryValue = params[queryKey];
-
-        const settingItem = <ToolSettingItem<unknown>>(
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          this.toolSettings[queryKey]
-        );
-
-        if (queryValue && settingItem.asQueryParams) {
-          this.set(queryKey as K, queryValue);
-        }
-      });
-    });
   }
 
   private get toolSettings() {
@@ -121,8 +100,12 @@ export class ToolSettingsService<
       return;
     }
 
-    this.store[this.toolConfigKey][key] = value;
-    this.storeService.set(this.appConfigKey, this.store);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (this.toolSettings[key].asLocalStorageItem) {
+      this.store[this.toolConfigKey][key] = value;
+      this.storeService.set(this.appConfigKey, this.store);
+    }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
