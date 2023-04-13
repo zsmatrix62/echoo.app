@@ -34,3 +34,23 @@
   border-radius: 3px;
   cursor: pointer;
 }
+
+.gh-count::after,
+.gh-count::before {
+  position: absolute;
+  top: 50%;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transform: translateY(-50%);
+  content: '';
+}
+.gh-count::after {
+  left: -5px;
+  z-index: 1;
+  border-right: 5px solid #d4d4d4;
+}
+.gh-count::before {
+  left: -3px;
+  z-index: 10;
+  border-right: 5px solid #fafafa;
+}
