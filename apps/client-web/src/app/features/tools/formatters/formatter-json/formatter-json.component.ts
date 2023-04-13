@@ -29,10 +29,12 @@ import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
-import { ToolSettingsPersistanceService } from '../../../../core/services/tool-settings-persistance.service';
-import type { JsonFormatterSettingsType } from './settings';
 import { JsonFormatterDefaultSettings } from './settings';
-import type { JsonFormatterIndention } from './settings';
+import type {
+  JsonFormatterIndention,
+  JsonFormatterSettingsType,
+} from './settings';
+import { ToolSettingsService } from '../../../../../app/core/services/tool-settings.service';
 
 @UntilDestroy()
 @Component({
@@ -63,9 +65,9 @@ import type { JsonFormatterIndention } from './settings';
     NzMessageService,
     NzDrawerService,
     {
-      provide: ToolSettingsPersistanceService,
+      provide: ToolSettingsService,
       useFactory: () => {
-        return ToolSettingsPersistanceService.fromDefaultSettings<
+        return ToolSettingsService.fromDefaultSettings<
           keyof JsonFormatterSettingsType
         >(JsonFormatterDefaultSettings);
       },
@@ -87,8 +89,8 @@ export class FormatterJsonComponent implements OnInit {
   drawer = inject(NzDrawerService);
   notify = inject(NzMessageService);
 
-  settings: ToolSettingsPersistanceService<keyof JsonFormatterSettingsType> =
-    inject(ToolSettingsPersistanceService);
+  settings: ToolSettingsService<keyof JsonFormatterSettingsType> =
+    inject(ToolSettingsService);
 
   error$ = new BehaviorSubject<string | undefined>(undefined);
 

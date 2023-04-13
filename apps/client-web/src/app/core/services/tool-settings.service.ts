@@ -17,7 +17,7 @@ import { APP_CONFIGS } from '../config';
 @Injectable({
   providedIn: 'root',
 })
-export class ToolSettingsPersistanceService<
+export class ToolSettingsService<
   K extends string,
   T extends ToolSettings<K> = ToolSettings<K>
 > {
@@ -34,8 +34,8 @@ export class ToolSettingsPersistanceService<
 
   static fromDefaultSettings<K extends string>(
     settingValue: ToolSettings<K>
-  ): ToolSettingsPersistanceService<K> {
-    const service = new ToolSettingsPersistanceService<K>();
+  ): ToolSettingsService<K> {
+    const service = new ToolSettingsService<K>();
     service.settings = settingValue;
     service.listenToQueryParams();
 
