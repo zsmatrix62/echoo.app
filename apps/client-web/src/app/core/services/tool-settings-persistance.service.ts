@@ -2,7 +2,10 @@ import { inject, Injectable, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
-import type { ToolSettings } from '../../data/types/tool-config';
+import type {
+  ToolSettingItem,
+  ToolSettings,
+} from '../../data/types/tool-config';
 import { APP_CONFIGS } from '../config';
 
 /**
@@ -15,8 +18,8 @@ import { APP_CONFIGS } from '../config';
   providedIn: 'root',
 })
 export class ToolSettingsPersistanceService<
-  K,
-  T extends ToolSettings = ToolSettings
+  K extends string,
+  T extends ToolSettings<K> = ToolSettings<K>
 > {
   rt = inject(Router);
   art = inject(ActivatedRoute);
@@ -29,8 +32,8 @@ export class ToolSettingsPersistanceService<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _temp: any;
 
-  static fromDefaultSettings<K>(
-    settingValue: ToolSettings
+  static fromDefaultSettings<K extends string>(
+    settingValue: ToolSettings<K>
   ): ToolSettingsPersistanceService<K> {
     const service = new ToolSettingsPersistanceService<K>();
     service.settings = settingValue;
@@ -40,13 +43,25 @@ export class ToolSettingsPersistanceService<
   }
 
   listenToQueryParams() {
-    if (this.settings?.asQueryParams) {
-      this.art.queryParams.subscribe((params) => {
-        Object.keys(params).forEach((key) => {
-          this.set(key as K, params[key]);
-        });
+    this.art.queryParams.subscribe((params) => {
+      Object.keys(params).forEach((queryKey) => {
+        const queryValue = params[queryKey];
+
+        const settingItem = <ToolSettingItem<unknown>>(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          this.toolSettings[queryKey]
+        );
+
+        if (queryValue && settingItem.asQueryParams) {
+          this.set(queryKey as K, queryValue);
+        }
       });
-    }
+    });
+  }
+
+  get toolSettings() {
+    return this.settings?.settings ?? {};
   }
 
   get appConfigKey() {
@@ -54,7 +69,7 @@ export class ToolSettingsPersistanceService<
   }
 
   get toolConfigKey() {
-    return this.settings?.storeInLocalStorageKey;
+    return this.settings?.key;
   }
 
   get store() {
@@ -76,22 +91,30 @@ export class ToolSettingsPersistanceService<
     if (!this.toolConfigKey) {
       return;
     }
-    defaultSettings[this.toolConfigKey] = this.settings?.payload || {};
+    defaultSettings[this.toolConfigKey] = {};
+    Object.keys(this.toolSettings).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      defaultSettings[this.toolConfigKey][key] = this.toolSettings[key].value;
+    });
     this.storeService.set(this.appConfigKey, defaultSettings);
   }
 
   get(key: string) {
-    if (!Object.keys(this.settings?.payload || {}).includes(key as string)) {
+    if (!Object.keys(this.toolSettings || {}).includes(key as string)) {
       return;
     }
     if (!this.toolConfigKey) {
       return;
     }
-    return this.store[this.toolConfigKey][key] || this.settings?.payload[key];
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    return this.store[this.toolConfigKey][key] || this.toolSettings[key];
   }
 
   set(key: K, value: string) {
-    if (!Object.keys(this.settings?.payload || {}).includes(key as string)) {
+    if (!Object.keys(this.toolSettings || {}).includes(key as string)) {
       return;
     }
 
@@ -102,7 +125,9 @@ export class ToolSettingsPersistanceService<
     this.store[this.toolConfigKey][key] = value;
     this.storeService.set(this.appConfigKey, this.store);
 
-    if (this.settings?.asQueryParams) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (this.toolSettings[key].asQueryParams) {
       this.rt.navigate([], {
         relativeTo: this.art,
         queryParams: this.store[this.toolConfigKey],
