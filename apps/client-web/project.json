@@ -1,104 +1,111 @@
 {
-	"name": "client-web",
-	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"projectType": "application",
-	"prefix": "echoo",
-	"sourceRoot": "apps/client-web/src",
-	"tags": [],
-	"targets": {
-		"build": {
-			"executor": "@angular-devkit/build-angular:browser",
-			"outputs": ["{options.outputPath}"],
-			"options": {
-				"outputPath": "dist/apps/client-web",
-				"index": "apps/client-web/src/index.html",
-				"main": "apps/client-web/src/main.ts",
-				"polyfills": ["zone.js"],
-				"tsConfig": "apps/client-web/tsconfig.app.json",
-				"assets": [
-					"apps/client-web/src/favicon.ico",
-					"apps/client-web/src/assets",
-					{
-						"glob": "**/*",
-						"input": "node_modules/monaco-editor",
-						"output": "assets/monaco-editor"
-					}
-				],
-				"styles": ["apps/client-web/src/styles.scss", "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.min.css"],
-				"scripts": [],
-				"allowedCommonJsDependencies": ["seedrandom"]
-			},
-			"configurations": {
-				"production": {
-					"budgets": [
-						{
-							"type": "initial",
-							"maximumWarning": "5mb",
-							"maximumError": "10mb"
-						},
-						{
-							"type": "anyComponentStyle",
-							"maximumWarning": "2kb",
-							"maximumError": "4kb"
-						}
-					],
-					"outputHashing": "all"
-				},
-				"development": {
-					"buildOptimizer": false,
-					"optimization": false,
-					"vendorChunk": true,
-					"extractLicenses": false,
-					"sourceMap": true,
-					"namedChunks": true
-				}
-			},
-			"defaultConfiguration": "production"
-		},
-		"serve": {
-			"executor": "@angular-devkit/build-angular:dev-server",
-			"configurations": {
-				"production": {
-					"browserTarget": "client-web:build:production"
-				},
-				"development": {
-					"browserTarget": "client-web:build:development"
-				}
-			},
-			"defaultConfiguration": "development"
-		},
-		"extract-i18n": {
-			"executor": "@angular-devkit/build-angular:extract-i18n",
-			"options": {
-				"browserTarget": "client-web:build"
-			}
-		},
-		"lint": {
-			"executor": "@nrwl/linter:eslint",
-			"outputs": ["{options.outputFile}"],
-			"options": {
-				"lintFilePatterns": ["apps/client-web/**/*.ts", "apps/client-web/**/*.html"]
-			}
-		},
-		"test": {
-			"executor": "@nrwl/jest:jest",
-			"outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-			"options": {
-				"jestConfig": "apps/client-web/jest.config.ts",
-				"passWithNoTests": true
-			},
-			"configurations": {
-				"ci": {
-					"ci": true,
-					"codeCoverage": true
-				}
-			}
-		},
-		"serve-static": {
-			"executor": "@nrwl/web:file-server",
-			"options": {
-				"buildTarget": "client-web:build"
-			}
-		}
-	}
+  "name": "client-web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "echoo",
+  "sourceRoot": "apps/client-web/src",
+  "version": "1.0.0",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/client-web",
+        "index": "apps/client-web/src/index.html",
+        "main": "apps/client-web/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/client-web/tsconfig.app.json",
+        "assets": [
+          "apps/client-web/src/favicon.ico",
+          "apps/client-web/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/monaco-editor",
+            "output": "assets/monaco-editor"
+          }
+        ],
+        "styles": [
+          "apps/client-web/src/styles.scss",
+          "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.min.css"
+        ],
+        "scripts": [],
+        "allowedCommonJsDependencies": ["seedrandom"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "5mb",
+              "maximumError": "10mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "client-web:build:production"
+        },
+        "development": {
+          "browserTarget": "client-web:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "client-web:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/client-web/**/*.ts",
+          "apps/client-web/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/client-web/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "serve-static": {
+      "executor": "@nrwl/web:file-server",
+      "options": {
+        "buildTarget": "client-web:build"
+      }
+    }
+  }
 }
