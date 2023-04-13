@@ -4,6 +4,8 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
