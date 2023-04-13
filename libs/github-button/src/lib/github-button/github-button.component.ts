@@ -1,4 +1,5 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import type { OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EchooIconsModule } from '@echoo/echoo-icons';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
