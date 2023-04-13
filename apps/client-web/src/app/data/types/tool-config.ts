@@ -18,5 +18,4 @@ export interface ToolConfig {
   routerLink: string[];
   component?: Type<unknown>;
   children?: ToolConfig[];
-  toolsettings?: ToolSettings;
 }
