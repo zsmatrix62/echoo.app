@@ -1,4 +1,4 @@
-import { inject, Injectable, ViewContainerRef } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -21,13 +21,12 @@ export class ToolSettingsService<
   K extends string,
   T extends ToolSettings<K> = ToolSettings<K>
 > {
-  rt = inject(Router);
-  art = inject(ActivatedRoute);
-  appConfigs = inject(APP_CONFIGS);
-  storeService = inject(WebStorageServiceService);
-  vcr = inject(ViewContainerRef);
+  private rt = inject(Router);
+  private art = inject(ActivatedRoute);
+  private appConfigs = inject(APP_CONFIGS);
+  private storeService = inject(WebStorageServiceService);
 
-  settings?: T;
+  private settings?: T;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _temp: any;
@@ -42,7 +41,7 @@ export class ToolSettingsService<
     return service;
   }
 
-  listenToQueryParams() {
+  private listenToQueryParams() {
     this.art.queryParams.subscribe((params) => {
       Object.keys(params).forEach((queryKey) => {
         const queryValue = params[queryKey];
@@ -60,19 +59,19 @@ export class ToolSettingsService<
     });
   }
 
-  get toolSettings() {
+  private get toolSettings() {
     return this.settings?.settings ?? {};
   }
 
-  get appConfigKey() {
+  private get appConfigKey() {
     return this.appConfigs.ToolsSettingsLocalStoreKey || 'XX';
   }
 
-  get toolConfigKey() {
+  private get toolConfigKey() {
     return this.settings?.key;
   }
 
-  get store() {
+  private get store() {
     // init an empty item in this.vault if it doesn't exist
     if (!this.storeService.get(this.appConfigKey)) {
       this.resetDefault();
@@ -84,7 +83,7 @@ export class ToolSettingsService<
     return this._temp;
   }
 
-  resetDefault() {
+  private resetDefault() {
     this._temp = undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const defaultSettings: { [key: string]: any } = {};
