@@ -11,153 +11,169 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
-import { FitterElementDirective, SyncStyleWithElementDirective } from '@echoo/fitter-element';
+import {
+  FitterElementDirective,
+  SyncStyleWithElementDirective,
+} from '@echoo/fitter-element';
 import { WindowEventsService } from '../../../../core/services/window-events.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { MonacoEditorOptions } from '../../../../data/monacoEditorOptions';
 import { randJSON } from '@ngneat/falso';
 import { ClipboardModule } from 'ngx-clipboard';
-import { NzMessageService, NzMessageServiceModule } from 'ng-zorro-antd/message';
+import {
+  NzMessageService,
+  NzMessageServiceModule,
+} from 'ng-zorro-antd/message';
 import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { ToolSettingsPersistanceService } from '../../../../core/services/tool-settings-persistance.service';
 
 @UntilDestroy()
 @Component({
-	selector: 'echoo-formatter-json',
-	standalone: true,
-	imports: [
-		CommonModule,
-		FormsModule,
-		NzGridModule,
-		NzSelectModule,
-		NzInputModule,
-		NzButtonModule,
-		NzSpaceModule,
-		NzIconModule,
-		NzAlertModule,
-		FitterElementDirective,
-		SyncStyleWithElementDirective,
-		ClipboardModule,
-		NzMessageServiceModule,
-		MonacoEditorModule,
-		NzDrawerServiceModule,
-		JsonPathGuideComponent,
-	],
-	templateUrl: './formatter-json.component.html',
-	styleUrls: ['./formatter-json.component.scss'],
-	providers: [WindowEventsService, NzMessageService, NzDrawerService],
+  selector: 'echoo-formatter-json',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NzGridModule,
+    NzSelectModule,
+    NzInputModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzIconModule,
+    NzAlertModule,
+    FitterElementDirective,
+    SyncStyleWithElementDirective,
+    ClipboardModule,
+    NzMessageServiceModule,
+    MonacoEditorModule,
+    NzDrawerServiceModule,
+    JsonPathGuideComponent,
+  ],
+  templateUrl: './formatter-json.component.html',
+  styleUrls: ['./formatter-json.component.scss'],
+  providers: [
+    WindowEventsService,
+    NzMessageService,
+    NzDrawerService,
+    ToolSettingsPersistanceService,
+  ],
 })
 export class FormatterJsonComponent implements OnInit {
-	editorOptions = MonacoEditorOptions.ReadOnly('json');
+  @ViewChild('jsonPathHelp') jsonPathHelp?: TemplateRef<unknown>;
 
-	code$ = new BehaviorSubject<string | undefined>(undefined);
-	codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
+  editorOptions = MonacoEditorOptions.ReadOnly('json');
 
-	jsonPath$ = new BehaviorSubject<string | undefined>(undefined);
+  code$ = new BehaviorSubject<string | undefined>(undefined);
+  codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
 
-	indention = '1t';
-	indention$ = new BehaviorSubject(this.indention);
+  jsonPath$ = new BehaviorSubject<string | undefined>(undefined);
 
-	drawer = inject(NzDrawerService);
-	notify = inject(NzMessageService);
+  indention = '1t';
+  indention$ = new BehaviorSubject(this.indention);
 
-	error$ = new BehaviorSubject<string | undefined>(undefined);
+  drawer = inject(NzDrawerService);
+  notify = inject(NzMessageService);
+  settingPersis = inject(ToolSettingsPersistanceService);
 
-	@ViewChild('jsonPathHelp') jsonPathHelp?: TemplateRef<unknown>;
+  error$ = new BehaviorSubject<string | undefined>(undefined);
 
-	ngOnInit(): void {
-		this.listenSubjects();
-	}
+  ngOnInit(): void {
+    this.listenSubjects();
+  }
 
-	listenSubjects() {
-		combineLatest([this.code$, this.indention$, this.jsonPath$]).subscribe(([code, indention, jsonPath]) => {
-			let jsonObj: object;
-			try {
-				jsonObj = JSON.parse(code ?? '{}');
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			} catch (err: any) {
-				console.log(err);
-				this.codeOutput$.next(code);
-				this.error$.next(err.message);
-				return;
-			}
+  listenSubjects() {
+    combineLatest([this.code$, this.indention$, this.jsonPath$]).subscribe(
+      ([code, indention, jsonPath]) => {
+        let jsonObj: object;
+        try {
+          jsonObj = JSON.parse(code ?? '{}');
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (err: any) {
+          console.log(err);
+          this.codeOutput$.next(code);
+          this.error$.next(err.message);
+          return;
+        }
 
-			let indentionValue = '';
-			switch (indention) {
-				case '1t':
-					indentionValue = '	';
-					break;
-				case '2s':
-					indentionValue = '  ';
-					break;
-				case '4s':
-					indentionValue = '    ';
-					break;
+        let indentionValue = '';
+        switch (indention) {
+          case '1t':
+            indentionValue = '	';
+            break;
+          case '2s':
+            indentionValue = '  ';
+            break;
+          case '4s':
+            indentionValue = '    ';
+            break;
 
-				default:
-					break;
-			}
-			const result = JSONPath({ path: jsonPath || '$', json: jsonObj, wrap: false }) ?? {};
-			this.codeOutput$.next(JSON.stringify(result, null, indentionValue));
-			this.error$.next(undefined);
-		});
+          default:
+            break;
+        }
+        const result =
+          JSONPath({ path: jsonPath || '$', json: jsonObj, wrap: false }) ?? {};
+        this.codeOutput$.next(JSON.stringify(result, null, indentionValue));
+        this.error$.next(undefined);
+      }
+    );
 
-		this.indention$.subscribe((indention) => {
-			this.indention = indention;
-		});
-	}
+    this.indention$.subscribe((indention) => {
+      this.indention = indention;
+    });
+  }
 
-	onCompressClicked() {
-		this.indention$.next('mini');
-	}
+  onCompressClicked() {
+    this.indention$.next('mini');
+  }
 
-	onIndentionChanged(indention: string) {
-		this.indention$.next(indention);
-	}
+  onIndentionChanged(indention: string) {
+    this.indention$.next(indention);
+  }
 
-	onCodeChanged(code: string) {
-		this.code$.next(code);
-	}
+  onCodeChanged(code: string) {
+    this.code$.next(code);
+  }
 
-	onSampleClicked() {
-		this.onClearClicked();
-		const json = randJSON({
-			minKeys: 5,
-			maxKeys: 10,
-		});
-		this.code$.next(JSON.stringify(json));
-	}
+  onSampleClicked() {
+    this.onClearClicked();
+    const json = randJSON({
+      minKeys: 5,
+      maxKeys: 10,
+    });
+    this.code$.next(JSON.stringify(json));
+  }
 
-	onClearClicked() {
-		this.jsonPath$.next(undefined);
-		this.code$.next(undefined);
-		this.error$.next(undefined);
-	}
+  onClearClicked() {
+    this.jsonPath$.next(undefined);
+    this.code$.next(undefined);
+    this.error$.next(undefined);
+  }
 
-	onJsonPathInutChanged(jsonPath: string) {
-		this.jsonPath$.next(jsonPath);
-	}
+  onJsonPathInutChanged(jsonPath: string) {
+    this.jsonPath$.next(jsonPath);
+  }
 
-	onCopied() {
-		this.notify.success('Copied to clipboard', {});
-	}
+  onCopied() {
+    this.notify.success('Copied to clipboard', {});
+  }
 
-	onJsonPathHelpClicked() {
-		if (this.jsonPathHelp) {
-			this.drawer.create({
-				nzTitle: 'JSON Path Syntax',
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore
-				nzContent: this.jsonPathHelp,
-				nzWidth: '50%',
-				nzPlacement: 'right',
-				nzClosable: true,
-				nzMaskClosable: true,
-				nzMask: true,
-			});
-		}
-	}
+  onJsonPathHelpClicked() {
+    if (this.jsonPathHelp) {
+      this.drawer.create({
+        nzTitle: 'JSON Path Syntax',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        nzContent: this.jsonPathHelp,
+        nzWidth: '50%',
+        nzPlacement: 'right',
+        nzClosable: true,
+        nzMaskClosable: true,
+        nzMask: true,
+      });
+    }
+  }
 }
