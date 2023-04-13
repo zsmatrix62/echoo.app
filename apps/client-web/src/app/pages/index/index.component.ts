@@ -7,9 +7,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ToolsNavSiderComponent } from '../../features/tools-nav-sider/tools-nav-sider.component';
 import { NavLogoComponent } from '../../features/nav-logo/nav-logo.component';
-// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { GithubButtonComponent } from '@echoo/github-button';
 import { APP_PROPERTIES } from '../../core/properties';
+import { NavExtraActionsComponent } from '../../features/nav-extra-actions/nav-extra-actions.component';
 
 @Component({
   selector: 'echoo-index',
@@ -25,7 +24,7 @@ import { APP_PROPERTIES } from '../../core/properties';
     NzInputModule,
     ToolsNavSiderComponent,
     NavLogoComponent,
-    GithubButtonComponent,
+    NavExtraActionsComponent,
   ],
 })
 export class IndexComponent {

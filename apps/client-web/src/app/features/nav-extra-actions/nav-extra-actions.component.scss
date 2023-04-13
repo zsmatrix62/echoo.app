@@ -1,0 +1,7 @@
+:host {
+  display: flex;
+  align-items: center;
+  .action:not(:last-child) {
+    margin-right: 10px;
+  }
+}
