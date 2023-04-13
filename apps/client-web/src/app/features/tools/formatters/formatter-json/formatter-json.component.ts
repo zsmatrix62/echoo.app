@@ -177,7 +177,6 @@ export class FormatterJsonComponent implements OnInit {
 
   onCopied() {
     this.notify.success('Copied to clipboard', {});
-    this.settings;
   }
 
   onJsonPathHelpClicked() {
