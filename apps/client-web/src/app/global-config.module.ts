@@ -5,6 +5,8 @@ import type { NzConfig } from 'ng-zorro-antd/core/config';
 import { NZ_CONFIG } from 'ng-zorro-antd/core/config';
 import type { AppProperties } from './core/properties';
 import { APP_PROPERTIES } from './core/properties';
+import type { AppConfigs } from './core/config';
+import { APP_CONFIGS } from './core/config';
 
 const ngZorroConfig: NzConfig = {
   theme: {
@@ -12,7 +14,7 @@ const ngZorroConfig: NzConfig = {
   },
 };
 
-const appConfig: AppProperties = {
+const appProperties: AppProperties = {
   github: {
     username: 'zsmatrix62',
     repo: 'echoo.app',
@@ -20,8 +22,15 @@ const appConfig: AppProperties = {
   appVersion: '1.0.0',
 };
 
+const appConfigs: AppConfigs = {
+  ToolsSettingsLocalStoreKey: 'echoo.app.tools.settings',
+};
+
 const zorroProviders = [{ provide: NZ_CONFIG, useValue: ngZorroConfig }];
-const echooProviders = [{ provide: APP_PROPERTIES, useValue: appConfig }];
+const echooProviders = [
+  { provide: APP_PROPERTIES, useValue: appProperties },
+  { provide: APP_CONFIGS, useValue: appConfigs },
+];
 
 @NgModule({
   declarations: [],

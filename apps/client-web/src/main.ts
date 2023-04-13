@@ -9,6 +9,7 @@ import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { EchooIconsModule } from '@echoo/echoo-icons';
+import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { GlobalConfigModule } from './app/global-config.module';
 
@@ -18,6 +19,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(BrowserAnimationsModule, HttpClientModule),
     importProvidersFrom(MonacoEditorModule.forRoot()),
     importProvidersFrom(EchooIconsModule),
+    importProvidersFrom(WebStorageServiceService),
     importProvidersFrom(GlobalConfigModule.forRoot()),
   ],
 }).catch((err) => console.error(err));

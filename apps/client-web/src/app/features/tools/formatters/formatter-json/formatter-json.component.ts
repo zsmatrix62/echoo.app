@@ -30,6 +30,11 @@ import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ToolSettingsPersistanceService } from '../../../../core/services/tool-settings-persistance.service';
+import { JsonFormatterDefaultSettings } from './settings';
+import type {
+  JsonFormatterIndention,
+  JsonFormatterSettingsKeys,
+} from './settings';
 
 @UntilDestroy()
 @Component({
@@ -59,7 +64,14 @@ import { ToolSettingsPersistanceService } from '../../../../core/services/tool-s
     WindowEventsService,
     NzMessageService,
     NzDrawerService,
-    ToolSettingsPersistanceService,
+    {
+      provide: ToolSettingsPersistanceService,
+      useFactory: () => {
+        return ToolSettingsPersistanceService.fromDefaultSettings<JsonFormatterSettingsKeys>(
+          JsonFormatterDefaultSettings
+        );
+      },
+    },
   ],
 })
 export class FormatterJsonComponent implements OnInit {
@@ -72,14 +84,21 @@ export class FormatterJsonComponent implements OnInit {
 
   jsonPath$ = new BehaviorSubject<string | undefined>(undefined);
 
-  indention = '1t';
-  indention$ = new BehaviorSubject(this.indention);
+  indention$: BehaviorSubject<JsonFormatterIndention>;
 
   drawer = inject(NzDrawerService);
   notify = inject(NzMessageService);
-  settingPersis = inject(ToolSettingsPersistanceService);
+
+  settings: ToolSettingsPersistanceService<JsonFormatterSettingsKeys> = inject(
+    ToolSettingsPersistanceService
+  );
 
   error$ = new BehaviorSubject<string | undefined>(undefined);
+
+  constructor() {
+    this.indention$ = new BehaviorSubject(this.settings.get('indention'));
+    this.jsonPath$.next(this.settings.get('jsonPath'));
+  }
 
   ngOnInit(): void {
     this.listenSubjects();
@@ -122,7 +141,7 @@ export class FormatterJsonComponent implements OnInit {
     );
 
     this.indention$.subscribe((indention) => {
-      this.indention = indention;
+      this.settings.set('indention', indention);
     });
   }
 
@@ -130,7 +149,7 @@ export class FormatterJsonComponent implements OnInit {
     this.indention$.next('mini');
   }
 
-  onIndentionChanged(indention: string) {
+  onIndentionChanged(indention: JsonFormatterIndention) {
     this.indention$.next(indention);
   }
 
