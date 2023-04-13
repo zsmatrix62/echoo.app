@@ -7,21 +7,23 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { ToolsNavSiderComponent } from '../../features/tools-nav-sider/tools-nav-sider.component';
 import { NavLogoComponent } from '../../features/nav-logo/nav-logo.component';
+import { GithubButtonComponent } from '@echoo/github-button';
 
 @Component({
-	selector: 'echoo-index',
-	standalone: true,
-	templateUrl: './index.component.html',
-	styleUrls: ['./index.component.scss'],
-	imports: [
-		CommonModule,
-		RouterModule,
-		NzLayoutModule,
-		NzMenuModule,
-		NzIconModule,
-		NzInputModule,
-		ToolsNavSiderComponent,
-		NavLogoComponent,
-	],
+  selector: 'echoo-index',
+  standalone: true,
+  templateUrl: './index.component.html',
+  styleUrls: ['./index.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NzLayoutModule,
+    NzMenuModule,
+    NzIconModule,
+    NzInputModule,
+    ToolsNavSiderComponent,
+    NavLogoComponent,
+    GithubButtonComponent,
+  ],
 })
 export class IndexComponent {}

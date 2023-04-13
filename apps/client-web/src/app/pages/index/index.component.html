@@ -1,12 +1,16 @@
 <nz-layout class="main-page-wrapper">
-	<nz-header class="web-page-header" nzTheme="dark">
-		<echoo-nav-logo></echoo-nav-logo>
-	</nz-header>
+  <nz-header class="web-page-header" nzTheme="dark">
+    <echoo-nav-logo></echoo-nav-logo>
+    <echoo-github-button
+      user="zsmatrix62"
+      repo="echoo.app"
+    ></echoo-github-button>
+  </nz-header>
 
-	<nz-layout class="main-content-wrapper">
-		<echoo-tools-nav-sider />
-		<nz-content class="tool-content-wrapper">
-			<router-outlet></router-outlet>
-		</nz-content>
-	</nz-layout>
+  <nz-layout class="main-content-wrapper">
+    <echoo-tools-nav-sider />
+    <nz-content class="tool-content-wrapper">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
 </nz-layout>

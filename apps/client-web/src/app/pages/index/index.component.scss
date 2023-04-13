@@ -1,21 +1,25 @@
 .main-page-wrapper {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 
-	.web-page-header {
-		width: inherit;
-		padding-left: 25px !important;
-	}
+  .web-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: inherit;
+    padding-right: 25px !important;
+    padding-left: 25px !important;
+  }
 
-	.main-content-wrapper {
-		flex-direction: row;
-		height: inherit;
+  .main-content-wrapper {
+    flex-direction: row;
+    height: inherit;
 
-		.tool-content-wrapper {
-			min-width: 400px;
-			height: inherit;
-			padding: 10px;
-			overflow-x: scroll;
-		}
-	}
+    .tool-content-wrapper {
+      min-width: 400px;
+      height: inherit;
+      padding: 10px;
+      overflow-x: scroll;
+    }
+  }
 }
