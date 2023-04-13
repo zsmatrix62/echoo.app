@@ -30,11 +30,9 @@ import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { ToolSettingsPersistanceService } from '../../../../core/services/tool-settings-persistance.service';
+import type { JsonFormatterSettingsType } from './settings';
 import { JsonFormatterDefaultSettings } from './settings';
-import type {
-  JsonFormatterIndention,
-  JsonFormatterSettingsKeys,
-} from './settings';
+import type { JsonFormatterIndention } from './settings';
 
 @UntilDestroy()
 @Component({
@@ -67,9 +65,9 @@ import type {
     {
       provide: ToolSettingsPersistanceService,
       useFactory: () => {
-        return ToolSettingsPersistanceService.fromDefaultSettings<JsonFormatterSettingsKeys>(
-          JsonFormatterDefaultSettings
-        );
+        return ToolSettingsPersistanceService.fromDefaultSettings<
+          keyof JsonFormatterSettingsType
+        >(JsonFormatterDefaultSettings);
       },
     },
   ],
@@ -89,9 +87,8 @@ export class FormatterJsonComponent implements OnInit {
   drawer = inject(NzDrawerService);
   notify = inject(NzMessageService);
 
-  settings: ToolSettingsPersistanceService<JsonFormatterSettingsKeys> = inject(
-    ToolSettingsPersistanceService
-  );
+  settings: ToolSettingsPersistanceService<keyof JsonFormatterSettingsType> =
+    inject(ToolSettingsPersistanceService);
 
   error$ = new BehaviorSubject<string | undefined>(undefined);
 

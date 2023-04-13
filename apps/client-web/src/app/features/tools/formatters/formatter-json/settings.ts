@@ -5,7 +5,7 @@ import type {
 
 export type JsonFormatterIndention = '1t' | '2s' | '4s' | 'mini';
 
-type JsonFormatterSettingsType = {
+export type JsonFormatterSettingsType = {
   indention: JsonFormatterIndention;
 };
 
