@@ -1,17 +1,23 @@
-import type { ToolSettings } from '../../../..//data/types/tool-config';
+import type {
+  ToolSettingItem,
+  ToolSettings,
+} from '../../../..//data/types/tool-config';
 
 export type JsonFormatterIndention = '1t' | '2s' | '4s' | 'mini';
 
-type JsonFormatterSettingsPayload = {
+type JsonFormatterSettingsType = {
   indention: JsonFormatterIndention;
 };
 
-export type JsonFormatterSettingsKeys = keyof JsonFormatterSettingsPayload;
-
-export const JsonFormatterDefaultSettings: ToolSettings = {
-  asQueryParams: true,
-  storeInLocalStorageKey: 'json-formatter',
-  payload: <JsonFormatterSettingsPayload>{
-    indention: '4s',
+export const JsonFormatterDefaultSettings: ToolSettings<
+  keyof JsonFormatterSettingsType
+> = {
+  key: 'json-formatter',
+  settings: {
+    indention: <ToolSettingItem<JsonFormatterIndention>>{
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: '2s',
+    },
   },
 };
