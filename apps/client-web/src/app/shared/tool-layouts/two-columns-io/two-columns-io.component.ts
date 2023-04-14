@@ -59,6 +59,7 @@ export class TwoColumnsIoComponent implements OnChanges {
 
   @Input() codeInput$!: BehaviorSubject<string | undefined>;
   @Input() codeOutput$!: BehaviorSubject<string | undefined>;
+  @Input() inputError$!: BehaviorSubject<string | undefined>;
 
   @Input() actionInputSample?: ButtonClickAction;
   @Input() actionInputOpenFile?: ButtonClickAction;
@@ -71,8 +72,6 @@ export class TwoColumnsIoComponent implements OnChanges {
   messageService = inject(NzMessageService);
 
   editorOptions = MonacoEditorOptions.ReadOnly('json');
-
-  inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
   ngOnChanges(changes: SimpleChanges): void {
     const langChange = changes['monacoEditorLang'];

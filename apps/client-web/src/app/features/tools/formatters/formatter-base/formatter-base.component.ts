@@ -29,6 +29,7 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
 
   codeInput$ = new BehaviorSubject<string | undefined>(undefined);
   codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
+  inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
   constructor() {
     this.art.data.subscribe((data) => {
@@ -52,6 +53,7 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
 
   onClearClicked() {
     this.codeInput$.next(undefined);
+    this.inputError$.next(undefined);
   }
 
   onOpenFileClicked() {
@@ -67,7 +69,14 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
   listenInputChange() {
     combineLatest([this.codeInput$, this.langConfig$]).subscribe(
       ([code, langConfig]) => {
-        const outputCode = langConfig?.formatterProvider.Format(code ?? '', {});
+        this.inputError$.next(undefined);
+        const outputCode = langConfig?.formatterProvider.Format(
+          code ?? '',
+          {},
+          (err) => {
+            this.inputError$.next(err?.message);
+          }
+        );
         this.codeOutput$.next(outputCode);
       }
     );

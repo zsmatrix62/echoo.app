@@ -69,12 +69,6 @@
         (ngModelChange)="this.codeInput$.next($event)"
         nz-input
       ></textarea>
-      <nz-alert
-        class="error-alert"
-        *ngIf="inputError$ | async"
-        [nzMessage]="(inputError$ | async) ?? ''"
-        nzType="error"
-      ></nz-alert>
     </nz-row>
   </nz-col>
 
@@ -95,8 +89,16 @@
       </button>
     </nz-space>
     <nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
+      <nz-alert
+        class="error-alert"
+        *ngIf="inputError$ | async"
+        [nzMessage]="(inputError$ | async) ?? ''"
+        nzType="error"
+      ></nz-alert>
+
       <ngx-monaco-editor
         class="editor"
+        *ngIf="!(inputError$ | async)"
         [options]="editorOptions"
         [ngModel]="codeOutput$ | async"
       ></ngx-monaco-editor>
