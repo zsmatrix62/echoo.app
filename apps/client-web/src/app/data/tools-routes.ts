@@ -12,10 +12,12 @@ function appendRoute(parentRoutes: string[], configs: ToolConfig[]) {
         ToolsRoutes.push({
           path: newRoutes.join('/'),
           component: config.component,
+          data: config.data,
         });
       } else {
         ToolsRoutes.push({
           path: newRoutes.join('/'),
+          data: config.data,
           redirectTo:
             newRoutes.join('/') + '/' + config.children[0].routerLink.join('/'),
         });
@@ -26,6 +28,7 @@ function appendRoute(parentRoutes: string[], configs: ToolConfig[]) {
       ToolsRoutes.push({
         path: newRoutes.join('/'),
         component: config.component,
+        data: config.data,
       });
     }
   }

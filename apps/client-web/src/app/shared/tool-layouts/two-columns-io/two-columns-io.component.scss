@@ -1,0 +1,63 @@
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .input-actions {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    .action:not(:first-child) {
+      margin-left: 5px;
+    }
+    .clear-btn {
+      margin-left: auto !important;
+    }
+  }
+
+  .input-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+
+    .error-alert {
+      margin-top: 10px;
+    }
+
+    .input-textarea {
+      box-sizing: border-box;
+      height: 100%;
+      resize: none;
+    }
+  }
+}
+
+.output-wrapper {
+  padding-left: 10px;
+
+  .output-actions {
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 10px;
+
+    .action:not(:first-child) {
+      margin-left: 5px;
+    }
+
+    .copy-btn {
+      margin-left: auto !important;
+    }
+  }
+
+  .output-editor-wrapper {
+    display: flex;
+    flex-flow: nowrap column;
+    justify-content: flex-end;
+
+    .editor {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
