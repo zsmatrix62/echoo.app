@@ -1,7 +1,5 @@
-import {
-  FormatterAvailableLangs,
-  FormatterAvailableLangsConfig,
-} from '@echoo/formatter-provider';
+import type { FormatterAvailableLangsConfig } from '@echoo/formatter-provider';
+import { FormatterAvailableLangs } from '@echoo/formatter-provider';
 import { FormatterBaseComponent } from '../features/tools/formatters/formatter-base/formatter-base.component';
 import { FormatterJsonComponent } from '../features/tools/formatters/formatter-json/formatter-json.component';
 import type { ToolConfig } from './types/tool-config';
@@ -14,7 +12,7 @@ const formatterComponentRoutes: FormatterToolConfig[] = Object.keys(
   FormatterAvailableLangs
 ).map((langKey) => {
   return {
-    title: langKey.toUpperCase(),
+    title: FormatterAvailableLangs[langKey].display,
     uniqueId: `${langKey}-formatter`,
     icon: FormatterAvailableLangs[langKey].icon,
     routerLink: [langKey],

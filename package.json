@@ -62,11 +62,13 @@
     "ngx-clipboard": "^16.0.0",
     "ngx-monaco-editor": "^12.0.0",
     "postcss-scss": "^4.0.6",
+    "prettier-plugin-nginx": "^1.0.3",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
     "rxjs": "~7.8.0",
     "sql-formatter": "^12.2.0",
     "tslib": "^2.3.0",
+    "xml-formatter": "^3.3.2",
     "zone.js": "~0.12.0"
   }
 }

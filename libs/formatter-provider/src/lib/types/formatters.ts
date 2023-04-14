@@ -2,6 +2,7 @@ import type { EchooIconNames } from '@echoo/echoo-icons';
 import { PrettierFormatterProvider } from '../providers/prettier';
 import type { FormatterProvider } from './formatter-provider';
 import { SQLFormatterProvider } from '../providers/sql';
+import { XMLFormatterProvider } from '../providers/xml';
 
 export type FormatterAvailableLangsType = keyof typeof FormatterAvailableLangs;
 
@@ -21,10 +22,16 @@ export const FormatterAvailableLangs: {
     icon: 'file-html',
     formatterProvider: PrettierFormatterProvider.WithParser('html', 'html'),
   },
+  xml: {
+    langKey: 'xml',
+    display: 'XML',
+    icon: 'xml',
+    formatterProvider: new XMLFormatterProvider(),
+  },
   javascript: {
     langKey: 'javascript',
     display: 'JavaScript',
-    icon: 'file-javascript',
+    icon: 'javascript',
     formatterProvider: PrettierFormatterProvider.WithParser(
       'babel',
       'javascript'
@@ -32,8 +39,8 @@ export const FormatterAvailableLangs: {
   },
   typescript: {
     langKey: 'typescript',
-    display: 'Typescript',
-    icon: 'file-typescript',
+    display: 'TypeScript',
+    icon: 'typescript',
     formatterProvider: PrettierFormatterProvider.WithParser(
       'typescript',
       'typescript'
@@ -57,7 +64,13 @@ export const FormatterAvailableLangs: {
   sql: {
     langKey: 'sql',
     display: 'SQL',
-    icon: 'file-sql',
+    icon: 'sql',
     formatterProvider: new SQLFormatterProvider(),
+  },
+  nginx: {
+    langKey: 'nginx',
+    display: 'Nginx',
+    icon: 'nginx-config',
+    formatterProvider: PrettierFormatterProvider.WithParser('nginx', 'nginx'),
   },
 };

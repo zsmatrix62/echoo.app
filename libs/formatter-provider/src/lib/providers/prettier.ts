@@ -10,9 +10,18 @@ import * as yamlParser from 'prettier/parser-yaml';
 import * as typescriptParser from 'prettier/parser-typescript';
 // @ts-ignore
 import * as xmlParser from '@prettier/plugin-xml';
+// @ts-ignore
+import * as nginxParser from 'prettier-plugin-nginx';
 import type { FormatterAvailableLangsType } from '../types/formatters';
 
-type Parsers = 'html' | 'babel' | 'markdown' | 'yaml' | 'typescript' | 'sql';
+type Parsers =
+  | 'html'
+  | 'babel'
+  | 'markdown'
+  | 'yaml'
+  | 'typescript'
+  | 'sql'
+  | 'nginx';
 
 type PrettierFormatterOptions = Options;
 
@@ -51,6 +60,7 @@ class PrettierFormatterProvider<O extends PrettierFormatterOptions>
           yamlParser,
           typescriptParser,
           xmlParser,
+          nginxParser,
         ],
         ...options,
       });
@@ -92,9 +102,17 @@ class PrettierFormatterProvider<O extends PrettierFormatterOptions>
         - Company: {name: Geico, foundedin: 1936, website: www.geico.com }
 `;
     }
-
-    if (this.lang == 'xml') {
-      return `<root><strong><capital>-782478147</capital><we>opportunity</we><bad>-1990636284</bad><cattle><perhaps>-1714813636</perhaps><section>-1428267151</section><while>handsome</while><stream>without</stream><recognize>-1800816747.1511197</recognize><can>twice</can></cattle><camera>carried</camera><origin>-572598105</origin></strong><my>865939221.2704754</my><nose>native</nose><constantly>1729346751</constantly><dress>-81343418.10572386</dress><silent>orange</silent></root>`;
+    if (this.lang == 'nginx') {
+      return `server {
+# server definition
+listen 443 ssl; listen [::]:443 ssl;
+server_name example.com;
+location / { proxy_pass http://proxy; proxy_set_header Host $http_host;
+proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_read_timeout 1000; }
+# end server definition
+}`;
     }
 
     return '(No sample code available)';
