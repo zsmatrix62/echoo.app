@@ -27,6 +27,8 @@ export type EchooIconNames =
   | 'clipboard-copy'
   | 'arrows-random'
   | 'random'
+  | 'broom'
+  | 'open-file-folder'
   | 'trash';
 
 export type EchooIconDefinitionOutline = IconDefinition & {
@@ -35,6 +37,16 @@ export type EchooIconDefinitionOutline = IconDefinition & {
 };
 
 export const outlineIcons: EchooIconDefinitionOutline[] = [
+  {
+    name: 'open-file-folder',
+    theme: 'outline',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="currentColor" d="M4.08 5A3.08 3.08 0 0 0 1 8.08v17.935c0 .755.17 1.576.504 2.28a1 1 0 0 0 .073.176a4.783 4.783 0 0 0 4.498 2.531h17.927a3.033 3.033 0 0 0 2.887-2.15l3.957-11.82l.005-.016A3.085 3.085 0 0 0 28 13v-1c0-1.701-1.299-3-3-3h-8.167a1.09 1.09 0 0 1-.759-.318L13.626 6.19l-.008-.009A4.06 4.06 0 0 0 10.755 5H4.08ZM26 13H10.886a4.679 4.679 0 0 0-4.404 3.102l-.003.008C4.62 21.439 3.583 24.273 3 25.768V8.08C3 7.484 3.484 7 4.08 7h6.675a2.06 2.06 0 0 1 1.449.596l2.448 2.492l.009.009a3.09 3.09 0 0 0 2.172.903H25c.596 0 1 .404 1 1v1ZM4.445 28.657a2.779 2.779 0 0 1-.425-.292l.042-.061c.047-.073.091-.152.132-.23c.082-.16.182-.38.31-.684c.507-1.21 1.569-4.043 3.862-10.618A2.68 2.68 0 0 1 10.886 15h17.025a1.087 1.087 0 0 1 1.036 1.406l-3.96 11.826a.493.493 0 0 0-.005.017l-.004.015a1.034 1.034 0 0 1-.984.738H6.045c-.021 0-.043 0-.065.002a2.783 2.783 0 0 1-1.535-.347Z"/></svg>`,
+  },
+  {
+    name: 'broom',
+    theme: 'outline',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m19.36 2.72l1.42 1.42l-5.72 5.71c1.07 1.54 1.22 3.39.32 4.59L9.06 8.12c1.2-.9 3.05-.75 4.59.32l5.71-5.72M5.93 17.57c-2.01-2.01-3.24-4.41-3.58-6.65l4.88-2.09l7.44 7.44l-2.09 4.88c-2.24-.34-4.64-1.57-6.65-3.58Z"/></svg>`,
+  },
   {
     name: 'seperate-vertical',
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18M8 8l-4 4l4 4m8 0l4-4l-4-4"/></svg>`,

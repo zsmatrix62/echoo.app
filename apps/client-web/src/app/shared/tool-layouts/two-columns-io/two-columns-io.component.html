@@ -13,6 +13,20 @@
           <span>Sample</span>
         </button>
       </ng-container>
+
+      <!-- open file action -->
+      <ng-container *ngIf="actionInputOpenFile">
+        <button
+          class="action"
+          (click)="actionInputOpenFile()"
+          nz-button
+          nzSize="large"
+        >
+          <span nz-icon nzType="open-file-folder" nzTheme="outline"></span>
+          <span>File</span>
+        </button>
+      </ng-container>
+
       <!-- paste action -->
       <ng-container *ngIf="actionInputPasteFromClipboard">
         <button
@@ -35,7 +49,7 @@
           nz-button
           nzSize="large"
         >
-          <span nz-icon nzType="trash" nzTheme="outline"></span>
+          <span nz-icon nzType="broom" nzTheme="outline"></span>
           <span>Clear</span>
         </button>
       </ng-container>

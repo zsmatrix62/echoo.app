@@ -54,6 +54,11 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
     this.codeInput$.next(undefined);
   }
 
+  onOpenFileClicked() {
+    // TODO:
+    this.codeInput$.next(undefined);
+  }
+
   async onPasteFromClipboardClicked() {
     const text = await navigator.clipboard.readText();
     this.codeInput$.next(text);

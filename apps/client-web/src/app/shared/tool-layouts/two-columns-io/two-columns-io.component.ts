@@ -59,6 +59,7 @@ export class TwoColumnsIoComponent implements OnChanges {
   @Input() codeOutput$!: BehaviorSubject<string | undefined>;
 
   @Input() actionInputSample?: ButtonClickAction;
+  @Input() actionInputOpenFile?: ButtonClickAction;
   @Input() actionInputClear?: ButtonClickAction;
   @Input() actionInputPasteFromClipboard?: ButtonClickAction;
 
