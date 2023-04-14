@@ -28,6 +28,7 @@ export type EchooIconNames =
   | 'arrows-random'
   | 'random'
   | 'broom'
+  | 'thunder'
   | 'open-file-folder'
   | 'trash';
 
@@ -37,6 +38,11 @@ export type EchooIconDefinitionOutline = IconDefinition & {
 };
 
 export const outlineIcons: EchooIconDefinitionOutline[] = [
+  {
+    name: 'thunder',
+    theme: 'outline',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M11 15H6l7-14v8h5l-7 14v-8Z"/></svg>`,
+  },
   {
     name: 'open-file-folder',
     theme: 'outline',

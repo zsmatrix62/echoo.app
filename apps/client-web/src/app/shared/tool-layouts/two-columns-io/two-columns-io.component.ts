@@ -26,6 +26,7 @@ import { WindowEventsService } from '../../../core/services/window-events.servic
 import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
 import type { FormatterAvailableLangsType } from '@echoo/formatter-provider';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @UntilDestroy()
 @Component({
@@ -45,6 +46,7 @@ import type { FormatterAvailableLangsType } from '@echoo/formatter-provider';
     SyncStyleWithElementDirective,
     ClipboardModule,
     NzMessageServiceModule,
+    NzToolTipModule,
     MonacoEditorModule,
     NzDrawerServiceModule,
   ],
