@@ -26,7 +26,6 @@ import {
   NzMessageServiceModule,
 } from 'ng-zorro-antd/message';
 import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
-import { JSONPath } from 'jsonpath-plus';
 import { JsonPathGuideComponent } from './json-path-guide.component';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { JsonFormatterDefaultSettings } from './settings';
@@ -35,6 +34,7 @@ import type {
   JsonFormatterSettingsType,
 } from './settings';
 import { ToolSettingsService } from '../../../../../app/core/services/tool-settings.service';
+import { JsonFormatterProvider } from '@echoo/formatter-provider';
 
 @UntilDestroy()
 @Component({
@@ -106,36 +106,19 @@ export class FormatterJsonComponent implements OnInit {
   listenSubjects() {
     combineLatest([this.code$, this.indention$, this.jsonPath$]).subscribe(
       ([code, indention, jsonPath]) => {
-        let jsonObj: object;
-        try {
-          jsonObj = JSON.parse(code ?? '{}');
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-          console.log(err);
-          this.codeOutput$.next(code);
-          this.error$.next(err.message);
-          return;
-        }
-
-        let indentionValue = '';
-        switch (indention) {
-          case '1t':
-            indentionValue = '	';
-            break;
-          case '2s':
-            indentionValue = '  ';
-            break;
-          case '4s':
-            indentionValue = '    ';
-            break;
-
-          default:
-            break;
-        }
-        const result =
-          JSONPath({ path: jsonPath || '$', json: jsonObj, wrap: false }) ?? {};
-        this.codeOutput$.next(JSON.stringify(result, null, indentionValue));
-        this.error$.next(undefined);
+        const formatter = new JsonFormatterProvider();
+        this.codeOutput$.next(
+          formatter.Format(
+            code ?? '',
+            {
+              indent: indention,
+              jsonPath: jsonPath ?? '$',
+            },
+            (err) => {
+              this.error$.next(err?.message);
+            }
+          )
+        );
       }
     );
 

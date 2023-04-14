@@ -20,6 +20,7 @@
       "@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"],
       "@echoo/echoo-icons": ["libs/echoo-icons/src/index.ts"],
       "@echoo/fitter-element": ["libs/fitter-element/src/index.ts"],
+      "@echoo/formatter-provider": ["libs/formatter-provider/src/index.ts"],
       "@echoo/github-button": ["libs/github-button/src/index.ts"],
       "@echoo/web-storage-service": ["libs/web-storage-service/src/index.ts"]
     }
