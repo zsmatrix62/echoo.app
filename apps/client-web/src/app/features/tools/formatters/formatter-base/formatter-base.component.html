@@ -3,6 +3,8 @@
   [actionInputClear]="onClearClicked"
   [actionInputPasteFromClipboard]="onPasteFromClipboardClicked"
   [codeInput$]="codeInput$"
+  [codeOutput$]="codeOutput$"
+  [monacoEditorLang]="(langConfig$ | async)?.langKey ?? null"
   [inputPlaceholder]="inputPlaceholder"
   [lang]="lang$ | async"
 />

@@ -51,7 +51,7 @@
         class="input-textarea"
         [ngModel]="codeInput$ | async"
         [placeholder]="inputPlaceholder"
-        (ngModelChange)="codeChange.emit($event)"
+        (ngModelChange)="this.codeInput$.next($event)"
         nz-input
       ></textarea>
       <nz-alert

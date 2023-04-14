@@ -1,11 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TwoColumnsIoComponent } from '../../../../shared/tool-layouts/two-columns-io/two-columns-io.component';
-import { randCodeSnippet } from '@ngneat/falso';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import type { DefaultFormatterActions } from '../../../../data/types/actions';
 import { ActivatedRoute } from '@angular/router';
-import type { FormatterAvailableLangsType } from '../../../../../app/data/tools';
+import type {
+  FormatterAvailableLangsConfig,
+  FormatterAvailableLangsType,
+} from '@echoo/formatter-provider';
 
 @Component({
   selector: 'echoo-formatter-base',
@@ -16,33 +18,34 @@ import type { FormatterAvailableLangsType } from '../../../../../app/data/tools'
 })
 export class FormatterBaseComponent implements DefaultFormatterActions {
   art = inject(ActivatedRoute);
-
   lang$ = new BehaviorSubject<FormatterAvailableLangsType | undefined>(
+    undefined
+  );
+  langConfig$ = new BehaviorSubject<FormatterAvailableLangsConfig | undefined>(
     undefined
   );
 
   inputPlaceholder = '';
 
   codeInput$ = new BehaviorSubject<string | undefined>(undefined);
+  codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
 
   constructor() {
     this.art.data.subscribe((data) => {
-      const langKey: FormatterAvailableLangsType = data['langKey'];
-      const lang = data['lang'];
-      if (langKey) {
-        this.lang$.next(langKey);
-        this.inputPlaceholder = `Paste or type ${lang.display} code here ...`;
-      }
+      const langConfig: FormatterAvailableLangsConfig =
+        data as FormatterAvailableLangsConfig;
+      this.langConfig$.next(langConfig);
+      this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;
     });
+    this.listenInputChange();
   }
 
   onSampleClicked = () => {
-    this.lang$.subscribe((lang) => {
-      if (lang) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const code = randCodeSnippet({ lang: lang });
-        this.codeInput$.next(code);
+    this.langConfig$.subscribe((langConfig) => {
+      if (langConfig) {
+        this.codeInput$.next(
+          langConfig.formatterProvider.ProvideSampleCode(langConfig.langKey)
+        );
       }
     });
   };
@@ -54,5 +57,14 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
   async onPasteFromClipboardClicked() {
     const text = await navigator.clipboard.readText();
     this.codeInput$.next(text);
+  }
+
+  listenInputChange() {
+    combineLatest([this.codeInput$, this.langConfig$]).subscribe(
+      ([code, langConfig]) => {
+        const outputCode = langConfig?.formatterProvider.Format(code ?? '', {});
+        this.codeOutput$.next(outputCode);
+      }
+    );
   }
 }

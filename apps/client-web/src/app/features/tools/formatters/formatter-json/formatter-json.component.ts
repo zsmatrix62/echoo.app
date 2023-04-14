@@ -115,7 +115,9 @@ export class FormatterJsonComponent implements OnInit {
               jsonPath: jsonPath ?? '$',
             },
             (err) => {
-              this.error$.next(err?.message);
+              if (code) {
+                this.error$.next(err?.message);
+              }
             }
           )
         );

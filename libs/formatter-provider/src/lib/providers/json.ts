@@ -1,5 +1,6 @@
-import type { FormatterProvider } from './types/formatter-provider';
 import { JSONPath } from 'jsonpath-plus';
+import type { FormatterProvider } from '../types/formatter-provider';
+import { randJSON } from '@ngneat/falso';
 
 type JsonFormatterOptions = {
   indent: '1t' | '2s' | '4s' | 'mini';
@@ -49,6 +50,15 @@ class JsonFormatterProvider implements FormatterProvider<JsonFormatterOptions> {
       errorCb();
     }
     return outputCode;
+  }
+
+  ProvideSampleCode(_: string): string {
+    return JSON.stringify(
+      randJSON({
+        minKeys: 5,
+        maxKeys: 10,
+      }) ?? ''
+    );
   }
 }
 

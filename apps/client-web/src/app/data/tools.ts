@@ -1,39 +1,16 @@
-import type { EchooIconNames } from '@echoo/echoo-icons';
+import {
+  FormatterAvailableLangs,
+  FormatterAvailableLangsConfig,
+} from '@echoo/formatter-provider';
 import { FormatterBaseComponent } from '../features/tools/formatters/formatter-base/formatter-base.component';
 import { FormatterJsonComponent } from '../features/tools/formatters/formatter-json/formatter-json.component';
 import type { ToolConfig } from './types/tool-config';
 
-export const FormatterAvailableLangs: {
-  [key: string]: {
-    display: string;
-    icon: EchooIconNames;
-  };
-} = {
-  html: {
-    display: 'HTML',
-    icon: 'file-html',
-  },
-  go: {
-    display: 'Go',
-    icon: 'file-golang',
-  },
-  javascript: {
-    display: 'JavaScript',
-    icon: 'file-javascript',
-  },
-  python: {
-    display: 'Python',
-    icon: 'file-python',
-  },
-  sql: {
-    display: 'SQL',
-    icon: 'file-sql',
-  },
+type FormatterToolConfig = ToolConfig & {
+  data: FormatterAvailableLangsConfig;
 };
 
-export type FormatterAvailableLangsType = keyof typeof FormatterAvailableLangs;
-
-const formatterComponentRoutes: ToolConfig[] = Object.keys(
+const formatterComponentRoutes: FormatterToolConfig[] = Object.keys(
   FormatterAvailableLangs
 ).map((langKey) => {
   return {
@@ -42,10 +19,7 @@ const formatterComponentRoutes: ToolConfig[] = Object.keys(
     icon: FormatterAvailableLangs[langKey].icon,
     routerLink: [langKey],
     component: FormatterBaseComponent,
-    data: {
-      langKey: langKey,
-      lang: FormatterAvailableLangs[langKey],
-    },
+    data: FormatterAvailableLangs[langKey],
   };
 });
 

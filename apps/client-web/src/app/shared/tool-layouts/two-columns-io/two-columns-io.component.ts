@@ -1,5 +1,5 @@
-import type { OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import type { OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { UntilDestroy } from '@ngneat/until-destroy';
@@ -25,7 +25,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { WindowEventsService } from '../../../core/services/window-events.service';
 import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
-import type { FormatterAvailableLangsType } from '../../../data/tools';
+import type { FormatterAvailableLangsType } from '@echoo/formatter-provider';
 
 @UntilDestroy()
 @Component({
@@ -52,38 +52,31 @@ import type { FormatterAvailableLangsType } from '../../../data/tools';
   styleUrls: ['./two-columns-io.component.scss'],
   providers: [WindowEventsService, NzMessageService, NzDrawerService],
 })
-export class TwoColumnsIoComponent implements OnInit, OnChanges {
+export class TwoColumnsIoComponent implements OnChanges {
   @Input() inputPlaceholder = '';
 
   @Input() codeInput$!: BehaviorSubject<string | undefined>;
+  @Input() codeOutput$!: BehaviorSubject<string | undefined>;
+
   @Input() actionInputSample?: ButtonClickAction;
   @Input() actionInputClear?: ButtonClickAction;
   @Input() actionInputPasteFromClipboard?: ButtonClickAction;
 
-  @Input() lang: FormatterAvailableLangsType | null | undefined = undefined;
-
-  @Output() codeChange = new EventEmitter<string>();
+  @Input() monacoEditorLang: FormatterAvailableLangsType | null | undefined =
+    undefined;
 
   messageService = inject(NzMessageService);
 
   editorOptions = MonacoEditorOptions.ReadOnly('json');
 
-  codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
   inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
-  ngOnInit(): void {
-    this.codeChange.subscribe((code) => {
-      this.codeInput$.next(code);
-    });
-
-    this.codeInput$.subscribe((code) => {
-      this.codeOutput$.next(code);
-    });
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    const langChange = changes['lang'];
+    const langChange = changes['monacoEditorLang'];
     if (langChange && langChange.currentValue) {
+      console.debug(
+        `lang for monaco editor changed to ${langChange.currentValue}`
+      );
       this.editorOptions = MonacoEditorOptions.ReadOnly(
         langChange.currentValue
       );
