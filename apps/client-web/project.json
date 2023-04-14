@@ -18,6 +18,7 @@
         "tsConfig": "apps/client-web/tsconfig.app.json",
         "assets": [
           "apps/client-web/src/favicon.ico",
+          "apps/client-web/src/_redirects",
           "apps/client-web/src/assets",
           {
             "glob": "**/*",
