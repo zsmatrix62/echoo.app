@@ -1,3 +1,9 @@
+## ⚠️ 🛠️ Refactoring Notice
+
+Echoo.app is beening refactored as v1, ETA of completion to meet the same functionality of current version is at end of July, 2023, preview -> [https://v1.web.echoo.app/](https://v1.web.echoo.app/)
+
+---- 
+
 <div align="center">
 	<img styles="max-height=640px" src="https://github.com/zsmatrix62/echoo.app/blob/main/docs/img/gh-head.png?raw=true" />
 	<h1>Echoo</h1>
