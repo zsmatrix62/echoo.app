@@ -1,4 +1,5 @@
-import type { OnChanges, SimpleChanges } from '@angular/core';
+import type { ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzGridModule } from 'ng-zorro-antd/grid';
@@ -14,7 +15,7 @@ import {
   SyncStyleWithElementDirective,
 } from '@echoo/fitter-element';
 import { NzSelectModule } from 'ng-zorro-antd/select';
-import { BehaviorSubject } from 'rxjs';
+import type { BehaviorSubject } from 'rxjs';
 import { ClipboardModule } from 'ngx-clipboard';
 import {
   NzMessageService,
@@ -55,6 +56,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
   providers: [WindowEventsService, NzMessageService, NzDrawerService],
 })
 export class TwoColumnsIoComponent implements OnChanges {
+  @ViewChild('fileInputRef') fileInputRef!: ElementRef<HTMLInputElement>;
+
   @Input() inputPlaceholder = '';
 
   @Input() codeInput$!: BehaviorSubject<string | undefined>;
@@ -76,7 +79,7 @@ export class TwoColumnsIoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const langChange = changes['monacoEditorLang'];
     if (langChange && langChange.currentValue) {
-      console.debug(
+      console.log(
         `lang for monaco editor changed to ${langChange.currentValue}`
       );
       this.editorOptions = MonacoEditorOptions.ReadOnly(

@@ -1,3 +1,4 @@
+import type { AfterViewInit } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TwoColumnsIoComponent } from '../../../../shared/tool-layouts/two-columns-io/two-columns-io.component';
@@ -8,15 +9,19 @@ import type {
   FormatterAvailableLangsConfig,
   FormatterAvailableLangsType,
 } from '@echoo/formatter-provider';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'echoo-formatter-base',
   standalone: true,
-  imports: [CommonModule, TwoColumnsIoComponent],
+  imports: [CommonModule, TwoColumnsIoComponent, NzButtonModule],
   templateUrl: './formatter-base.component.html',
   styleUrls: ['./formatter-base.component.scss'],
 })
-export class FormatterBaseComponent implements DefaultFormatterActions {
+export class FormatterBaseComponent
+  extends TwoColumnsIoComponent
+  implements DefaultFormatterActions, AfterViewInit
+{
   art = inject(ActivatedRoute);
   lang$ = new BehaviorSubject<FormatterAvailableLangsType | undefined>(
     undefined
@@ -25,13 +30,14 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
     undefined
   );
 
-  inputPlaceholder = '';
+  override inputPlaceholder = '';
 
-  codeInput$ = new BehaviorSubject<string | undefined>(undefined);
-  codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
-  inputError$ = new BehaviorSubject<string | undefined>(undefined);
+  override codeInput$ = new BehaviorSubject<string | undefined>(undefined);
+  override codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
+  override inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
   constructor() {
+    super();
     this.art.data.subscribe((data) => {
       const langConfig: FormatterAvailableLangsConfig =
         data as FormatterAvailableLangsConfig;
@@ -39,6 +45,20 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
       this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;
     });
     this.listenInputChange();
+  }
+
+  ngAfterViewInit(): void {
+    this.fileInputRef.nativeElement.addEventListener('change', (e: Event) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const text = e.target?.result as string;
+          this.codeInput$.next(text);
+        };
+        reader.readAsText(file);
+      }
+    });
   }
 
   onSampleClicked = () => {
@@ -56,9 +76,12 @@ export class FormatterBaseComponent implements DefaultFormatterActions {
     this.inputError$.next(undefined);
   }
 
-  onOpenFileClicked() {
-    // TODO:
-    this.codeInput$.next(undefined);
+  onOpenFileClicked = () => {
+    this.fileInputRef.nativeElement.click();
+  };
+
+  onFileOpen(inputEl: HTMLInputElement) {
+    console.log(inputEl.files);
   }
 
   async onPasteFromClipboardClicked() {
