@@ -95,7 +95,9 @@ export class FormatterBaseComponent
           code ?? '',
           {},
           (err) => {
-            this.inputError$.next(err?.message);
+            if (code) {
+              this.inputError$.next(err?.message);
+            }
           }
         );
         this.codeOutput$.next(outputCode);
