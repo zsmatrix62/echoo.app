@@ -23,7 +23,7 @@ export class GithubButtonComponent implements OnInit {
   startsCount = 0;
 
   get url() {
-    return `https://github.com/${this.user}/${this.repo}/${this.branch}`;
+    return `https://github.com/${this.user}/${this.repo}/tree/${this.branch}`;
   }
 
   get stargazersUrl() {
