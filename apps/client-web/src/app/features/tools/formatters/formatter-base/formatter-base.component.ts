@@ -80,10 +80,6 @@ export class FormatterBaseComponent
     this.fileInputRef.nativeElement.click();
   };
 
-  onFileOpen(inputEl: HTMLInputElement) {
-    console.log(inputEl.files);
-  }
-
   async onPasteFromClipboardClicked() {
     const text = await navigator.clipboard.readText();
     this.codeInput$.next(text);

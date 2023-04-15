@@ -79,9 +79,6 @@ export class TwoColumnsIoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     const langChange = changes['monacoEditorLang'];
     if (langChange && langChange.currentValue) {
-      console.log(
-        `lang for monaco editor changed to ${langChange.currentValue}`
-      );
       this.editorOptions = MonacoEditorOptions.ReadOnly(
         langChange.currentValue
       );
