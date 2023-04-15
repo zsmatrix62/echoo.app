@@ -31,7 +31,19 @@
           "./node_modules/ng-zorro-antd/ng-zorro-antd.compact.min.css"
         ],
         "scripts": [],
-        "allowedCommonJsDependencies": ["seedrandom"]
+        "allowedCommonJsDependencies": [
+          "seedrandom",
+          "@prettier/plugin-xml",
+          "prettier-plugin-nginx",
+          "prettier/parser-babel",
+          "prettier/parser-html",
+          "prettier/parser-markdown",
+          "prettier/parser-typescript",
+          "prettier/parser-yaml",
+          "prettier/standalone",
+          "regexp-to-ast",
+          "nearley"
+        ]
       },
       "configurations": {
         "production": {

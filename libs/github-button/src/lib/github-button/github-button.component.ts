@@ -27,7 +27,7 @@ export class GithubButtonComponent implements OnInit {
   }
 
   get stargazersUrl() {
-    return `${this.url}/stargazers`;
+    return this.url;
   }
 
   get apiUrl() {
