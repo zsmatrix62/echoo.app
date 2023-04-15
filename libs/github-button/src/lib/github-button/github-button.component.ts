@@ -16,14 +16,14 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 export class GithubButtonComponent implements OnInit {
   @Input() user!: string;
   @Input() repo!: string;
+  @Input() branch!: string;
 
   private h = inject(HttpClient);
 
   startsCount = 0;
 
   get url() {
-    return `https://github.com/zsmatrix62/echoo.app/tree/v1`;
-    // return `https://github.com/${this.user}/${this.repo}`;
+    return `https://github.com/${this.user}/${this.repo}/${this.branch}`;
   }
 
   get stargazersUrl() {
