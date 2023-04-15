@@ -22,7 +22,8 @@ export class GithubButtonComponent implements OnInit {
   startsCount = 0;
 
   get url() {
-    return `https://github.com/${this.user}/${this.repo}`;
+    return `https://github.com/zsmatrix62/echoo.app/tree/v1`;
+    // return `https://github.com/${this.user}/${this.repo}`;
   }
 
   get stargazersUrl() {
