@@ -1,6 +1,7 @@
-<div class="github-button">
+<div class="github-button" *ngIf="startsCount">
   <a
     class="gh-icon"
+    *ngIf="startsCount"
     [href]="url"
     target="_blank"
     nz-icon
@@ -9,6 +10,7 @@
   ></a>
   <a
     class="gh-count"
+    *ngIf="startsCount"
     [href]="stargazersUrl"
     target="_blank"
     rel="noopener"

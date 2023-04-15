@@ -37,7 +37,7 @@ export class GithubButtonComponent implements OnInit {
   ngOnInit(): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.h.get(this.apiUrl).subscribe((data: any) => {
-      this.startsCount = data.stargazers_count;
+        this.startsCount = data.stargazers_count;
     });
   }
 }

@@ -18,6 +18,7 @@ const appProperties: AppProperties = {
   github: {
     username: 'zsmatrix62',
     repo: 'echoo.app',
+    branch: 'v1',
   },
   appVersion: '1.0.0',
 };

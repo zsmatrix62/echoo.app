@@ -7,6 +7,7 @@ type AppProperties = {
   github: {
     username: string;
     repo: string;
+    branch: string;
   };
   appVersion: string;
 };
