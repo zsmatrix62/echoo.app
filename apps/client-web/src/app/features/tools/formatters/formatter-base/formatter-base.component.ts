@@ -48,8 +48,9 @@ export class FormatterBaseComponent
   }
 
   ngAfterViewInit(): void {
-    this.fileInputRef.nativeElement.addEventListener('change', (e: Event) => {
+    this.fileInputRef.nativeElement.onchange = (e: Event) => {
       const file = (e.target as HTMLInputElement).files?.[0];
+
       if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -57,8 +58,9 @@ export class FormatterBaseComponent
           this.codeInput$.next(text);
         };
         reader.readAsText(file);
+        this.fileInputRef.nativeElement.value = '';
       }
-    });
+    };
   }
 
   onSampleClicked = () => {
