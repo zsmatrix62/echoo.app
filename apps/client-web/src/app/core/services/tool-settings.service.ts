@@ -35,10 +35,15 @@ export class ToolSettingsService<
     settingValue: ToolSettings<K>
   ): ToolSettingsService<K> {
     const service = new ToolSettingsService<K>();
-    service.settings = settingValue;
-    service.listenToQueryParams();
+    service.InitDefaultSettings(settingValue);
 
     return service;
+  }
+
+  InitDefaultSettings(settingValue: T) {
+    this.settings = settingValue;
+    this.listenToQueryParams();
+    return this;
   }
 
   private listenToQueryParams() {
@@ -86,16 +91,20 @@ export class ToolSettingsService<
   private resetDefault() {
     this._temp = undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const defaultSettings: { [key: string]: any } = {};
+    const defaultSettings: { [key: string]: any } =
+      this.storeService.get(this.appConfigKey) ?? {};
     if (!this.toolConfigKey) {
       return;
     }
+
     defaultSettings[this.toolConfigKey] = {};
+
     Object.keys(this.toolSettings).forEach((key) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       defaultSettings[this.toolConfigKey][key] = this.toolSettings[key].value;
     });
+
     this.storeService.set(this.appConfigKey, defaultSettings);
   }
 
@@ -103,13 +112,19 @@ export class ToolSettingsService<
     if (!Object.keys(this.toolSettings || {}).includes(key as string)) {
       return;
     }
+
     if (!this.toolConfigKey) {
       return;
     }
 
+    const toolConfig = this.store[this.toolConfigKey];
+    if (!toolConfig) {
+      this.resetDefault();
+    }
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
-    return this.store[this.toolConfigKey][key] || this.toolSettings[key];
+    return this.toolSettings[key].value;
   }
 
   set(key: K, value: string) {
