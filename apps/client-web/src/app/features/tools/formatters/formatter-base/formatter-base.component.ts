@@ -10,6 +10,7 @@ import type {
   FormatterAvailableLangsType,
 } from '@echoo/formatter-provider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
 
 @Component({
   selector: 'echoo-formatter-base',
@@ -17,6 +18,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
   imports: [CommonModule, TwoColumnsIoComponent, NzButtonModule],
   templateUrl: './formatter-base.component.html',
   styleUrls: ['./formatter-base.component.scss'],
+  providers: [ToolSettingsService],
 })
 export class FormatterBaseComponent
   extends TwoColumnsIoComponent
@@ -26,9 +28,12 @@ export class FormatterBaseComponent
   lang$ = new BehaviorSubject<FormatterAvailableLangsType | undefined>(
     undefined
   );
+
   langConfig$ = new BehaviorSubject<FormatterAvailableLangsConfig | undefined>(
     undefined
   );
+
+  langConfig?: FormatterAvailableLangsConfig;
 
   override inputPlaceholder = '';
 
@@ -36,13 +41,20 @@ export class FormatterBaseComponent
   override codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
   override inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
+  settings?: ToolSettingsService<string>;
+
   constructor() {
     super();
     this.art.data.subscribe((data) => {
       const langConfig: FormatterAvailableLangsConfig =
         data as FormatterAvailableLangsConfig;
+      this.langConfig = langConfig;
       this.langConfig$.next(langConfig);
       this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;
+      // init setting service
+      this.settings = inject(ToolSettingsService).InitDefaultSettings(
+        this.langConfig.formatterProvider.DefaultSetting
+      );
     });
     this.listenInputChange();
   }
@@ -61,6 +73,7 @@ export class FormatterBaseComponent
         this.fileInputRef.nativeElement.value = '';
       }
     };
+    console.log(this.settings?.get('minify'));
   }
 
   onSampleClicked = () => {

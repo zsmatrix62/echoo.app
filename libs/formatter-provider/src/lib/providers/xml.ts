@@ -7,12 +7,26 @@ type XMLFormatterOptions = XMLFormatterOptionsOrig;
 export class XMLFormatterProvider
   implements FormatterProvider<XMLFormatterOptions>
 {
+  DefaultSetting = {
+    key: 'xml-formatter',
+    settings: {
+      minify: {
+        asQueryParams: true,
+        asLocalStorageItem: true,
+        value: true,
+      },
+    },
+  };
+
   Format(
     code: string,
     options?: XMLFormatterOptions | undefined,
     errorCb?: ((err?: Error | undefined) => void) | undefined
   ): string {
     try {
+      if (this.DefaultSetting?.settings?.minify?.value) {
+        return xmlFormat.minify(code, options);
+      }
       return xmlFormat(code, options);
     } catch (err) {
       errorCb?.(err as Error);
