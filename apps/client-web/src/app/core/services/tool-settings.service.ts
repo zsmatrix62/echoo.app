@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import type {
@@ -43,6 +43,11 @@ export class ToolSettingsService<
   InitDefaultSettings(settingValue: T) {
     this.settings = settingValue;
     this.listenToQueryParams();
+    this.rt.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.setAsQueryParameters();
+      }
+    });
     return this;
   }
 
@@ -65,7 +70,7 @@ export class ToolSettingsService<
   }
 
   private get toolSettings() {
-    return this.settings?.settings ?? {};
+    return this.settings?.settings;
   }
 
   private get appConfigKey() {
@@ -99,13 +104,33 @@ export class ToolSettingsService<
 
     defaultSettings[this.toolConfigKey] = {};
 
-    Object.keys(this.toolSettings).forEach((key) => {
+    Object.keys(this.toolSettings ?? {}).forEach((key) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       defaultSettings[this.toolConfigKey][key] = this.toolSettings[key].value;
     });
 
     this.storeService.set(this.appConfigKey, defaultSettings);
+  }
+
+  setAsQueryParameters() {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const queryParamerters: { [key: string]: any } = {};
+    if (this.toolSettings) {
+      Object.keys(this.toolSettings).forEach((key) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const settingItem = this.toolSettings[key];
+        if (settingItem.asQueryParams) {
+          queryParamerters[key] = settingItem.value;
+        }
+      });
+    }
+
+    this.rt.navigate([], {
+      relativeTo: this.art,
+      queryParams: queryParamerters,
+    });
   }
 
   get(key: string) {
@@ -142,14 +167,6 @@ export class ToolSettingsService<
       this.store[this.toolConfigKey][key] = value;
       this.storeService.set(this.appConfigKey, this.store);
     }
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (this.toolSettings[key].asQueryParams) {
-      this.rt.navigate([], {
-        relativeTo: this.art,
-        queryParams: this.store[this.toolConfigKey],
-      });
-    }
+    this.setAsQueryParameters();
   }
 }
