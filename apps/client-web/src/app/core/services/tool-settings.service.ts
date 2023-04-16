@@ -124,20 +124,30 @@ export class ToolSettingsService<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const defualtAppConfig: { [key: string]: any } =
       this.storeService.get(this.appConfigKey) ?? {};
+
     if (!this.toolConfigKey) {
       return;
     }
 
     defualtAppConfig[this.toolConfigKey] = {};
 
-    Object.keys(this.propertToolSettings ?? {}).forEach((key) => {
+    Object.keys(this.defaultSettings ?? {}).forEach((key) => {
       //@ts-ignore
       defualtAppConfig[this.toolConfigKey][key] =
         //@ts-ignore
-        this.propertToolSettings[key].value;
+        this.defaultSettings[key].value;
     });
 
     this.storeService.set(this.appConfigKey, defualtAppConfig);
+  }
+
+  private ensureDefaultToolSettings() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const toolConfig = this.store[this.toolConfigKey];
+    if (!toolConfig) {
+      this.resetDefault();
+    }
   }
 
   reflectAsQueryParameters(params?: { [key: string]: string }) {
@@ -172,12 +182,7 @@ export class ToolSettingsService<
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const toolConfig = this.store[this.toolConfigKey];
-    if (!toolConfig) {
-      this.resetDefault();
-    }
+    this.ensureDefaultToolSettings();
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-ignore
@@ -192,6 +197,8 @@ export class ToolSettingsService<
     if (!this.toolConfigKey) {
       return;
     }
+
+    this.ensureDefaultToolSettings();
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
