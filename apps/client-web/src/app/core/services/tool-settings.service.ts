@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { inject, Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { WebStorageServiceService } from '@echoo/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import type {
@@ -37,7 +37,6 @@ export class ToolSettingsService<
   ): ToolSettingsService<K> {
     const service = new ToolSettingsService<K>();
     service.InitDefaultSettings(settingValue);
-
     return service;
   }
 
@@ -46,12 +45,17 @@ export class ToolSettingsService<
    */
   InitDefaultSettings(defaultSettings: T) {
     this.defaultSettings = defaultSettings;
-    this.setAsQueryParameters();
     this.listenToQueryParams();
     return this;
   }
 
   private listenToQueryParams() {
+    this.rt.events.forEach((event) => {
+      if (event instanceof NavigationEnd) {
+        this.reflectAsQueryParameters();
+      }
+    });
+
     this.art.queryParams.subscribe((params) => {
       Object.keys(params).forEach((queryKey) => {
         const queryValue = params[queryKey];
@@ -136,9 +140,9 @@ export class ToolSettingsService<
     this.storeService.set(this.appConfigKey, defualtAppConfig);
   }
 
-  setAsQueryParameters() {
+  reflectAsQueryParameters(params?: { [key: string]: string }) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const queryParamerters: { [key: string]: any } = {};
+    const queryParamerters: { [key: string]: any } = params ?? {};
 
     if (this.propertToolSettings) {
       Object.keys(this.propertToolSettings).forEach((key) => {
@@ -151,11 +155,12 @@ export class ToolSettingsService<
         }
       });
     }
-
-    this.rt.navigate([], {
-      relativeTo: this.art,
-      queryParams: queryParamerters,
-    });
+    if (queryParamerters) {
+      this.rt.navigate([], {
+        relativeTo: this.art,
+        queryParams: queryParamerters,
+      });
+    }
   }
 
   get(key: string) {
@@ -195,6 +200,6 @@ export class ToolSettingsService<
       this.storeService.set(this.appConfigKey, this.store);
     }
 
-    this.setAsQueryParameters();
+    this.reflectAsQueryParameters();
   }
 }
