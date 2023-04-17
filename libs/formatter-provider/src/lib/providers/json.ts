@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { JSONPath } from 'jsonpath-plus';
 import type { FormatterProvider } from '../types/formatter-provider';
 import { randJSON } from '@ngneat/falso';
@@ -10,22 +11,25 @@ type JsonFormatterOptions = {
 class JsonFormatterProvider implements FormatterProvider<JsonFormatterOptions> {
   Format(
     code: string,
-    options?: JsonFormatterOptions,
-    errorCb?: (err?: Error) => void
+    options: {
+      settings?: JsonFormatterOptions;
+      errorCb?: (err?: Error) => void;
+    }
   ): string {
     let jsonObj: object;
     let outputCode = code;
     try {
       jsonObj = JSON.parse(code ?? '{}');
     } catch (err: unknown) {
-      if (errorCb) {
-        errorCb(err as Error);
-      }
+      options.errorCb?.(err as Error);
       return code;
     }
 
+    const settings = options?.settings ?? {};
+
     let indentionValue = '';
-    switch (options?.indent ?? '1t') {
+    // @ts-ignore
+    switch (settings?.['indent'] ?? '1t') {
       case '1t':
         indentionValue = '	';
         break;
@@ -41,13 +45,14 @@ class JsonFormatterProvider implements FormatterProvider<JsonFormatterOptions> {
     }
     const result =
       JSONPath({
-        path: options?.jsonPath || '$',
+        // @ts-ignore
+        path: settings['jsonPath'] || '$',
         json: jsonObj,
         wrap: false,
       }) ?? {};
     outputCode = JSON.stringify(result, null, indentionValue);
-    if (errorCb) {
-      errorCb();
+    if (options.errorCb) {
+      options.errorCb();
     }
     return outputCode;
   }

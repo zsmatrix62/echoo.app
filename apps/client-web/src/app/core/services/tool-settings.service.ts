@@ -41,10 +41,10 @@ export class ToolSettingsService<
   }
 
   /**
-   * @param defaultSettings - Call this after instance just created
+   * @param defaltSettingConfig - Call this after instance just created
    */
-  InitDefaultSettings(defaultSettings: T) {
-    this.defaultSettings = defaultSettings;
+  InitDefaultSettings(defaltSettingConfig: T) {
+    this.defaultSettingConfig = defaltSettingConfig;
     this.listenToQueryParams();
     return this;
   }
@@ -73,17 +73,17 @@ export class ToolSettingsService<
     });
   }
 
-  private set defaultSettings(val: T | undefined) {
+  private set defaultSettingConfig(val: T | undefined) {
     this._defaultSettings = val;
   }
 
-  private get defaultSettings() {
+  private get defaultSettingConfig() {
     return this._defaultSettings;
   }
 
   private get propertToolSettings() {
     const copyOfDefault = {
-      ...this.defaultSettings?.settings,
+      ...this.defaultSettingConfig?.settings,
     };
     const storedToolSettings = this.store?.[this.toolConfigKey ?? ''];
 
@@ -104,7 +104,7 @@ export class ToolSettingsService<
   }
 
   private get toolConfigKey() {
-    return this.defaultSettings?.key;
+    return this.defaultSettingConfig?.key;
   }
 
   private get store() {
@@ -131,11 +131,11 @@ export class ToolSettingsService<
 
     defualtAppConfig[this.toolConfigKey] = {};
 
-    Object.keys(this.defaultSettings ?? {}).forEach((key) => {
+    Object.keys(this.defaultSettingConfig ?? {}).forEach((key) => {
       //@ts-ignore
       defualtAppConfig[this.toolConfigKey][key] =
         //@ts-ignore
-        this.defaultSettings[key].value;
+        this.defaultSettingConfig[key].value;
     });
 
     this.storeService.set(this.appConfigKey, defualtAppConfig);

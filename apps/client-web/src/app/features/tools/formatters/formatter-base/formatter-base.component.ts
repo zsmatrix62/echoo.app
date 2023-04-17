@@ -53,7 +53,7 @@ export class FormatterBaseComponent
       this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;
       // init setting service
       this.settings = inject(ToolSettingsService).InitDefaultSettings(
-        this.langConfig.formatterProvider.DefaultSetting
+        this.langConfig.formatterProvider.DefaultSettingConfig
       );
     });
     this.listenInputChange();
@@ -104,15 +104,13 @@ export class FormatterBaseComponent
     combineLatest([this.codeInput$, this.langConfig$]).subscribe(
       ([code, langConfig]) => {
         this.inputError$.next(undefined);
-        const outputCode = langConfig?.formatterProvider.Format(
-          code ?? '',
-          {},
-          (err) => {
+        const outputCode = langConfig?.formatterProvider.Format(code ?? '', {
+          errorCb: (err) => {
             if (code) {
               this.inputError$.next(err?.message);
             }
-          }
-        );
+          },
+        });
         this.codeOutput$.next(outputCode);
       }
     );

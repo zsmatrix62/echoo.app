@@ -108,18 +108,17 @@ export class FormatterJsonComponent implements OnInit {
       ([code, indention, jsonPath]) => {
         const formatter = new JsonFormatterProvider();
         this.codeOutput$.next(
-          formatter.Format(
-            code ?? '',
-            {
+          formatter.Format(code ?? '', {
+            settings: {
               indent: indention,
               jsonPath: jsonPath ?? '$',
             },
-            (err) => {
+            errorCb: (err) => {
               if (code) {
                 this.error$.next(err?.message);
               }
-            }
-          )
+            },
+          })
         );
       }
     );

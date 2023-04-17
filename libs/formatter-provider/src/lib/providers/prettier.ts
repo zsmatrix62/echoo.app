@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { FormatterProvider } from '../types/formatter-provider';
-import type { Options } from 'prettier';
+import type { Options as PrettierOptions } from 'prettier';
 import { randCodeSnippet } from '@ngneat/falso';
 import * as prettier from 'prettier/standalone';
 import * as htmlParser from 'prettier/parser-html';
@@ -23,9 +23,7 @@ type Parsers =
   | 'sql'
   | 'nginx';
 
-type PrettierFormatterOptions = Options;
-
-class PrettierFormatterProvider<O extends PrettierFormatterOptions>
+class PrettierFormatterProvider<O = PrettierOptions>
   implements FormatterProvider<O>
 {
   parser: Parsers;
@@ -37,16 +35,15 @@ class PrettierFormatterProvider<O extends PrettierFormatterOptions>
   }
 
   static WithParser(parser: Parsers, lang: FormatterAvailableLangsType) {
-    return new PrettierFormatterProvider<PrettierFormatterOptions>(
-      parser,
-      lang
-    );
+    return new PrettierFormatterProvider<PrettierOptions>(parser, lang);
   }
 
   Format(
     code: string,
-    options?: PrettierFormatterOptions | undefined,
-    errorCb?: ((err?: Error | undefined) => void) | undefined
+    options: {
+      settings?: O;
+      errorCb?: ((err?: Error | undefined) => void) | undefined;
+    }
   ): string {
     let outputCode = code;
 
@@ -65,9 +62,7 @@ class PrettierFormatterProvider<O extends PrettierFormatterOptions>
         ...options,
       });
     } catch (e) {
-      if (errorCb) {
-        errorCb(e as Error);
-      }
+      options.errorCb?.(e as Error);
     }
     return outputCode;
   }
@@ -119,4 +114,4 @@ proxy_read_timeout 1000; }
   }
 }
 
-export { PrettierFormatterProvider, PrettierFormatterOptions };
+export { PrettierFormatterProvider };
