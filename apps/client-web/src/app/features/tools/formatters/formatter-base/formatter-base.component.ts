@@ -6,8 +6,8 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import type { DefaultFormatterActions } from '../../../../data/types/actions';
 import { ActivatedRoute } from '@angular/router';
 import type {
-  FormatterAvailableLangsConfig,
-  FormatterAvailableLangsType,
+  FormatterAvailableLangConfigsConfig,
+  FormatterAvailableLangConfigsType,
 } from '@echoo/tools/formatter-provider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
@@ -25,15 +25,15 @@ export class FormatterBaseComponent
   implements DefaultFormatterActions, AfterViewInit
 {
   art = inject(ActivatedRoute);
-  lang$ = new BehaviorSubject<FormatterAvailableLangsType | undefined>(
+  lang$ = new BehaviorSubject<FormatterAvailableLangConfigsType | undefined>(
     undefined
   );
 
-  langConfig$ = new BehaviorSubject<FormatterAvailableLangsConfig | undefined>(
+  langConfig$ = new BehaviorSubject<FormatterAvailableLangConfigsConfig | undefined>(
     undefined
   );
 
-  langConfig?: FormatterAvailableLangsConfig;
+  langConfig?: FormatterAvailableLangConfigsConfig;
 
   override inputPlaceholder = '';
 
@@ -46,8 +46,8 @@ export class FormatterBaseComponent
   constructor() {
     super();
     this.art.data.subscribe((data) => {
-      const langConfig: FormatterAvailableLangsConfig =
-        data as FormatterAvailableLangsConfig;
+      const langConfig: FormatterAvailableLangConfigsConfig =
+        data as FormatterAvailableLangConfigsConfig;
       this.langConfig = langConfig;
       this.langConfig$.next(langConfig);
       this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;

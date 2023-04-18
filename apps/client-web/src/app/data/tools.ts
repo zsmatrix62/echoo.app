@@ -1,23 +1,23 @@
-import type { FormatterAvailableLangsConfig } from '@echoo/tools/formatter-provider';
-import { FormatterAvailableLangs } from '@echoo/tools/formatter-provider';
+import type { FormatterAvailableLangConfigsConfig } from '@echoo/tools/formatter-provider';
+import { FormatterAvailableLangConfigs } from '@echoo/tools/formatter-provider';
 import { FormatterBaseComponent } from '../features/tools/formatters/formatter-base/formatter-base.component';
 import { FormatterJsonComponent } from '../features/tools/formatters/formatter-json/formatter-json.component';
 import type { ToolConfig } from './types/tool-config';
 
 type FormatterToolConfig = ToolConfig & {
-  data: FormatterAvailableLangsConfig;
+  data: FormatterAvailableLangConfigsConfig;
 };
 
 const formatterComponentRoutes: FormatterToolConfig[] = Object.keys(
-  FormatterAvailableLangs
+  FormatterAvailableLangConfigs
 ).map((langKey) => {
   return {
-    title: FormatterAvailableLangs[langKey].display,
+    title: FormatterAvailableLangConfigs[langKey].display,
     uniqueId: `${langKey}-formatter`,
-    icon: FormatterAvailableLangs[langKey].icon,
+    icon: FormatterAvailableLangConfigs[langKey].icon,
     routerLink: [langKey],
     component: FormatterBaseComponent,
-    data: FormatterAvailableLangs[langKey],
+    data: FormatterAvailableLangConfigs[langKey],
   };
 });
 

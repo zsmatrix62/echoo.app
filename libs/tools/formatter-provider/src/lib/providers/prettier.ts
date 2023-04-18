@@ -12,7 +12,7 @@ import * as typescriptParser from 'prettier/parser-typescript';
 import * as xmlParser from '@prettier/plugin-xml';
 // @ts-ignore
 import * as nginxParser from 'prettier-plugin-nginx';
-import type { FormatterAvailableLangsType } from '../types/formatters';
+import type { FormatterAvailableLangConfigsType } from '../types/formatters';
 
 type Parsers =
   | 'html'
@@ -27,14 +27,14 @@ class PrettierFormatterProvider<O = PrettierOptions>
   implements FormatterProvider<O>
 {
   parser: Parsers;
-  lang: FormatterAvailableLangsType;
+  lang: FormatterAvailableLangConfigsType;
 
-  constructor(parser: Parsers, lang: FormatterAvailableLangsType) {
+  constructor(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
     this.parser = parser;
     this.lang = lang;
   }
 
-  static WithParser(parser: Parsers, lang: FormatterAvailableLangsType) {
+  static WithParser(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
     return new PrettierFormatterProvider<PrettierOptions>(parser, lang);
   }
 

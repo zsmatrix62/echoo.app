@@ -4,17 +4,18 @@ import type { FormatterProvider } from './formatter-provider';
 import { SQLFormatterProvider } from '../providers/sql';
 import { XMLFormatterProvider } from '../providers/xml';
 
-export type FormatterAvailableLangsType = keyof typeof FormatterAvailableLangs;
+export type FormatterAvailableLangConfigsType =
+  keyof typeof FormatterAvailableLangConfigs;
 
-export type FormatterAvailableLangsConfig = {
+export type FormatterAvailableLangConfigsConfig = {
   langKey: string;
   display: string;
   icon: EchooIconNames;
   formatterProvider: FormatterProvider<unknown>;
 };
 
-export const FormatterAvailableLangs: {
-  [key: string]: FormatterAvailableLangsConfig;
+export const FormatterAvailableLangConfigs: {
+  [key: string]: FormatterAvailableLangConfigsConfig;
 } = {
   html: {
     langKey: 'html',
