@@ -8,8 +8,8 @@ import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { EchooIconsModule } from '@echoo/echoo-icons';
-import { WebStorageServiceService } from '@echoo/web-storage-service';
+import { EchooIconsModule } from '@echoo/components/echoo-icons';
+import { WebStorageServiceService } from '@echoo/services/web-storage-service';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { GlobalConfigModule } from './app/global-config.module';
 

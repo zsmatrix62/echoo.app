@@ -1,5 +1,5 @@
-import type { FormatterAvailableLangsConfig } from '@echoo/formatter-provider';
-import { FormatterAvailableLangs } from '@echoo/formatter-provider';
+import type { FormatterAvailableLangsConfig } from '@echoo/tools/formatter-provider';
+import { FormatterAvailableLangs } from '@echoo/tools/formatter-provider';
 import { FormatterBaseComponent } from '../features/tools/formatters/formatter-base/formatter-base.component';
 import { FormatterJsonComponent } from '../features/tools/formatters/formatter-json/formatter-json.component';
 import type { ToolConfig } from './types/tool-config';

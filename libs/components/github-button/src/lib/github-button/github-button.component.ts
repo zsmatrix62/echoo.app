@@ -1,7 +1,7 @@
 import type { OnInit } from '@angular/core';
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EchooIconsModule } from '@echoo/echoo-icons';
+import { EchooIconsModule } from '@echoo/components/echoo-icons';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 

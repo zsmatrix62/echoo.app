@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import type {
   FormatterAvailableLangsConfig,
   FormatterAvailableLangsType,
-} from '@echoo/formatter-provider';
+} from '@echoo/tools/formatter-provider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
 

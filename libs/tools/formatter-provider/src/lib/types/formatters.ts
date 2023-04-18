@@ -1,4 +1,4 @@
-import type { EchooIconNames } from '@echoo/echoo-icons';
+import type { EchooIconNames } from '@echoo/components/echoo-icons';
 import { PrettierFormatterProvider } from '../providers/prettier';
 import type { FormatterProvider } from './formatter-provider';
 import { SQLFormatterProvider } from '../providers/sql';

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { WebStorageServiceService } from '@echoo/web-storage-service';
+import { WebStorageServiceService } from '@echoo/services/web-storage-service';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import type {
   ToolSettingItem,

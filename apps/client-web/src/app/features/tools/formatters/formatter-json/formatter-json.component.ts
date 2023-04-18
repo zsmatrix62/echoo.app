@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import {
   FitterElementDirective,
   SyncStyleWithElementDirective,
-} from '@echoo/fitter-element';
+} from '@echoo/directives/fitter-element';
 import { WindowEventsService } from '../../../../core/services/window-events.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -34,7 +34,7 @@ import type {
   JsonFormatterSettingsType,
 } from './settings';
 import { ToolSettingsService } from '../../../../../app/core/services/tool-settings.service';
-import { JsonFormatterProvider } from '@echoo/formatter-provider';
+import { JsonFormatterProvider } from '@echoo/tools/formatter-provider';
 
 @UntilDestroy()
 @Component({

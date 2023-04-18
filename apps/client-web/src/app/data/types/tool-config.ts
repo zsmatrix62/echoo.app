@@ -1,5 +1,5 @@
 import type { Type } from '@angular/core';
-import type { EchooIconNames } from '@echoo/echoo-icons';
+import type { EchooIconNames } from '@echoo/components/echoo-icons';
 
 export type ToolSettingItem<V> = {
   asQueryParams: boolean;

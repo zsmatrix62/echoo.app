@@ -12,17 +12,31 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
+    "allowJs": true,
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"],
-      "@echoo/echoo-icons": ["libs/echoo-icons/src/index.ts"],
-      "@echoo/fitter-element": ["libs/fitter-element/src/index.ts"],
-      "@echoo/formatter-provider": ["libs/formatter-provider/src/index.ts"],
-      "@echoo/github-button": ["libs/github-button/src/index.ts"],
-      "@echoo/web-storage-service": ["libs/web-storage-service/src/index.ts"]
+      "@echoo/components/echoo-icons": [
+        "libs/components//echoo-icons/src/index.ts"
+      ],
+      "@echoo/components/github-button": [
+        "libs/components/github-button/src/index.ts"
+      ],
+      "@echoo/directives/fitter-element": [
+        "libs/directives/fitter-element/src/index.ts"
+      ],
+      "@echoo/components/tool-options-toolbar": [
+        "libs/components/tool-options-toolbar/src/index.ts"
+      ],
+      "@echoo/services/web-storage-service": [
+        "libs/services/web-storage-service/src/index.ts"
+      ],
+      "@echoo/tools/formatter-provider": [
+        "libs/tools/formatter-provider/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

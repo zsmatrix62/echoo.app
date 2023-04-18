@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import {
   FitterElementDirective,
   SyncStyleWithElementDirective,
-} from '@echoo/fitter-element';
+} from '@echoo/directives/fitter-element';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import type { BehaviorSubject } from 'rxjs';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -26,7 +26,7 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { WindowEventsService } from '../../../core/services/window-events.service';
 import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
-import type { FormatterAvailableLangsType } from '@echoo/formatter-provider';
+import type { FormatterAvailableLangsType } from '@echoo/tools/formatter-provider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @UntilDestroy()
