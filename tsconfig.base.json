@@ -20,16 +20,16 @@
     "paths": {
       "@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"],
       "@echoo/components/echoo-icons": [
-        "libs/components//echoo-icons/src/index.ts"
+        "libs/components/features/echoo-icons/src/index.ts"
       ],
       "@echoo/components/github-button": [
-        "libs/components/github-button/src/index.ts"
+        "libs/components/features/github-button/src/index.ts"
       ],
       "@echoo/directives/fitter-element": [
         "libs/directives/fitter-element/src/index.ts"
       ],
       "@echoo/components/tool-options-toolbar": [
-        "libs/components/tool-options-toolbar/src/index.ts"
+        "libs/components/shared/tool-options-toolbar/src/index.ts"
       ],
       "@echoo/services/web-storage-service": [
         "libs/services/web-storage-service/src/index.ts"
