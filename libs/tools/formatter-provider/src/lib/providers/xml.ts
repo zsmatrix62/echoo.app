@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { FormatterProvider } from '../types/formatter-provider';
-import type { XMLFormatterOptions } from 'xml-formatter';
-import xmlFormat from 'xml-formatter';
+import xmlFormat, { XMLFormatterOptions } from 'xml-formatter';
 import type {
   CommonFormatterIndention,
   CommonFormatterLineSeperator,
@@ -39,15 +38,35 @@ export class XMLFormatterProvider<O = typeof XMLFormatterDefaultSettings>
       errorCb?: (err?: Error) => void;
     }
   ): string {
-    const formatterOptions: Partial<XMLFormatterOptions> = {
-      // @ts-ignore
-      indentation: <string>options.settings?.['indentation'].value,
-      // @ts-ignore
-      lineSeperator: <string>options.settings?.['lineSeperator'].value,
-    };
+    let settings: ToolSettings = options.settings!;
+    if (!settings) {
+      settings = <ToolSettings>this.DefaultSettingConfig.settings;
+    }
+
+    const formatterOptions: Partial<XMLFormatterOptions> = {};
+
+    switch (settings['indentation'].value) {
+      case '1t':
+        formatterOptions.indentation = '  ';
+        break;
+      case '1s':
+        formatterOptions.indentation = ' ';
+        break;
+      case '4s':
+        formatterOptions.indentation = '    ';
+        break;
+      case 'mini':
+        formatterOptions.indentation = '';
+        break;
+      default:
+        formatterOptions.indentation = '';
+    }
+
+    formatterOptions.lineSeparator =
+      <string>settings['lineSeperator'].value ?? '\r\n';
 
     try {
-      if (this.DefaultSettingConfig?.settings['indentation'].value == 'mini') {
+      if (formatterOptions.indentation == 'mini') {
         return xmlFormat.minify(code, formatterOptions);
       }
       return xmlFormat(code, formatterOptions);

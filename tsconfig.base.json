@@ -25,11 +25,11 @@
       "@echoo/components/github-button": [
         "libs/components/features/github-button/src/index.ts"
       ],
-      "@echoo/directives/fitter-element": [
-        "libs/directives/fitter-element/src/index.ts"
-      ],
       "@echoo/components/tool-options-toolbar": [
         "libs/components/shared/tool-options-toolbar/src/index.ts"
+      ],
+      "@echoo/directives/fitter-element": [
+        "libs/directives/fitter-element/src/index.ts"
       ],
       "@echoo/services/web-storage-service": [
         "libs/services/web-storage-service/src/index.ts"
