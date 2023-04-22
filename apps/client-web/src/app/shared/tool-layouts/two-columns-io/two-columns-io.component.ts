@@ -26,8 +26,8 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { WindowEventsService } from '../../../core/services/window-events.service';
 import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
-import type { FormatterAvailableLangConfigsType } from '@echoo/tools/formatter-provider';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import type { FormatterAvailableLangConfigsType } from '@echoo/tools/formatter-provider';
 
 @UntilDestroy()
 @Component({
@@ -69,8 +69,10 @@ export class TwoColumnsIoComponent implements OnChanges {
   @Input() actionInputClear?: ButtonClickAction;
   @Input() actionInputPasteFromClipboard?: ButtonClickAction;
 
-  @Input() monacoEditorLang: FormatterAvailableLangConfigsType | null | undefined =
-    undefined;
+  @Input() monacoEditorLang:
+    | FormatterAvailableLangConfigsType
+    | null
+    | undefined = undefined;
 
   messageService = inject(NzMessageService);
 

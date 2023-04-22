@@ -1,30 +1,34 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { FormatterProvider } from '../types/formatter-provider';
+import type { FormatterToolProvider } from '../types/formatter-provider';
 import xmlFormat, { XMLFormatterOptions } from 'xml-formatter';
+
 import type {
   CommonFormatterIndention,
   CommonFormatterLineSeperator,
-} from '../types/common';
-import type {
-  ToolSettingItem,
   ToolSettings,
-} from '../types/formatter-provider';
+} from '@echoo/types';
 
-export const XMLFormatterDefaultSettings: ToolSettings = {
-  indentation: <ToolSettingItem<CommonFormatterIndention>>{
-    asQueryParams: true,
-    asLocalStorageItem: true,
-    value: '1t',
-  },
-  lineSeperator: <ToolSettingItem<CommonFormatterLineSeperator>>{
-    asQueryParams: true,
-    asLocalStorageItem: true,
-    value: '\r\n',
-  },
+export type ToolFormatterXMLOptionsType = {
+  intentation: CommonFormatterIndention;
+  lineSeperator: CommonFormatterLineSeperator;
 };
 
-export class XMLFormatterProvider<O = typeof XMLFormatterDefaultSettings>
-  implements FormatterProvider<O>
+export const XMLFormatterDefaultSettings: ToolSettings<ToolFormatterXMLOptionsType> =
+  {
+    intentation: {
+      asQueryParams: true,
+      asLocalStorageItem: true,
+      value: '1t',
+    },
+    lineSeperator: {
+      asQueryParams: true,
+      asLocalStorageItem: true,
+      value: '\r\n',
+    },
+  };
+
+export class XMLFormatterProvider
+  implements FormatterToolProvider<ToolFormatterXMLOptionsType>
 {
   DefaultSettingConfig = {
     key: 'xml-formatter',
@@ -34,22 +38,17 @@ export class XMLFormatterProvider<O = typeof XMLFormatterDefaultSettings>
   Format(
     code: string,
     options: {
-      settings?: O;
       errorCb?: (err?: Error) => void;
     }
   ): string {
-    let settings: ToolSettings = options.settings!;
-    if (!settings) {
-      settings = <ToolSettings>this.DefaultSettingConfig.settings;
-    }
-
+    const settings = this.DefaultSettingConfig.settings;
     const formatterOptions: Partial<XMLFormatterOptions> = {};
 
-    switch (settings['indentation'].value) {
+    switch (settings.intentation.value) {
       case '1t':
         formatterOptions.indentation = '  ';
         break;
-      case '1s':
+      case '2s':
         formatterOptions.indentation = ' ';
         break;
       case '4s':
@@ -62,8 +61,7 @@ export class XMLFormatterProvider<O = typeof XMLFormatterDefaultSettings>
         formatterOptions.indentation = '';
     }
 
-    formatterOptions.lineSeparator =
-      <string>settings['lineSeperator'].value ?? '\r\n';
+    formatterOptions.lineSeparator = settings.lineSeperator.value ?? '\r\n';
 
     try {
       if (formatterOptions.indentation == 'mini') {

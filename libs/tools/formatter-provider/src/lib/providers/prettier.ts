@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import type { FormatterProvider } from '../types/formatter-provider';
-import type { Options as PrettierOptions } from 'prettier';
+import { Options as PrettierOptions } from 'prettier';
 import { randCodeSnippet } from '@ngneat/falso';
 import * as prettier from 'prettier/standalone';
 import * as htmlParser from 'prettier/parser-html';
@@ -12,7 +11,9 @@ import * as typescriptParser from 'prettier/parser-typescript';
 import * as xmlParser from '@prettier/plugin-xml';
 // @ts-ignore
 import * as nginxParser from 'prettier-plugin-nginx';
-import type { FormatterAvailableLangConfigsType } from '../types/formatters';
+import { ToolSettings } from '@echoo/types';
+import { FormatterToolProvider } from '../types/formatter-provider';
+import { FormatterAvailableLangConfigsType } from '../types/formatters';
 
 type Parsers =
   | 'html'
@@ -23,8 +24,13 @@ type Parsers =
   | 'sql'
   | 'nginx';
 
-class PrettierFormatterProvider<O = PrettierOptions>
-  implements FormatterProvider<O>
+export type ToolFormatterPrettierOptionsType = Partial<PrettierOptions>;
+
+export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPrettierOptionsType> =
+  {};
+
+export class PrettierFormatterProvider
+  implements FormatterToolProvider<ToolFormatterPrettierOptionsType>
 {
   parser: Parsers;
   lang: FormatterAvailableLangConfigsType;
@@ -35,13 +41,13 @@ class PrettierFormatterProvider<O = PrettierOptions>
   }
 
   static WithParser(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
-    return new PrettierFormatterProvider<PrettierOptions>(parser, lang);
+    return new PrettierFormatterProvider(parser, lang);
   }
 
   Format(
     code: string,
     options: {
-      settings?: O;
+      settings?: ToolSettings<ToolFormatterPrettierOptionsType>;
       errorCb?: ((err?: Error | undefined) => void) | undefined;
     }
   ): string {
@@ -113,5 +119,3 @@ proxy_read_timeout 1000; }
     return '(No sample code available)';
   }
 }
-
-export { PrettierFormatterProvider };

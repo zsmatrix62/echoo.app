@@ -8,7 +8,7 @@
   [codeInput$]="codeInput$"
   [inputError$]="inputError$"
   [codeOutput$]="codeOutput$"
-  [monacoEditorLang]="(langConfig$ | async)?.langKey ?? null"
+  [monacoEditorLang]="$any((langConfig$ | async)?.langKey ?? null)"
   [inputPlaceholder]="inputPlaceholder"
   [lang]="lang$ | async"
 />

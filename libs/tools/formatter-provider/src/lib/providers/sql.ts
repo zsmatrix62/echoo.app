@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import type {
-  FormatterProvider,
-  ToolSettingItem,
-  ToolSettings,
-} from '../types/formatter-provider';
+import { ToolSettings } from '@echoo/types';
 import type { FormatOptions, KeywordCase } from 'sql-formatter';
 import { format } from 'sql-formatter';
+import { FormatterToolProvider } from '../types/formatter-provider';
 
 type SqlFormatterLanguages =
   | 'sql'
@@ -26,31 +22,39 @@ type SqlFormatterLanguages =
   | 'tsql'
   | 'trino';
 
-export const SQLFormatterDefaultSettings: ToolSettings = {
-  language: <ToolSettingItem<SqlFormatterLanguages>>{
-    asLocalStorageItem: true,
-    asQueryParams: true,
-    value: 'sql',
-  },
-  tabWidth: <ToolSettingItem<number>>{
-    asLocalStorageItem: true,
-    asQueryParams: true,
-    value: 2,
-  },
-  useTabs: <ToolSettingItem<boolean>>{
-    asLocalStorageItem: true,
-    asQueryParams: true,
-    value: false,
-  },
-  keywordCase: <ToolSettingItem<KeywordCase>>{
-    asLocalStorageItem: true,
-    asQueryParams: true,
-    value: 'preserve',
-  },
+export type ToolFormatterSQLOptionsType = {
+  language: SqlFormatterLanguages;
+  tabWidth: number;
+  useTabs: boolean;
+  keywordCase: KeywordCase;
 };
 
-export class SQLFormatterProvider<O = typeof SQLFormatterDefaultSettings>
-  implements FormatterProvider<O>
+export const SQLFormatterDefaultSettings: ToolSettings<ToolFormatterSQLOptionsType> =
+  {
+    language: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: 'sql',
+    },
+    tabWidth: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: 1,
+    },
+    useTabs: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: true,
+    },
+    keywordCase: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: 'upper',
+    },
+  };
+
+export class SQLFormatterProvider
+  implements FormatterToolProvider<ToolFormatterSQLOptionsType>
 {
   DefaultSettingConfig = {
     key: 'sql-formatter',
@@ -60,18 +64,15 @@ export class SQLFormatterProvider<O = typeof SQLFormatterDefaultSettings>
   Format(
     code: string,
     options: {
-      settings?: O;
+      settings?: ToolSettings<ToolFormatterSQLOptionsType>;
       errorCb?: (err?: Error) => void;
     }
   ): string {
     const settings = options.settings ?? this.DefaultSettingConfig?.settings;
     const formatOptions: Partial<FormatOptions> = {
-      // @ts-ignore
-      useTabs: <boolean>settings?.['useTabs'].value,
-      // @ts-ignore
-      tabWidth: <number>settings?.['tabWidth'].value,
-      // @ts-ignore
-      keywordCase: <KeywordCase>settings?.['keywordCase'].value,
+      useTabs: settings.useTabs.value,
+      tabWidth: settings.tabWidth.value,
+      keywordCase: settings.keywordCase.value,
     };
 
     try {

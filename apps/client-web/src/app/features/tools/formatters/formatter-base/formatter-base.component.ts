@@ -6,8 +6,8 @@ import { BehaviorSubject, combineLatest } from 'rxjs';
 import type { DefaultFormatterActions } from '../../../../data/types/actions';
 import { ActivatedRoute } from '@angular/router';
 import type {
-  FormatterAvailableLangConfigsConfig,
   FormatterAvailableLangConfigsType,
+  ToolFormatterInstanceConfig,
 } from '@echoo/tools/formatter-provider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
@@ -29,11 +29,11 @@ export class FormatterBaseComponent
     undefined
   );
 
-  langConfig$ = new BehaviorSubject<
-    FormatterAvailableLangConfigsConfig | undefined
-  >(undefined);
+  langConfig$ = new BehaviorSubject<ToolFormatterInstanceConfig | undefined>(
+    undefined
+  );
 
-  langConfig?: FormatterAvailableLangConfigsConfig;
+  langConfig?: ToolFormatterInstanceConfig;
 
   override inputPlaceholder = '';
 
@@ -46,8 +46,8 @@ export class FormatterBaseComponent
   constructor() {
     super();
     this.art.data.subscribe((data) => {
-      const langConfig: FormatterAvailableLangConfigsConfig =
-        data as FormatterAvailableLangConfigsConfig;
+      const langConfig: ToolFormatterInstanceConfig =
+        data as ToolFormatterInstanceConfig;
       this.langConfig = langConfig;
       this.langConfig$.next(langConfig);
       this.inputPlaceholder = `Paste or type ${langConfig.display} code here ...`;
@@ -104,7 +104,9 @@ export class FormatterBaseComponent
       ([code, langConfig]) => {
         this.inputError$.next(undefined);
         const outputCode = langConfig?.formatterProvider.Format(code ?? '', {
-          errorCb: (err) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          errorCb: (err: Error) => {
             if (code) {
               this.inputError$.next(err?.message);
             }

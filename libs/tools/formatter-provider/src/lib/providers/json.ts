@@ -1,18 +1,35 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { JSONPath } from 'jsonpath-plus';
-import type { FormatterProvider } from '../types/formatter-provider';
+import type { FormatterToolProvider } from '../types/formatter-provider';
 import { randJSON } from '@ngneat/falso';
+import { CommonFormatterIndention, ToolSettings } from '@echoo/types';
 
-type JsonFormatterOptions = {
-  indent: '1t' | '2s' | '4s' | 'mini';
+type ToolFormatterJsonOptionsType = {
+  indent: CommonFormatterIndention;
   jsonPath: string;
 };
 
-class JsonFormatterProvider implements FormatterProvider<JsonFormatterOptions> {
+export const JsonFormatterDefaultSettings: ToolSettings<ToolFormatterJsonOptionsType> =
+  {
+    indent: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: '1t',
+    },
+    jsonPath: {
+      asLocalStorageItem: true,
+      asQueryParams: true,
+      value: '',
+    },
+  };
+
+export class JsonFormatterProvider
+  implements FormatterToolProvider<ToolFormatterJsonOptionsType>
+{
   Format(
     code: string,
     options: {
-      settings?: JsonFormatterOptions;
+      settings?: ToolSettings<ToolFormatterJsonOptionsType>;
       errorCb?: (err?: Error) => void;
     }
   ): string {
@@ -66,5 +83,3 @@ class JsonFormatterProvider implements FormatterProvider<JsonFormatterOptions> {
     );
   }
 }
-
-export { JsonFormatterOptions, JsonFormatterProvider };

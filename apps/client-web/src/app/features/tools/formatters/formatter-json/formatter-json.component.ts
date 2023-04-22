@@ -110,7 +110,11 @@ export class FormatterJsonComponent implements OnInit {
         this.codeOutput$.next(
           formatter.Format(code ?? '', {
             settings: {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               indent: indention,
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               jsonPath: jsonPath ?? '$',
             },
             errorCb: (err) => {

@@ -36,7 +36,8 @@
       ],
       "@echoo/tools/formatter-provider": [
         "libs/tools/formatter-provider/src/index.ts"
-      ]
+      ],
+      "@echoo/types": ["libs/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
