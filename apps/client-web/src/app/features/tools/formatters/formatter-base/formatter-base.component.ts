@@ -29,9 +29,9 @@ export class FormatterBaseComponent
     undefined
   );
 
-  langConfig$ = new BehaviorSubject<FormatterAvailableLangConfigsConfig | undefined>(
-    undefined
-  );
+  langConfig$ = new BehaviorSubject<
+    FormatterAvailableLangConfigsConfig | undefined
+  >(undefined);
 
   langConfig?: FormatterAvailableLangConfigsConfig;
 
@@ -73,7 +73,6 @@ export class FormatterBaseComponent
         this.fileInputRef.nativeElement.value = '';
       }
     };
-    console.log(this.settings?.get('minify'));
   }
 
   onSampleClicked = () => {
