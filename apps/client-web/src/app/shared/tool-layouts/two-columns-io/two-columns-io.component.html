@@ -45,7 +45,12 @@
 		</nz-row>
 
 		<nz-row class="input-content-wrapper" #inputTextArea [fitHeight]="true" fitterElement>
-			<textarea class="input-textarea" [ngModel]="codeInputModel" [placeholder]="inputPlaceholder" nz-input></textarea>
+			<textarea
+				class="input-textarea"
+				[ngModel]="codeInputModel"
+				[placeholder]="inputPlaceholder"
+				(ngModelChange)="codeInput$.next($event)"
+				nz-input></textarea>
 		</nz-row>
 	</nz-col>
 
