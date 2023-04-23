@@ -41,10 +41,11 @@ export class XMLFormatterProvider
     return [
       {
         intentation: {
+          key: 'intentation',
           widgetType: 'combo',
           defaultValue: '1t',
           style: {
-            width: '80px',
+            width: '100px',
           },
           candidates: [
             {

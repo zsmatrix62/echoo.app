@@ -1,110 +1,89 @@
 <nz-row style="height: 100%">
-  <nz-col class="input-wrapper" nzSpan="10">
-    <nz-row class="input-actions">
-      <!-- sample action -->
-      <ng-container *ngIf="actionInputSample">
-        <button
-          class="action"
-          (click)="actionInputSample()"
-          nz-button
-          nzSize="large"
-          nz-tooltip
-          nzTooltipTitle="Sample Data"
-        >
-          <span nz-icon nzType="thunder" nzTheme="outline"></span>
-        </button>
-      </ng-container>
+	<nz-col class="input-wrapper" nzSpan="10">
+		<nz-row class="input-actions">
+			<!-- sample action -->
+			<ng-container *ngIf="actionInputSample">
+				<button
+					class="action"
+					(click)="actionInputSample()"
+					nz-button
+					nzSize="large"
+					nz-tooltip
+					nzTooltipTitle="Sample Data">
+					<span nz-icon nzType="thunder" nzTheme="outline"></span>
+				</button>
+			</ng-container>
 
-      <!-- open file action -->
-      <ng-container *ngIf="actionInputOpenFile">
-        <button
-          class="action"
-          (click)="actionInputOpenFile()"
-          nz-button
-          nzSize="large"
-        >
-          <span nz-icon nzType="open-file-folder" nzTheme="outline"></span>
-          <span>File</span>
-        </button>
-      </ng-container>
+			<!-- open file action -->
+			<ng-container *ngIf="actionInputOpenFile">
+				<button class="action" (click)="actionInputOpenFile()" nz-button nzSize="large">
+					<span nz-icon nzType="open-file-folder" nzTheme="outline"></span>
+					<span>File</span>
+				</button>
+			</ng-container>
 
-      <!-- paste action -->
-      <ng-container *ngIf="actionInputPasteFromClipboard">
-        <button
-          class="action"
-          (click)="actionInputPasteFromClipboard()"
-          nz-button
-          nzSize="large"
-        >
-          <span nz-icon nzType="paste-go" nzTheme="outline"></span>
-          <span>Paste</span>
-        </button>
-      </ng-container>
+			<!-- paste action -->
+			<ng-container *ngIf="actionInputPasteFromClipboard">
+				<button class="action" (click)="actionInputPasteFromClipboard()" nz-button nzSize="large">
+					<span nz-icon nzType="paste-go" nzTheme="outline"></span>
+					<span>Paste</span>
+				</button>
+			</ng-container>
 
-      <!-- clear action -->
-      <ng-container *ngIf="actionInputClear">
-        <button
-          class="clear-btn action"
-          [disabled]="!(codeInput$ | async)"
-          (click)="actionInputClear()"
-          nz-button
-          nzSize="large"
-        >
-          <span nz-icon nzType="broom" nzTheme="outline"></span>
-          <span>Clear</span>
-        </button>
-      </ng-container>
-    </nz-row>
+			<!-- clear action -->
+			<ng-container *ngIf="actionInputClear">
+				<button
+					class="clear-btn action"
+					[disabled]="!(codeInput$ | async)"
+					(click)="actionInputClear()"
+					nz-button
+					nzSize="large">
+					<span nz-icon nzType="broom" nzTheme="outline"></span>
+					<span>Clear</span>
+				</button>
+			</ng-container>
+		</nz-row>
 
-    <nz-row
-      class="input-content-wrapper"
-      #inputTextArea
-      [fitHeight]="true"
-      fitterElement
-    >
-      <textarea
-        class="input-textarea"
-        [ngModel]="codeInput$ | async"
-        [placeholder]="inputPlaceholder"
-        (ngModelChange)="this.codeInput$.next($event)"
-        nz-input
-      ></textarea>
-    </nz-row>
-  </nz-col>
+		<nz-row class="input-content-wrapper" #inputTextArea [fitHeight]="true" fitterElement>
+			<textarea
+				class="input-textarea"
+				[ngModel]="codeInput$ | async"
+				[placeholder]="inputPlaceholder"
+				(ngModelChange)="this.codeInput$.next($event)"
+				nz-input></textarea>
+		</nz-row>
+	</nz-col>
 
-  <nz-col class="output-wrapper" [nzSpan]="14">
-    <div class="output-actions" nz-row>
-      <echoo-tool-options-toolbar
-        [settings]="configWidgetSettings"
-      ></echoo-tool-options-toolbar>
-      <!-- clear action -->
-      <button
-        class="copy-btn"
-        [disabled]="!(codeOutput$ | async) || (codeOutput$ | async) == '{}'"
-        [cbContent]="(codeOutput$ | async) ?? ''"
-        (cbOnSuccess)="onCopied()"
-        ngxClipboard
-        nz-button
-        nzSize="large"
-      >
-        <span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
-        <span>Copy</span>
-      </button>
-    </div>
-    <nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
-      <nz-alert
-        class="error-alert"
-        *ngIf="inputError$ | async"
-        [nzMessage]="(inputError$ | async) ?? ''"
-        nzType="error"
-      ></nz-alert>
+	<nz-col class="output-wrapper" [nzSpan]="14">
+		<div class="output-actions" nz-row>
+			<echoo-tool-options-toolbar
+				[defaultSettings]="configWidgetSettings"
+				(settingsChange)="onSettingsChange($event)"></echoo-tool-options-toolbar>
+			<!-- clear action -->
+			<button
+				class="copy-btn"
+				[disabled]="!(codeOutput$ | async) || (codeOutput$ | async) == '{}'"
+				[cbContent]="(codeOutput$ | async) ?? ''"
+				(cbOnSuccess)="onCopied()"
+				ngxClipboard
+				nz-button
+				nzSize="large">
+				<span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
+				<span>Copy</span>
+			</button>
+		</div>
+		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
+			<nz-alert
+				class="error-alert"
+				*ngIf="inputError$ | async"
+				[nzMessage]="(inputError$ | async) ?? ''"
+				nzType="error"></nz-alert>
 
-      <ngx-monaco-editor
-        class="editor"
-        *ngIf="!(inputError$ | async)"
-        [options]="editorOptions"
-        [ngModel]="codeOutput$ | async"
-      ></ngx-monaco-editor>
-    </nz-row>
-  </nz-col>
+			<ngx-monaco-editor
+				class="editor"
+				*ngIf="!(inputError$ | async)"
+				[options]="editorOptions"
+				[ngModel]="codeOutput$ | async"></ngx-monaco-editor>
+		</nz-row>
+	</nz-col>
 </nz-row>

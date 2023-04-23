@@ -3,15 +3,16 @@ export type ToolSettingConfig<OptionsType extends object> = {
   settings: ToolSettings<OptionsType>;
 };
 
-export type ToolSettingWidgetConfigItemValue<V> = {
+export type ToolSettingWidgetConfigItemValue<V, K> = {
+  key: K;
   label?: {
-    title: string;
+    title?: string;
     tip?: string;
   };
   style?: { [klass: string]: unknown };
   widgetType: 'radio' | 'check' | 'combo' | 'input';
   defaultValue?: V;
-  candidates?: {
+  candidates: {
     label: string;
     value: V;
   }[];
@@ -21,7 +22,7 @@ export type ToolSettingWidgetConfigItem<
   OptionsType extends object,
   K extends keyof OptionsType = keyof OptionsType
 > = {
-  [key in K]: ToolSettingWidgetConfigItemValue<OptionsType[key]>;
+  [key in K]: ToolSettingWidgetConfigItemValue<OptionsType[key], key>;
 };
 
 export type ToolSettingWidgetConfigItems<OptionsType extends object> =
