@@ -61,7 +61,7 @@ export class XMLFormatterProvider
             },
             {
               value: 'mini',
-              label: 'Mini',
+              label: 'minify',
             },
           ],
         },
