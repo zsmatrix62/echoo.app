@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { FormatterToolProvider } from '../types/formatter-provider';
-import xmlFormat, { XMLFormatterOptions } from 'xml-formatter';
+import type { XMLFormatterOptions } from 'xml-formatter';
+import xmlFormat from 'xml-formatter';
 
 import type {
   CommonFormatterIndention,
   CommonFormatterLineSeperator,
   ToolSettings,
+  ToolSettingWidgetConfigItems,
 } from '@echoo/types';
 
 export type ToolFormatterXMLOptionsType = {
@@ -34,6 +36,38 @@ export class XMLFormatterProvider
     key: 'xml-formatter',
     settings: XMLFormatterDefaultSettings,
   };
+
+  SettingsWidgetConfig(): ToolSettingWidgetConfigItems<ToolFormatterXMLOptionsType> {
+    return [
+      {
+        intentation: {
+          widgetType: 'combo',
+          defaultValue: '1t',
+          style: {
+            width: '80px',
+          },
+          candidates: [
+            {
+              value: '1t',
+              label: '1 Tab',
+            },
+            {
+              value: '2s',
+              label: '2 Spaces',
+            },
+            {
+              value: '4s',
+              label: '4 Spaces',
+            },
+            {
+              value: 'mini',
+              label: 'Mini',
+            },
+          ],
+        },
+      },
+    ];
+  }
 
   Format(
     code: string,

@@ -10,5 +10,6 @@
   [codeOutput$]="codeOutput$"
   [monacoEditorLang]="$any((langConfig$ | async)?.langKey ?? null)"
   [inputPlaceholder]="inputPlaceholder"
+  [configWidgetSettings]="(ToolbarOptions$ | async) ?? undefined"
   [lang]="lang$ | async"
 />

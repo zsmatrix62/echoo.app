@@ -1,4 +1,8 @@
-import { ToolSettingConfig, ToolSettings } from '@echoo/types';
+import {
+  ToolSettingConfig,
+  ToolSettings,
+  ToolSettingWidgetConfigItems,
+} from '@echoo/types';
 
 export interface FormatterToolProvider<
   OptionsType extends object,
@@ -17,4 +21,6 @@ export interface FormatterToolProvider<
   // DefaultSettingConfig is used to init settings of current formatter, will be set/override/re-used to localstorage and query prameters
   // NOTE: no need to pass to Format function each time as it's already in above stores
   DefaultSettingConfig?: ToolSettingConfig<OptionsType>;
+
+  SettingsWidgetConfig?: () => ToolSettingWidgetConfigItems<OptionsType>;
 }

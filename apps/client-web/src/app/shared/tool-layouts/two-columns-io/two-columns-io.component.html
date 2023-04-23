@@ -73,7 +73,10 @@
   </nz-col>
 
   <nz-col class="output-wrapper" [nzSpan]="14">
-    <nz-space class="output-actions" nz-row>
+    <div class="output-actions" nz-row>
+      <echoo-tool-options-toolbar
+        [settings]="configWidgetSettings"
+      ></echoo-tool-options-toolbar>
       <!-- clear action -->
       <button
         class="copy-btn"
@@ -87,7 +90,7 @@
         <span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
         <span>Copy</span>
       </button>
-    </nz-space>
+    </div>
     <nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
       <nz-alert
         class="error-alert"

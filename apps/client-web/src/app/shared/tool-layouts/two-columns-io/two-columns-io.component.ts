@@ -28,6 +28,8 @@ import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import type { FormatterAvailableLangConfigsType } from '@echoo/tools/formatter-provider';
+import { ToolOptionsToolbarComponent } from '@echoo/components/tool-options-toolbar';
+import type { ToolSettingWidgetConfigItems } from '@echoo/types';
 
 @UntilDestroy()
 @Component({
@@ -40,6 +42,7 @@ import type { FormatterAvailableLangConfigsType } from '@echoo/tools/formatter-p
     NzSelectModule,
     NzInputModule,
     NzButtonModule,
+    ToolOptionsToolbarComponent,
     NzSpaceModule,
     NzIconModule,
     NzAlertModule,
@@ -68,6 +71,8 @@ export class TwoColumnsIoComponent implements OnChanges {
   @Input() actionInputOpenFile?: ButtonClickAction;
   @Input() actionInputClear?: ButtonClickAction;
   @Input() actionInputPasteFromClipboard?: ButtonClickAction;
+
+  @Input() configWidgetSettings?: ToolSettingWidgetConfigItems<object>;
 
   @Input() monacoEditorLang:
     | FormatterAvailableLangConfigsType

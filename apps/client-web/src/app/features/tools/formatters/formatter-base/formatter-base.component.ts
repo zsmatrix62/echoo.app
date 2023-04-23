@@ -8,9 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 import type {
   FormatterAvailableLangConfigsType,
   ToolFormatterInstanceConfig,
+  ToolFormatterXMLOptionsType,
 } from '@echoo/tools/formatter-provider';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
+import type { ToolSettingWidgetConfigItems } from '@echoo/types';
 
 @Component({
   selector: 'echoo-formatter-base',
@@ -42,6 +44,10 @@ export class FormatterBaseComponent
   override inputError$ = new BehaviorSubject<string | undefined>(undefined);
 
   settings?: ToolSettingsService<string>;
+
+  ToolbarOptions$ = new BehaviorSubject<
+    ToolSettingWidgetConfigItems<ToolFormatterXMLOptionsType> | undefined
+  >(undefined);
 
   constructor() {
     super();
@@ -102,6 +108,11 @@ export class FormatterBaseComponent
   listenInputChange() {
     combineLatest([this.codeInput$, this.langConfig$]).subscribe(
       ([code, langConfig]) => {
+        if (langConfig?.formatterProvider.SettingsWidgetConfig) {
+          this.ToolbarOptions$.next(
+            langConfig.formatterProvider.SettingsWidgetConfig()
+          );
+        }
         this.inputError$.next(undefined);
         const outputCode = langConfig?.formatterProvider.Format(code ?? '', {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

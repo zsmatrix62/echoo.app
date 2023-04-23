@@ -1,39 +1,31 @@
-/**
-
-┌───────────────────────────────────────────┐                ┌───────────────────────────────────┐
-│                                           │                │                                   │
-│                                           │                │                                   │
-│                                           │                │                                   │
-│                                           │                │          Setting Config           │
-│      ┌────────────────────────────┐       │       ┌───────▶│                                   │
-│      │       Tool Settings        │       │       │        │        ┌─────────────────┐        │
-│      └────────────────────────────┘       │       │        │        │    Tool Key     │        │
-│      ┌────────────────────────────┐       │       │        │        └─────────────────┘        │
-│      │ ┌───────────────────────┐  │       │       │        └───────────────────────────────────┘
-│      │ │   Tool Setting Item   │  │       │       │
-│      │ └───────────────────────┘  │       │       │
-│      │ ┌───────────────────────┐  │       │       │
-│      │ │   Tool Setting Item   │  │       │───────┘
-│      │ └───────────────────────┘  │       │
-│      │ ┌───────────────────────┐  │       │
-│      │ │   Tool Setting Item   │  │       │
-│      │ └───────────────────────┘  │       │
-│      │ ┌───────────────────────┐  │       │
-│      │ │   Tool Setting Item   │  │       │
-│      │ └───────────────────────┘  │       │
-│      └────────────────────────────┘       │
-│                                           │
-│                                           │
-│                                           │
-│                                           │
-└───────────────────────────────────────────┘
-
- */
-
 export type ToolSettingConfig<OptionsType extends object> = {
   key: string;
   settings: ToolSettings<OptionsType>;
 };
+
+export type ToolSettingWidgetConfigItemValue<V> = {
+  label?: {
+    title: string;
+    tip?: string;
+  };
+  style?: { [klass: string]: unknown };
+  widgetType: 'radio' | 'check' | 'combo' | 'input';
+  defaultValue?: V;
+  candidates?: {
+    label: string;
+    value: V;
+  }[];
+};
+
+export type ToolSettingWidgetConfigItem<
+  OptionsType extends object,
+  K extends keyof OptionsType = keyof OptionsType
+> = {
+  [key in K]: ToolSettingWidgetConfigItemValue<OptionsType[key]>;
+};
+
+export type ToolSettingWidgetConfigItems<OptionsType extends object> =
+  ToolSettingWidgetConfigItem<Partial<OptionsType>>[];
 
 export type ToolSettings<OptionsType extends object> = {
   [K in keyof OptionsType]: ToolSettingItem<OptionsType, K>;

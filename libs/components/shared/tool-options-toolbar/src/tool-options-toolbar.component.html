@@ -1,1 +1,20 @@
-<p>tool-options-toolbar works!</p>
+<ng-container *ngIf="settings">
+  <nz-space>
+    <ng-container *ngFor="let settingValue of configItemValues">
+      <ng-container [ngSwitch]="settingValue.widgetType">
+        <ng-container *ngSwitchCase="'combo'">
+          <nz-select
+            [ngModel]="settingValue.defaultValue"
+            [ngStyle]="settingValue.style"
+          >
+            <nz-option
+              *ngFor="let can of settingValue.candidates"
+              [nzValue]="can.value"
+              [nzLabel]="can.label"
+            ></nz-option>
+          </nz-select>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </nz-space>
+</ng-container>
