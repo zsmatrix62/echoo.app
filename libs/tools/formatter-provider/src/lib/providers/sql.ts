@@ -24,8 +24,6 @@ type SqlFormatterLanguages =
 
 export type ToolFormatterSQLOptionsType = {
 	language: SqlFormatterLanguages;
-	tabWidth: number;
-	useTabs: boolean;
 	keywordCase: KeywordCase;
 };
 
@@ -34,16 +32,6 @@ export const SQLFormatterDefaultSettings: ToolSettings<ToolFormatterSQLOptionsTy
 		asLocalStorageItem: true,
 		asQueryParams: true,
 		value: 'sql',
-	},
-	tabWidth: {
-		asLocalStorageItem: true,
-		asQueryParams: true,
-		value: 1,
-	},
-	useTabs: {
-		asLocalStorageItem: true,
-		asQueryParams: true,
-		value: true,
 	},
 	keywordCase: {
 		asLocalStorageItem: true,
@@ -76,6 +64,21 @@ export class SQLFormatterProvider implements FormatterToolProvider<ToolFormatter
 					],
 				},
 			},
+			{
+				keywordCase: {
+					key: 'keywordCase',
+					widgetType: 'combo',
+					defaultValue: 'upper',
+					style: {
+						width: '100px',
+					},
+					candidates: [
+						{ value: 'upper', label: 'Upper' },
+						{ value: 'lower', label: 'Lower' },
+						{ value: 'preserve', label: 'Preserve' },
+					],
+				},
+			},
 		];
 	}
 
@@ -88,8 +91,6 @@ export class SQLFormatterProvider implements FormatterToolProvider<ToolFormatter
 	): string {
 		const settings = options.settings ?? this.DefaultSettingConfig?.settings;
 		const formatOptions: Partial<FormatOptions> = {
-			useTabs: settings.useTabs.value,
-			tabWidth: settings.tabWidth.value,
 			keywordCase: settings.keywordCase.value,
 		};
 
