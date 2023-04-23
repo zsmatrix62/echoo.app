@@ -1,23 +1,23 @@
 <ng-container *ngIf="defaultSettings">
-  <form [formGroup]="form">
-    <nz-space>
-      <ng-container *ngFor="let settingValue of configItemValues">
-        <ng-container [ngSwitch]="settingValue.widgetType">
-          <ng-container *ngSwitchCase="'combo'">
-            <nz-select
-              [ngModel]="settingValue.defaultValue"
-              [ngStyle]="settingValue.style"
-              [formControlName]="settingValue.key"
-            >
-              <nz-option
-                *ngFor="let can of settingValue.candidates"
-                [nzValue]="can.value"
-                [nzLabel]="can.label"
-              ></nz-option>
-            </nz-select>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </nz-space>
-  </form>
+	<form [formGroup]="form">
+		<nz-space>
+			<ng-container *ngFor="let settingValue of configItemValues">
+				<nz-form-item *nzSpaceItem>
+					<nz-form-label *ngIf="settingValue.label?.title"> {{ settingValue.label?.title }} </nz-form-label>
+					<ng-container [ngSwitch]="settingValue.widgetType">
+						<nz-form-control>
+							<ng-container *ngSwitchCase="'combo'">
+								<nz-select [ngStyle]="settingValue.style" [formControlName]="settingValue.key">
+									<nz-option
+										*ngFor="let can of settingValue.candidates"
+										[nzValue]="can.value"
+										[nzLabel]="can.label"></nz-option>
+								</nz-select>
+							</ng-container>
+						</nz-form-control>
+					</ng-container>
+				</nz-form-item>
+			</ng-container>
+		</nz-space>
+	</form>
 </ng-container>

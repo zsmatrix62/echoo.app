@@ -45,12 +45,7 @@
 		</nz-row>
 
 		<nz-row class="input-content-wrapper" #inputTextArea [fitHeight]="true" fitterElement>
-			<textarea
-				class="input-textarea"
-				[ngModel]="codeInput$ | async"
-				[placeholder]="inputPlaceholder"
-				(ngModelChange)="this.codeInput$.next($event)"
-				nz-input></textarea>
+			<textarea class="input-textarea" [ngModel]="codeInputModel" [placeholder]="inputPlaceholder" nz-input></textarea>
 		</nz-row>
 	</nz-col>
 
@@ -58,6 +53,7 @@
 		<div class="output-actions" nz-row>
 			<echoo-tool-options-toolbar
 				[defaultSettings]="configWidgetSettings"
+				[actualSettingValues]="storedSettings"
 				(settingsChange)="onSettingsChange($event)"></echoo-tool-options-toolbar>
 			<!-- clear action -->
 			<button

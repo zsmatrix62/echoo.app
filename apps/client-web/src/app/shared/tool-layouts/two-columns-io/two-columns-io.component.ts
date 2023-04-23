@@ -1,4 +1,4 @@
-import type { ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import type { AfterViewChecked, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -53,10 +53,13 @@ import { ToolSettingsService } from '../../../core/services/tool-settings.servic
 	styleUrls: ['./two-columns-io.component.scss'],
 	providers: [WindowEventsService, NzMessageService, NzDrawerService],
 })
-export class TwoColumnsIoComponent implements OnChanges {
+export class TwoColumnsIoComponent implements OnChanges, AfterViewChecked {
 	@ViewChild('fileInputRef') fileInputRef!: ElementRef<HTMLInputElement>;
 
 	@Input() inputPlaceholder = '';
+
+	CodeInput?: string; // only for re-trigger codeInput$ if settings changes
+	codeInputModel?: string;
 
 	@Input() codeInput$!: BehaviorSubject<string | undefined>;
 	@Input() codeOutput$!: BehaviorSubject<string | undefined>;
@@ -72,17 +75,28 @@ export class TwoColumnsIoComponent implements OnChanges {
 	@Input() monacoEditorLang: FormatterAvailableLangConfigsType | null | undefined = undefined;
 
 	messageService = inject(NzMessageService);
+
 	settingService = inject(ToolSettingsService<string>, {
 		skipSelf: true,
 	});
 
 	editorOptions = MonacoEditorOptions.ReadOnly('json');
 
+	get storedSettings() {
+		return this.settingService.getAll();
+	}
+
 	ngOnChanges(changes: SimpleChanges): void {
 		const langChange = changes['monacoEditorLang'];
 		if (langChange && langChange.currentValue) {
 			this.editorOptions = MonacoEditorOptions.ReadOnly(langChange.currentValue);
 		}
+	}
+
+	ngAfterViewChecked(): void {
+		this.codeInput$.subscribe((code) => {
+			this.codeInputModel = code;
+		});
 	}
 
 	onCopied() {
@@ -95,5 +109,6 @@ export class TwoColumnsIoComponent implements OnChanges {
 			// @ts-ignore
 			this.settingService.set(key, values[key]);
 		});
+		this.codeInput$.next(this.codeInputModel);
 	}
 }
