@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Options as PrettierOptions } from 'prettier';
+import type { Options as PrettierOptions } from 'prettier';
 import { randCodeSnippet } from '@ngneat/falso';
 import * as prettier from 'prettier/standalone';
 import * as htmlParser from 'prettier/parser-html';
@@ -11,83 +11,65 @@ import * as typescriptParser from 'prettier/parser-typescript';
 import * as xmlParser from '@prettier/plugin-xml';
 // @ts-ignore
 import * as nginxParser from 'prettier-plugin-nginx';
-import { ToolSettings } from '@echoo/types';
-import { FormatterToolProvider } from '../types/formatter-provider';
-import { FormatterAvailableLangConfigsType } from '../types/formatters';
+import type { ToolSettings } from '@echoo/types';
+import type { FormatterToolProvider } from '../types/formatter-provider';
+import type { FormatterAvailableLangConfigsType } from '../types/formatters';
 
-type Parsers =
-  | 'html'
-  | 'babel'
-  | 'markdown'
-  | 'yaml'
-  | 'typescript'
-  | 'sql'
-  | 'nginx';
+type Parsers = 'html' | 'babel' | 'markdown' | 'yaml' | 'typescript' | 'sql' | 'nginx';
 
 export type ToolFormatterPrettierOptionsType = Partial<PrettierOptions>;
 
-export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPrettierOptionsType> =
-  {};
+export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPrettierOptionsType> = {};
 
-export class PrettierFormatterProvider
-  implements FormatterToolProvider<ToolFormatterPrettierOptionsType>
-{
-  parser: Parsers;
-  lang: FormatterAvailableLangConfigsType;
+export class PrettierFormatterProvider implements FormatterToolProvider<ToolFormatterPrettierOptionsType> {
+	parser: Parsers;
+	lang: FormatterAvailableLangConfigsType;
 
-  constructor(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
-    this.parser = parser;
-    this.lang = lang;
-  }
+	constructor(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
+		this.parser = parser;
+		this.lang = lang;
+	}
 
-  static WithParser(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
-    return new PrettierFormatterProvider(parser, lang);
-  }
+	static WithParser(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
+		return new PrettierFormatterProvider(parser, lang);
+	}
 
-  Format(
-    code: string,
-    options: {
-      settings?: ToolSettings<ToolFormatterPrettierOptionsType>;
-      errorCb?: ((err?: Error | undefined) => void) | undefined;
-    }
-  ): string {
-    let outputCode = code;
+	Format(
+		code: string,
+		options: {
+			settings?: ToolSettings<ToolFormatterPrettierOptionsType>;
+			errorCb?: ((err?: Error | undefined) => void) | undefined;
+		},
+	): string {
+		let outputCode = code;
 
-    try {
-      outputCode = prettier.format(code, {
-        parser: this.parser,
-        plugins: [
-          htmlParser,
-          babelParser,
-          markdownParser,
-          yamlParser,
-          typescriptParser,
-          xmlParser,
-          nginxParser,
-        ],
-        ...options,
-      });
-    } catch (e) {
-      options.errorCb?.(e as Error);
-    }
-    return outputCode;
-  }
+		try {
+			outputCode = prettier.format(code, {
+				parser: this.parser,
+				plugins: [htmlParser, babelParser, markdownParser, yamlParser, typescriptParser, xmlParser, nginxParser],
+				...options,
+			});
+		} catch (e) {
+			options.errorCb?.(e as Error);
+		}
+		return outputCode;
+	}
 
-  ProvideSampleCode(): string {
-    if (this.lang === 'html') {
-      return '<html><body><h1>Hello World!</h1></body></html>';
-    }
+	ProvideSampleCode(): string {
+		if (this.lang === 'html') {
+			return '<html><body><h1>Hello World!</h1></body></html>';
+		}
 
-    if (this.lang == 'javascript') {
-      return randCodeSnippet('javascript').join('\n');
-    }
+		if (this.lang == 'javascript') {
+			return randCodeSnippet('javascript').join('\n');
+		}
 
-    if (this.lang == 'typescript') {
-      return `var carInsuranceCompany = {	name: "Geico",market_capital: "$34.9 billion", }; var carInsuranceCompanyObj = JSON.stringify(obj); document.getElementById("insurance").innerHTML = carInsuranceCompanyObj;`;
-    }
+		if (this.lang == 'typescript') {
+			return `var carInsuranceCompany = {	name: "Geico",market_capital: "$34.9 billion", }; var carInsuranceCompanyObj = JSON.stringify(obj); document.getElementById("insurance").innerHTML = carInsuranceCompanyObj;`;
+		}
 
-    if (this.lang == 'markdown') {
-      return `# MarkDown Sample
+		if (this.lang == 'markdown') {
+			return `# MarkDown Sample
 ============================
 
    Actor|Movie|Insurance
@@ -95,16 +77,16 @@ export class PrettierFormatterProvider
    Tom Cruise|MI5|Geico
   Arnold|Ture Lies|AllState
 `;
-    }
+		}
 
-    if (this.lang == 'yaml') {
-      return `CarInsurance:
+		if (this.lang == 'yaml') {
+			return `CarInsurance:
         - Company: {name: State Farm, foundedin: 1922, website: www.statefarm.com }
         - Company: {name: Geico, foundedin: 1936, website: www.geico.com }
 `;
-    }
-    if (this.lang == 'nginx') {
-      return `server {
+		}
+		if (this.lang == 'nginx') {
+			return `server {
 # server definition
 listen 443 ssl; listen [::]:443 ssl;
 server_name example.com;
@@ -114,8 +96,8 @@ proxy_set_header X-Forwarded-Proto $scheme;
 proxy_read_timeout 1000; }
 # end server definition
 }`;
-    }
+		}
 
-    return '(No sample code available)';
-  }
+		return '(No sample code available)';
+	}
 }

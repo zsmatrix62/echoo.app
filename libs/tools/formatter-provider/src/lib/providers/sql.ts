@@ -31,7 +31,7 @@ export const SQLFormatterDefaultSettings: ToolSettings<ToolFormatterSQLOptionsTy
 	language: {
 		asLocalStorageItem: true,
 		asQueryParams: true,
-		value: 'sql',
+		value: 'mysql',
 	},
 	keywordCase: {
 		asLocalStorageItem: true,
@@ -52,7 +52,6 @@ export class SQLFormatterProvider implements FormatterToolProvider<ToolFormatter
 				language: {
 					key: 'language',
 					widgetType: 'combo',
-					defaultValue: 'mysql',
 					style: {
 						width: '100px',
 					},
