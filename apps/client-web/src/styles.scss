@@ -1,12 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '../../../node_modules/ng-zorro-antd/ng-zorro-antd.compact.min.css';
+@import '../../../node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css';
 
 echoo-root {
 	display: block;
 	height: 100%;
 }
 
+button,
+nz-select-top-control,
 textarea {
-	border-radius: 4px;
+	border-radius: 6px !important;
 }

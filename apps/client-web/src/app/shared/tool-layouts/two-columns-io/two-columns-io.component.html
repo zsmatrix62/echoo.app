@@ -7,7 +7,7 @@
 					class="action"
 					(click)="actionInputSample()"
 					nz-button
-					nzSize="large"
+					nzSize="default"
 					nz-tooltip
 					nzTooltipTitle="Sample Data">
 					<span nz-icon nzType="thunder" nzTheme="outline"></span>
@@ -16,7 +16,7 @@
 
 			<!-- open file action -->
 			<ng-container *ngIf="actionInputOpenFile">
-				<button class="action" (click)="actionInputOpenFile()" nz-button nzSize="large">
+				<button class="action" (click)="actionInputOpenFile()" nz-button nzSize="default">
 					<span nz-icon nzType="open-file-folder" nzTheme="outline"></span>
 					<span>File</span>
 				</button>
@@ -24,7 +24,7 @@
 
 			<!-- paste action -->
 			<ng-container *ngIf="actionInputPasteFromClipboard">
-				<button class="action" (click)="actionInputPasteFromClipboard()" nz-button nzSize="large">
+				<button class="action" (click)="actionInputPasteFromClipboard()" nz-button nzSize="default">
 					<span nz-icon nzType="paste-go" nzTheme="outline"></span>
 					<span>Paste</span>
 				</button>
@@ -37,7 +37,7 @@
 					[disabled]="!(codeInput$ | async)"
 					(click)="actionInputClear()"
 					nz-button
-					nzSize="large">
+					nzSize="default">
 					<span nz-icon nzType="broom" nzTheme="outline"></span>
 					<span>Clear</span>
 				</button>
@@ -68,7 +68,7 @@
 				(cbOnSuccess)="onCopied()"
 				ngxClipboard
 				nz-button
-				nzSize="large">
+				nzSize="default">
 				<span nz-icon nzType="clipboard-copy" nzTheme="outline"></span>
 				<span>Copy</span>
 			</button>

@@ -9,39 +9,39 @@ import type { AppConfigs } from './core/config';
 import { APP_CONFIGS } from './core/config';
 
 const ngZorroConfig: NzConfig = {
-  theme: {
-    primaryColor: '#F5222D',
-  },
+	theme: {
+		primaryColor: '#3e6cf1',
+	},
 };
 
 const appProperties: AppProperties = {
-  github: {
-    username: 'zsmatrix62',
-    repo: 'echoo.app',
-    branch: 'v1',
-  },
-  appVersion: '1.0.0',
+	github: {
+		username: 'zsmatrix62',
+		repo: 'echoo.app',
+		branch: 'v1',
+	},
+	appVersion: '1.0.0',
 };
 
 const appConfigs: AppConfigs = {
-  ToolsSettingsLocalStoreKey: 'echoo.app.tools.settings',
+	ToolsSettingsLocalStoreKey: 'echoo.app.tools.settings',
 };
 
 const zorroProviders = [{ provide: NZ_CONFIG, useValue: ngZorroConfig }];
 const echooProviders = [
-  { provide: APP_PROPERTIES, useValue: appProperties },
-  { provide: APP_CONFIGS, useValue: appConfigs },
+	{ provide: APP_PROPERTIES, useValue: appProperties },
+	{ provide: APP_CONFIGS, useValue: appConfigs },
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule],
+	declarations: [],
+	imports: [CommonModule],
 })
 export class GlobalConfigModule {
-  static forRoot(): ModuleWithProviders<GlobalConfigModule> {
-    return {
-      ngModule: GlobalConfigModule,
-      providers: [...zorroProviders, ...echooProviders],
-    };
-  }
+	static forRoot(): ModuleWithProviders<GlobalConfigModule> {
+		return {
+			ngModule: GlobalConfigModule,
+			providers: [...zorroProviders, ...echooProviders],
+		};
+	}
 }

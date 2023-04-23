@@ -1,6 +1,6 @@
 <ng-container *ngIf="defaultSettings">
 	<form [formGroup]="form">
-		<nz-space>
+		<nz-space nzAlign="center">
 			<ng-container *ngFor="let settingValue of configItemValues">
 				<nz-form-item *nzSpaceItem>
 					<nz-form-label *ngIf="settingValue.label?.title"> {{ settingValue.label?.title }} </nz-form-label>
