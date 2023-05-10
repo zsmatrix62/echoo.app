@@ -1,4 +1,4 @@
-import type { AfterViewChecked, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import type { AfterViewChecked, ElementRef, OnChanges, SimpleChanges, TemplateRef } from '@angular/core';
 import { ViewChild } from '@angular/core';
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { FormsModule } from '@angular/forms';
+import { NzCodeEditorModule } from 'ng-zorro-antd/code-editor';
 import { FitterElementDirective, SyncStyleWithElementDirective } from '@echoo/directives/fitter-element';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import type { BehaviorSubject } from 'rxjs';
@@ -18,7 +19,7 @@ import { NzMessageService, NzMessageServiceModule } from 'ng-zorro-antd/message'
 import { NzDrawerServiceModule, NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { WindowEventsService } from '../../../core/services/window-events.service';
-import { MonacoEditorOptions } from '../../../data/monacoEditorOptions';
+import { MonacoEditorOptionsZorror } from '../../../data/monacoEditorOptions';
 import type { ButtonClickAction } from '../../../data/types/actions';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import type { FormatterAvailableLangConfigsType } from '@echoo/tools/formatter-provider';
@@ -34,6 +35,7 @@ import { ToolSettingsService } from '../../../core/services/tool-settings.servic
 		CommonModule,
 		FormsModule,
 		NzGridModule,
+		NzCodeEditorModule,
 		NzSelectModule,
 		NzInputModule,
 		NzButtonModule,
@@ -74,13 +76,18 @@ export class TwoColumnsIoComponent implements OnChanges, AfterViewChecked {
 
 	@Input() monacoEditorLang: FormatterAvailableLangConfigsType | null | undefined = undefined;
 
+	@Input() LeftTopExtras?: TemplateRef<unknown>;
+	@Input() LeftBottomExtras?: TemplateRef<unknown>;
+	@Input() RightTopExtras?: TemplateRef<unknown>;
+	@Input() RightBottomExtras?: TemplateRef<unknown>;
+
 	messageService = inject(NzMessageService);
 
 	settingService = inject(ToolSettingsService<string>, {
 		skipSelf: true,
 	});
 
-	editorOptions = MonacoEditorOptions.ReadOnly('json');
+	editorOptions = MonacoEditorOptionsZorror.ReadOnly('json');
 
 	get storedSettings() {
 		return this.settingService.getAll();
@@ -89,7 +96,7 @@ export class TwoColumnsIoComponent implements OnChanges, AfterViewChecked {
 	ngOnChanges(changes: SimpleChanges): void {
 		const langChange = changes['monacoEditorLang'];
 		if (langChange && langChange.currentValue) {
-			this.editorOptions = MonacoEditorOptions.ReadOnly(langChange.currentValue);
+			this.editorOptions = MonacoEditorOptionsZorror.ReadOnly(langChange.currentValue);
 		}
 	}
 

@@ -1,7 +1,7 @@
-import { ToolSettingWidgetConfigItems, ToolSettings } from '@echoo/types';
+import type { ToolSettingWidgetConfigItems, ToolSettings } from '@echoo/types';
 import type { FormatOptions, KeywordCase } from 'sql-formatter';
 import { format } from 'sql-formatter';
-import { FormatterToolProvider } from '../types/formatter-provider';
+import type { FormatterToolProvider } from '../types/formatter-provider';
 
 type SqlFormatterLanguages =
 	| 'sql'

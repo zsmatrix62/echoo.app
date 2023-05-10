@@ -17,6 +17,11 @@
 				"polyfills": ["zone.js"],
 				"tsConfig": "apps/client-web/tsconfig.app.json",
 				"assets": [
+					{
+						"glob": "**/*",
+						"input": "./node_modules/monaco-editor/min/vs",
+						"output": "/assets/vs/"
+					},
 					"apps/client-web/src/favicon.ico",
 					"apps/client-web/src/_redirects",
 					"apps/client-web/src/assets",

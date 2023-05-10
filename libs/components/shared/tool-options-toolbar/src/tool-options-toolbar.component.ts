@@ -69,7 +69,7 @@ export class ToolOptionsToolbarComponent implements OnInit {
 			// @ts-ignore - set defualt value
 			formCtrl.setValue(value);
 			this.form.addControl(settingKey, formCtrl, { emitEvent: false });
-			console.log(`init settings widget value: settingKey: ${settingKey}, value: ${value}`);
+			// console.log(`init settings widget value: settingKey: ${settingKey}, value: ${value}`);
 		});
 	}
 

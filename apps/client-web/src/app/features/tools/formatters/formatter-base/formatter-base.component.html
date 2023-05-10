@@ -1,15 +1,14 @@
 <input #fileInputRef type="file" style="display: none" />
 
 <echoo-two-columns-io
-  [actionInputSample]="onSampleClicked"
-  [actionInputClear]="onClearClicked"
-  [actionInputPasteFromClipboard]="onPasteFromClipboardClicked"
-  [actionInputOpenFile]="onOpenFileClicked"
-  [codeInput$]="codeInput$"
-  [inputError$]="inputError$"
-  [codeOutput$]="codeOutput$"
-  [monacoEditorLang]="$any((langConfig$ | async)?.langKey ?? null)"
-  [inputPlaceholder]="inputPlaceholder"
-  [configWidgetSettings]="(ToolbarOptions$ | async) ?? undefined"
-  [lang]="lang$ | async"
-/>
+	[actionInputSample]="onSampleClicked"
+	[actionInputClear]="onClearClicked"
+	[actionInputPasteFromClipboard]="onPasteFromClipboardClicked"
+	[actionInputOpenFile]="onOpenFileClicked"
+	[codeInput$]="codeInput$"
+	[inputError$]="inputError$"
+	[codeOutput$]="codeOutput$"
+	[monacoEditorLang]="$any((langConfig$ | async)?.langKey ?? null)"
+	[inputPlaceholder]="inputPlaceholder"
+	[configWidgetSettings]="(ToolbarOptions$ | async) ?? undefined"
+	[lang]="lang$ | async" />

@@ -2,11 +2,14 @@ import type { EchooIconNames } from '@echoo/components/echoo-icons';
 import type { FormatterToolProvider } from './formatter-provider';
 
 export type FormatterAvailableLangConfigsType =
+	| 'json'
 	| 'html'
 	| 'xml'
 	| 'javascript'
 	| 'typescript'
+	| 'css'
 	| 'markdown'
+	| 'rust'
 	| 'yaml'
 	| 'sql'
 	| 'nginx';

@@ -13,11 +13,13 @@ import type {
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ToolSettingsService } from '../../../../core/services/tool-settings.service';
 import type { ToolSettingWidgetConfigItems } from '@echoo/types';
+import { EchooIconsModule } from '@echoo/components/echoo-icons';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
 	selector: 'echoo-formatter-base',
 	standalone: true,
-	imports: [CommonModule, TwoColumnsIoComponent, NzButtonModule],
+	imports: [CommonModule, TwoColumnsIoComponent, NzButtonModule, NzIconModule, EchooIconsModule],
 	templateUrl: './formatter-base.component.html',
 	styleUrls: ['./formatter-base.component.scss'],
 	providers: [ToolSettingsService],

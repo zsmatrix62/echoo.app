@@ -1,4 +1,5 @@
 <nz-row style="height: 100%">
+	<!-- NOTE: Input Area -->
 	<nz-col class="input-wrapper" nzSpan="10">
 		<nz-row class="input-actions">
 			<!-- sample action -->
@@ -45,15 +46,26 @@
 		</nz-row>
 
 		<nz-row class="input-content-wrapper" #inputTextArea [fitHeight]="true" fitterElement>
+			<ng-container *ngIf="LeftTopExtras">
+				<div class="extras-wrapper top">
+					<ng-container [ngTemplateOutlet]="LeftTopExtras"></ng-container>
+				</div>
+			</ng-container>
 			<textarea
 				class="input-textarea"
 				[ngModel]="codeInputModel"
 				[placeholder]="inputPlaceholder"
 				(ngModelChange)="codeInput$.next($event)"
 				nz-input></textarea>
+			<ng-container *ngIf="LeftBottomExtras">
+				<div class="extras-wrapper bottom">
+					<ng-container [ngTemplateOutlet]="LeftBottomExtras"></ng-container>
+				</div>
+			</ng-container>
 		</nz-row>
 	</nz-col>
 
+	<!-- NOTE: Output Area -->
 	<nz-col class="output-wrapper" [nzSpan]="14">
 		<div class="output-actions" nz-row>
 			<echoo-tool-options-toolbar
@@ -73,18 +85,31 @@
 				<span>Copy</span>
 			</button>
 		</div>
+
 		<nz-row class="output-editor-wrapper" [syncHeightWith]="inputTextArea">
+			<ng-container *ngIf="RightTopExtras">
+				<div class="extras-wrapper top">
+					<ng-container [ngTemplateOutlet]="RightTopExtras"></ng-container>
+				</div>
+			</ng-container>
+
 			<nz-alert
 				class="error-alert"
 				*ngIf="inputError$ | async"
 				[nzMessage]="(inputError$ | async) ?? ''"
 				nzType="error"></nz-alert>
 
-			<ngx-monaco-editor
+			<nz-code-editor
 				class="editor"
 				*ngIf="!(inputError$ | async)"
-				[options]="editorOptions"
-				[ngModel]="codeOutput$ | async"></ngx-monaco-editor>
+				[ngModel]="codeOutput$ | async"
+				[nzEditorOption]="editorOptions"></nz-code-editor>
+
+			<ng-container *ngIf="RightBottomExtras">
+				<div class="extras-wrapper bottom">
+					<ng-container [ngTemplateOutlet]="RightBottomExtras"></ng-container>
+				</div>
+			</ng-container>
 		</nz-row>
 	</nz-col>
 </nz-row>

@@ -1,37 +1,172 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { Options as PrettierOptions } from 'prettier';
-import { randCodeSnippet } from '@ngneat/falso';
 import * as prettier from 'prettier/standalone';
 import * as htmlParser from 'prettier/parser-html';
 import * as babelParser from 'prettier/parser-babel';
 import * as markdownParser from 'prettier/parser-markdown';
 import * as yamlParser from 'prettier/parser-yaml';
+import * as postcssParser from 'prettier/parser-postcss';
 import * as typescriptParser from 'prettier/parser-typescript';
+import * as rustParser from 'prettier-plugin-rust';
 // @ts-ignore
 import * as xmlParser from '@prettier/plugin-xml';
 // @ts-ignore
 import * as nginxParser from 'prettier-plugin-nginx';
-import type { ToolSettings } from '@echoo/types';
+import type {
+	CommonFormatterIndention,
+	CommonFormatterLineSeperator,
+	ToolSettings,
+	ToolSettingWidgetConfigItems,
+} from '@echoo/types';
 import type { FormatterToolProvider } from '../types/formatter-provider';
 import type { FormatterAvailableLangConfigsType } from '../types/formatters';
+import { SampleCodes } from '../sampleCodes';
 
-type Parsers = 'html' | 'babel' | 'markdown' | 'yaml' | 'typescript' | 'sql' | 'nginx';
+const prettierPlugins = [
+	htmlParser,
+	babelParser,
+	markdownParser,
+	yamlParser,
+	typescriptParser,
+	xmlParser,
+	nginxParser,
+	postcssParser,
+	rustParser,
+];
 
-export type ToolFormatterPrettierOptionsType = Partial<PrettierOptions>;
+type Parsers = 'json' | 'html' | 'babel' | 'markdown' | 'yaml' | 'typescript' | 'sql' | 'nginx' | 'css' | 'jinx-rust';
 
-export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPrettierOptionsType> = {};
+export type ToolFormatterPrettierOptionsType = {
+	indentation?: CommonFormatterIndention;
+	endOfLine?: CommonFormatterLineSeperator;
+	bracketSpacing?: boolean;
+};
+
+export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPrettierOptionsType> = {
+	indentation: {
+		asQueryParams: true,
+		asLocalStorageItem: true,
+		value: '1t',
+	},
+	endOfLine: {
+		asQueryParams: true,
+		asLocalStorageItem: true,
+		value: '\r\n',
+	},
+};
 
 export class PrettierFormatterProvider implements FormatterToolProvider<ToolFormatterPrettierOptionsType> {
 	parser: Parsers;
 	lang: FormatterAvailableLangConfigsType;
 
-	constructor(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
-		this.parser = parser;
-		this.lang = lang;
-	}
+	DefaultSettingConfig = {
+		key: 'xxx-formatter',
+		settings: ToolFormatterPrettierDefaultSettings,
+	};
 
 	static WithParser(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
 		return new PrettierFormatterProvider(parser, lang);
+	}
+
+	SettingsWidgetConfig(): ToolSettingWidgetConfigItems<ToolFormatterPrettierOptionsType> {
+		const languageConfig: ToolSettingWidgetConfigItems<ToolFormatterPrettierOptionsType> = [];
+
+		if (['typescript', 'javascript'].includes(this.lang)) {
+			languageConfig.push({
+				bracketSpacing: {
+					key: 'bracketSpacing',
+					widgetType: 'combo',
+					defaultValue: true,
+					style: {
+						width: '175px',
+					},
+					candidates: [
+						{
+							value: true,
+							label: 'Bracket Space - Yes',
+						},
+						{
+							value: false,
+							label: 'Bracket Space - No',
+						},
+					],
+				},
+			});
+		}
+
+		const sharedConfigs = [
+			{
+				indentation: {
+					key: 'indentation',
+					widgetType: 'combo',
+					defaultValue: '1t',
+					style: {
+						width: '100px',
+					},
+					candidates: [
+						{
+							value: '1t',
+							label: '1 Tab',
+						},
+						{
+							value: '2s',
+							label: '2 Spaces',
+						},
+						{
+							value: '4s',
+							label: '4 Spaces',
+						},
+					],
+				},
+				endOfLine: {
+					key: 'endOfLine',
+					widgetType: 'combo',
+					defaultValue: '\r',
+					style: {
+						width: '80px',
+					},
+					candidates: [
+						{
+							value: '\r\n',
+							label: 'CRLF',
+						},
+						{
+							value: '\r',
+							label: 'CR',
+						},
+						{
+							value: '\n',
+							label: 'LF',
+						},
+					],
+				},
+			},
+		];
+
+		// use shared config to updated language config if it has the same key
+		// otherwise, add it to the language config
+
+		const sharedConfigKeys = sharedConfigs.map((config) => Object.keys(config)[0]);
+		const languageConfigKeys = languageConfig.map((config) => Object.keys(config)[0]);
+
+		sharedConfigKeys.forEach((configKey, idx) => {
+			if (!languageConfigKeys.includes(configKey)) {
+				// @ts-ignore
+				languageConfig.push(sharedConfigs[idx]);
+			}
+		});
+
+		return languageConfig;
+	}
+
+	constructor(parser: Parsers, lang: FormatterAvailableLangConfigsType) {
+		this.parser = parser;
+		this.lang = lang;
+
+		this.DefaultSettingConfig = {
+			key: `${lang}-formatter`,
+			settings: ToolFormatterPrettierDefaultSettings,
+		};
 	}
 
 	Format(
@@ -43,11 +178,55 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 	): string {
 		let outputCode = code;
 
+		const prettierOptions: PrettierOptions = {};
+
+		if (!options.settings) {
+			options.settings = this.DefaultSettingConfig.settings;
+		}
+
+		// converting settings to prettier options
+		if (options.settings) {
+			const indentation = options.settings.indentation?.value;
+			const endOfLine = options.settings.endOfLine?.value;
+			const bracketSpacing = options.settings.bracketSpacing?.value;
+
+			switch (indentation) {
+				case '1t':
+					prettierOptions.useTabs = true;
+					prettierOptions.tabWidth = 1;
+					break;
+				case '2s':
+					prettierOptions.useTabs = false;
+					prettierOptions.tabWidth = 2;
+					break;
+				case '4s':
+					prettierOptions.useTabs = false;
+					prettierOptions.tabWidth = 4;
+					break;
+			}
+
+			switch (endOfLine) {
+				case '\r\n':
+					prettierOptions.endOfLine = 'crlf';
+					break;
+				case '\r':
+					prettierOptions.endOfLine = 'cr';
+					break;
+				case '\n':
+					prettierOptions.endOfLine = 'lf';
+					break;
+				default:
+					prettierOptions.endOfLine = 'auto';
+			}
+
+			prettierOptions.bracketSpacing = !bracketSpacing;
+		}
+
 		try {
 			outputCode = prettier.format(code, {
 				parser: this.parser,
-				plugins: [htmlParser, babelParser, markdownParser, yamlParser, typescriptParser, xmlParser, nginxParser],
-				...options,
+				plugins: prettierPlugins,
+				...prettierOptions,
 			});
 		} catch (e) {
 			options.errorCb?.(e as Error);
@@ -56,48 +235,6 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 	}
 
 	ProvideSampleCode(): string {
-		if (this.lang === 'html') {
-			return '<html><body><h1>Hello World!</h1></body></html>';
-		}
-
-		if (this.lang == 'javascript') {
-			return randCodeSnippet('javascript').join('\n');
-		}
-
-		if (this.lang == 'typescript') {
-			return `var carInsuranceCompany = {	name: "Geico",market_capital: "$34.9 billion", }; var carInsuranceCompanyObj = JSON.stringify(obj); document.getElementById("insurance").innerHTML = carInsuranceCompanyObj;`;
-		}
-
-		if (this.lang == 'markdown') {
-			return `# MarkDown Sample
-============================
-
-   Actor|Movie|Insurance
-   --|:--:|--:
-   Tom Cruise|MI5|Geico
-  Arnold|Ture Lies|AllState
-`;
-		}
-
-		if (this.lang == 'yaml') {
-			return `CarInsurance:
-        - Company: {name: State Farm, foundedin: 1922, website: www.statefarm.com }
-        - Company: {name: Geico, foundedin: 1936, website: www.geico.com }
-`;
-		}
-		if (this.lang == 'nginx') {
-			return `server {
-# server definition
-listen 443 ssl; listen [::]:443 ssl;
-server_name example.com;
-location / { proxy_pass http://proxy; proxy_set_header Host $http_host;
-proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_read_timeout 1000; }
-# end server definition
-}`;
-		}
-
-		return '(No sample code available)';
+		return SampleCodes(this.lang);
 	}
 }
