@@ -75,19 +75,23 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 			languageConfig.push({
 				bracketSpacing: {
 					key: 'bracketSpacing',
+					label: {
+						title: 'Bracket Spacing',
+					},
 					widgetType: 'combo',
 					defaultValue: true,
 					style: {
-						width: '175px',
+						width: '65px',
+						fontSize: '12px',
 					},
 					candidates: [
 						{
 							value: true,
-							label: 'Bracket Space - Yes',
+							label: 'Yes',
 						},
 						{
 							value: false,
-							label: 'Bracket Space - No',
+							label: 'No',
 						},
 					],
 				},
@@ -101,7 +105,7 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 					widgetType: 'combo',
 					defaultValue: '1t',
 					style: {
-						width: '100px',
+						width: '110x',
 					},
 					candidates: [
 						{
@@ -132,7 +136,7 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 					widgetType: 'combo',
 					defaultValue: '1t',
 					style: {
-						width: '100px',
+						width: '110x',
 					},
 					candidates: [
 						{
