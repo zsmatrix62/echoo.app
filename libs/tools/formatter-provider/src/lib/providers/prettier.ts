@@ -51,7 +51,7 @@ export const ToolFormatterPrettierDefaultSettings: ToolSettings<ToolFormatterPre
 	endOfLine: {
 		asQueryParams: true,
 		asLocalStorageItem: true,
-		value: '\r\n',
+		value: '\n',
 	},
 };
 
@@ -154,7 +154,7 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 				endOfLine: {
 					key: 'endOfLine',
 					widgetType: 'combo',
-					defaultValue: '\r',
+					defaultValue: '\n',
 					style: {
 						width: '80px',
 					},

@@ -24,7 +24,7 @@ export const XMLFormatterDefaultSettings: ToolSettings<ToolFormatterXMLOptionsTy
 	lineSeperator: {
 		asQueryParams: true,
 		asLocalStorageItem: true,
-		value: '\r\n',
+		value: '\n',
 	},
 };
 
@@ -66,7 +66,7 @@ export class XMLFormatterProvider implements FormatterToolProvider<ToolFormatter
 				lineSeperator: {
 					key: 'lineSeperator',
 					widgetType: 'combo',
-					defaultValue: '\r',
+					defaultValue: '\n',
 					style: {
 						width: '80px',
 					},
