@@ -94,6 +94,37 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 			});
 		}
 
+		if (this.lang == 'json') {
+			languageConfig.push({
+				indentation: {
+					key: 'indentation',
+					widgetType: 'combo',
+					defaultValue: '1t',
+					style: {
+						width: '100px',
+					},
+					candidates: [
+						{
+							value: '1t',
+							label: '1 Tab',
+						},
+						{
+							value: '2s',
+							label: '2 Spaces',
+						},
+						{
+							value: '4s',
+							label: '4 Spaces',
+						},
+						{
+							value: 'mini',
+							label: 'minify',
+						},
+					],
+				},
+			});
+		}
+
 		const sharedConfigs = [
 			{
 				indentation: {
@@ -118,6 +149,8 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 						},
 					],
 				},
+			},
+			{
 				endOfLine: {
 					key: 'endOfLine',
 					widgetType: 'combo',
@@ -203,6 +236,15 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 					prettierOptions.useTabs = false;
 					prettierOptions.tabWidth = 4;
 					break;
+				default:
+					if (this.lang == 'json') {
+						prettierOptions.useTabs = false;
+						prettierOptions.tabWidth = 4;
+						if (code) {
+							code = JSON.stringify(JSON.parse(code), null, '');
+							return code;
+						}
+					}
 			}
 
 			switch (endOfLine) {
