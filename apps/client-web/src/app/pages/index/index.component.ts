@@ -9,26 +9,32 @@ import { ToolsNavSiderComponent } from '../../features/tools-nav-sider/tools-nav
 import { NavLogoComponent } from '../../features/nav-logo/nav-logo.component';
 import { APP_PROPERTIES } from '../../core/properties';
 import { NavExtraActionsComponent } from '../../features/nav-extra-actions/nav-extra-actions.component';
+import { NavToolInfoBrandComponent } from '../../features/nav-tool-info-brand/nav-tool-info-brand.component';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { AppSharedInfoService } from '../../core/services/app-shared-info.service';
 
 @Component({
-  selector: 'echoo-index',
-  standalone: true,
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NzLayoutModule,
-    NzMenuModule,
-    NzIconModule,
-    NzInputModule,
-    ToolsNavSiderComponent,
-    NavLogoComponent,
-    NavExtraActionsComponent,
-  ],
+	selector: 'echoo-index',
+	standalone: true,
+	templateUrl: './index.component.html',
+	styleUrls: ['./index.component.scss'],
+	providers: [AppSharedInfoService],
+	imports: [
+		CommonModule,
+		RouterModule,
+		NzLayoutModule,
+		NzMenuModule,
+		NzIconModule,
+		NzInputModule,
+		ToolsNavSiderComponent,
+		NavLogoComponent,
+		NavExtraActionsComponent,
+		NavToolInfoBrandComponent,
+		NzSpaceModule,
+	],
 })
 export class IndexComponent {
-  appProps = inject(APP_PROPERTIES, {
-    skipSelf: true,
-  });
+	appProps = inject(APP_PROPERTIES, {
+		skipSelf: true,
+	});
 }

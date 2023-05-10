@@ -1,25 +1,36 @@
 .main-page-wrapper {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 
-  .web-page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: inherit;
-    padding-right: 25px !important;
-    padding-left: 25px !important;
-  }
+	.web-page-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: inherit;
+		padding-right: 25px !important;
+		padding-left: 25px !important;
 
-  .main-content-wrapper {
-    flex-direction: row;
-    height: inherit;
+		.logo-group {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			width: 500px;
+			echoo-nav-tool-info-brand {
+				margin-left: 20px;
+			}
+		}
+	}
 
-    .tool-content-wrapper {
-      min-width: 400px;
-      height: inherit;
-      padding: 10px;
-      overflow-x: scroll;
-    }
-  }
+	.main-content-wrapper {
+		flex-direction: row;
+		height: inherit;
+
+		.tool-content-wrapper {
+			min-width: 400px;
+			height: inherit;
+			padding: 10px;
+			overflow-x: scroll;
+		}
+	}
 }

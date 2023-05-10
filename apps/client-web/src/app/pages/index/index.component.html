@@ -1,13 +1,16 @@
 <nz-layout class="main-page-wrapper">
-  <nz-header class="web-page-header" nzTheme="dark">
-    <echoo-nav-logo></echoo-nav-logo>
-    <echoo-nav-extra-actions></echoo-nav-extra-actions>
-  </nz-header>
+	<nz-header class="web-page-header" nzTheme="dark">
+		<div class="logo-group">
+			<echoo-nav-logo></echoo-nav-logo>
+			<echoo-nav-tool-info-brand></echoo-nav-tool-info-brand>
+		</div>
+		<echoo-nav-extra-actions></echoo-nav-extra-actions>
+	</nz-header>
 
-  <nz-layout class="main-content-wrapper">
-    <echoo-tools-nav-sider />
-    <nz-content class="tool-content-wrapper">
-      <router-outlet></router-outlet>
-    </nz-content>
-  </nz-layout>
+	<nz-layout class="main-content-wrapper">
+		<echoo-tools-nav-sider />
+		<nz-content class="tool-content-wrapper">
+			<router-outlet></router-outlet>
+		</nz-content>
+	</nz-layout>
 </nz-layout>

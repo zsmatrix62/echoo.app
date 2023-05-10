@@ -1,44 +1,32 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "allowJs": true,
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"],
-      "@echoo/components/echoo-icons": [
-        "libs/components/features/echoo-icons/src/index.ts"
-      ],
-      "@echoo/components/github-button": [
-        "libs/components/features/github-button/src/index.ts"
-      ],
-      "@echoo/components/tool-options-toolbar": [
-        "libs/components/shared/tool-options-toolbar/src/index.ts"
-      ],
-      "@echoo/directives/fitter-element": [
-        "libs/directives/fitter-element/src/index.ts"
-      ],
-      "@echoo/services/web-storage-service": [
-        "libs/services/web-storage-service/src/index.ts"
-      ],
-      "@echoo/tools/formatter-provider": [
-        "libs/tools/formatter-provider/src/index.ts"
-      ],
-      "@echoo/types": ["libs/types/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"declaration": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2015",
+		"module": "esnext",
+		"allowJs": true,
+		"lib": ["es2017", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@echoo/client-web/mixins": ["apps/client-web/src/app/mixins/index.ts"],
+			"@echoo/components/echoo-icons": ["libs/components/features/echoo-icons/src/index.ts"],
+			"@echoo/components/github-button": ["libs/components/features/github-button/src/index.ts"],
+			"@echoo/components/tool-options-toolbar": ["libs/components/shared/tool-options-toolbar/src/index.ts"],
+			"@echoo/directives/fitter-element": ["libs/directives/fitter-element/src/index.ts"],
+			"@echoo/services/web-storage-service": ["libs/services/web-storage-service/src/index.ts"],
+			"@echoo/tools/formatter-provider": ["libs/tools/formatter-provider/src/index.ts"],
+			"@echoo/types": ["libs/types/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
 }

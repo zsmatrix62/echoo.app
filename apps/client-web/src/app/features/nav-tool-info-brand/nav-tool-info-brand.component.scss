@@ -1,0 +1,17 @@
+.brand-info {
+	display: flex;
+	flex-direction: column;
+	color: white;
+	border-left: 2px solid #fff;
+	user-select: none;
+	* {
+		padding-left: 10px;
+		line-height: 20px;
+	}
+	.title {
+		font-weight: 600;
+	}
+	.subtitle {
+		opacity: 0.8;
+	}
+}

@@ -1,4 +1,5 @@
 import type { EchooIconNames } from '@echoo/components/echoo-icons';
+import type { ToolBrandInfo } from '@echoo/types';
 import type { FormatterToolProvider } from './formatter-provider';
 
 export type FormatterAvailableLangConfigsType =
@@ -19,4 +20,5 @@ export type ToolFormatterInstanceConfig = {
 	display: string;
 	icon: EchooIconNames;
 	formatterProvider: FormatterToolProvider<object>;
+	brandInfo?: ToolBrandInfo;
 };

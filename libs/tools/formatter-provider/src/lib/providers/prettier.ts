@@ -82,7 +82,6 @@ export class PrettierFormatterProvider implements FormatterToolProvider<ToolForm
 					defaultValue: true,
 					style: {
 						width: '65px',
-						fontSize: '12px',
 					},
 					candidates: [
 						{

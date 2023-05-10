@@ -15,6 +15,7 @@ import { ToolSettingsService } from '../../../../core/services/tool-settings.ser
 import type { ToolSettingWidgetConfigItems } from '@echoo/types';
 import { EchooIconsModule } from '@echoo/components/echoo-icons';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AppSharedInfoService } from '../../../../core/services/app-shared-info.service';
 
 @Component({
 	selector: 'echoo-formatter-base',
@@ -22,18 +23,16 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 	imports: [CommonModule, TwoColumnsIoComponent, NzButtonModule, NzIconModule, EchooIconsModule],
 	templateUrl: './formatter-base.component.html',
 	styleUrls: ['./formatter-base.component.scss'],
-	providers: [ToolSettingsService],
+	providers: [ToolSettingsService, AppSharedInfoService],
 })
 export class FormatterBaseComponent extends TwoColumnsIoComponent implements DefaultFormatterActions, AfterViewInit {
 	art = inject(ActivatedRoute);
+	appSharedInfo = inject(AppSharedInfoService, { skipSelf: true });
 	lang$ = new BehaviorSubject<FormatterAvailableLangConfigsType | undefined>(undefined);
-
 	langConfig$ = new BehaviorSubject<ToolFormatterInstanceConfig | undefined>(undefined);
-
 	langConfig?: ToolFormatterInstanceConfig;
 
 	override inputPlaceholder = '';
-
 	override codeInput$ = new BehaviorSubject<string | undefined>(undefined);
 	override codeOutput$ = new BehaviorSubject<string | undefined>(undefined);
 	override inputError$ = new BehaviorSubject<string | undefined>(undefined);
@@ -53,6 +52,9 @@ export class FormatterBaseComponent extends TwoColumnsIoComponent implements Def
 			this.settingService = inject(ToolSettingsService).InitDefaultSettings(
 				this.langConfig.formatterProvider.DefaultSettingConfig,
 			);
+			if (this.appSharedInfo) {
+				this.appSharedInfo.toolBrandInfo = this.langConfig.brandInfo;
+			}
 		});
 		this.listenInputChange();
 	}
